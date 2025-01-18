@@ -1,10 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import "https://deno.land/x/xhr@0.1.0/mod.ts"
-import { ChatOpenAI } from "https://esm.sh/langchain/chat_models/openai"
-import { StringOutputParser } from "https://esm.sh/langchain/schema/output_parser"
-import { ChatPromptTemplate } from "https://esm.sh/langchain/prompts"
-import { SupabaseVectorStore } from "https://esm.sh/langchain/vectorstores/supabase"
-import { createClient } from "https://esm.sh/@supabase/supabase-js"
+import { OpenAI } from "https://esm.sh/langchain/llms/openai"
+import { PromptTemplate } from "https://esm.sh/langchain/prompts"
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -19,38 +17,28 @@ serve(async (req) => {
   try {
     const { message } = await req.json()
     
-    const chatModel = new ChatOpenAI({
+    const model = new OpenAI({
       openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
       modelName: "gpt-4",
       temperature: 0.7,
       maxTokens: 500,
     })
 
-    // Initialize Supabase client for vector store
+    // Initialize Supabase client
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Create vector store
-    const vectorStore = new SupabaseVectorStore(chatModel, {
-      client: supabaseClient,
-      tableName: 'knowledge_base',
-      queryName: 'match_documents'
+    const prompt = PromptTemplate.fromTemplate(
+      "You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {question}"
+    )
+
+    const formattedPrompt = await prompt.format({
+      question: message,
     })
 
-    const prompt = ChatPromptTemplate.fromMessages([
-      ["system", "You are an AI assistant specializing in environmental monitoring and disease tracking. Use the knowledge base to provide accurate information about weather patterns, disease outbreaks, and environmental conditions. If you're not sure about something, say so."],
-      ["human", "{input}"]
-    ])
-
-    // Create a chain that combines the prompt with the model and vector store
-    const chain = prompt.pipe(chatModel).pipe(new StringOutputParser())
-
-    const response = await chain.invoke({
-      input: message,
-      vectorStore
-    })
+    const response = await model.call(formattedPrompt)
 
     return new Response(
       JSON.stringify({ response }),
