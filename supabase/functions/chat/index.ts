@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import "https://deno.land/x/xhr@0.1.0/mod.ts"
-import { OpenAI } from "https://esm.sh/langchain/llms/openai"
-import { PromptTemplate } from "https://esm.sh/langchain/prompts"
+import { OpenAI } from "https://esm.sh/langchain@0.0.197/llms/openai"
+import { PromptTemplate } from "https://esm.sh/langchain@0.0.197/prompts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3"
 
 const corsHeaders = {
