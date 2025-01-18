@@ -13,7 +13,7 @@ const corsHeaders = {
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const MAX_RETRIES = 5;
-const INITIAL_DELAY = 1000; // 1 second
+const INITIAL_DELAY = 1000;
 
 const callOpenAIWithRetry = traceable(async (message: string) => {
   let attempt = 0;
@@ -25,7 +25,7 @@ const callOpenAIWithRetry = traceable(async (message: string) => {
       
       const model = new OpenAI({
         openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-        modelName: "gpt-4o-mini",
+        modelName: "gpt-4",
         temperature: 0.7,
         maxTokens: 500,
       });
@@ -49,14 +49,13 @@ const callOpenAIWithRetry = traceable(async (message: string) => {
 
       console.log(`Waiting ${delay}ms before retry...`);
       await sleep(delay);
-      delay *= 2; // Exponential backoff
+      delay *= 2;
     }
   }
   throw new Error('Max retries reached');
 });
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { 
       status: 204,

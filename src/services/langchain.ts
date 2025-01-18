@@ -15,11 +15,17 @@ export const langChainService = {
       });
 
       if (error) {
+        console.error('Supabase function error:', error);
         if (error.message.includes('429') || error.status === 429) {
           throw new Error('The service is experiencing high demand. Please try again in a few moments.');
         }
         throw error;
       }
+
+      if (!data) {
+        throw new Error('No response received from the chat function');
+      }
+
       return data.response;
     } catch (error) {
       console.error('Error in langchain service:', error);
