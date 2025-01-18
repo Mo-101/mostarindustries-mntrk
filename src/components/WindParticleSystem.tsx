@@ -12,14 +12,14 @@ interface WindParticleSystemProps {
 
 const WindParticleSystem = ({ windData = [] }: WindParticleSystemProps) => {
   const particleSystemRef = useRef<ParticleSystem | null>(null);
-  const dataSourceRef = useRef<CustomDataSource | null>(null);
+  const dataSourceRef = useRef<typeof CustomDataSource | null>(null);
 
   useEffect(() => {
     if (!dataSourceRef.current) return;
 
     // Initialize particle system
     particleSystemRef.current = new ParticleSystem({
-      image: '/particle.png', // You'll need to add this image
+      image: '/particle.png',
       startColor: Color.WHITE.withAlpha(0.7),
       endColor: Color.WHITE.withAlpha(0.0),
       startScale: 1.0,
@@ -57,7 +57,13 @@ const WindParticleSystem = ({ windData = [] }: WindParticleSystemProps) => {
     if (!particleSystemRef.current || !windData.length) return;
 
     // Update particle system with new wind data
-    particleSystemRef.current.modelMatrix = Cartesian3.toArray(windData[0].position);
+    const modelMatrix = Cartesian3.fromElements(
+      windData[0].position.x,
+      windData[0].position.y,
+      windData[0].position.z,
+      new Cartesian3()
+    );
+    particleSystemRef.current.modelMatrix = modelMatrix;
   }, [windData]);
 
   return (
