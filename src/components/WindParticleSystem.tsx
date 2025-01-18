@@ -1,6 +1,6 @@
 import { CustomDataSource, Entity, Viewer, Cartesian3 } from "cesium";
 import { useEffect, useRef } from "react";
-import { useViewer as useResiumViewer } from "resium";
+import { useResium } from "resium";
 import { WindDataPoint } from "@/types/wind";
 
 interface WindParticleSystemProps {
@@ -8,13 +8,12 @@ interface WindParticleSystemProps {
 }
 
 export const WindParticleSystem = ({ windData }: WindParticleSystemProps) => {
-  const viewerRef = useResiumViewer();
+  const { viewer } = useResium();
   const dataSourceRef = useRef<CustomDataSource | null>(null);
 
   useEffect(() => {
-    if (!viewerRef?.cesiumElement) return;
+    if (!viewer) return;
 
-    const viewer = viewerRef.cesiumElement;
     const dataSource = new CustomDataSource("windParticles");
     viewer.dataSources.add(dataSource);
     dataSourceRef.current = dataSource;
@@ -24,12 +23,10 @@ export const WindParticleSystem = ({ windData }: WindParticleSystemProps) => {
         viewer.dataSources.remove(dataSourceRef.current);
       }
     };
-  }, [viewerRef]);
+  }, [viewer]);
 
   useEffect(() => {
-    if (!dataSourceRef.current || !viewerRef?.cesiumElement) return;
-
-    const viewer = viewerRef.cesiumElement;
+    if (!dataSourceRef.current || !viewer) return;
     
     windData.forEach((point) => {
       const entity = new Entity({
@@ -46,7 +43,7 @@ export const WindParticleSystem = ({ windData }: WindParticleSystemProps) => {
     });
 
     viewer.zoomTo(dataSourceRef.current);
-  }, [windData, viewerRef]);
+  }, [windData, viewer]);
 
   return null;
 };

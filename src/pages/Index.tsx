@@ -1,4 +1,4 @@
-import CesiumMap from "@/components/CesiumMap";
+import { CesiumMap } from "@/components/CesiumMap";
 import { ConversationBox } from "@/components/ConversationBox";
 
 const Index = () => {

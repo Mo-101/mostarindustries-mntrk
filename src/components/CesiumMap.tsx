@@ -1,9 +1,8 @@
 import { Viewer } from "resium";
 import { WindParticleSystem } from "./WindParticleSystem";
-import { Color, Cartesian3 } from "cesium";
+import { Color } from "cesium";
 
 export const CesiumMap = () => {
-  // Sample wind data with correct type
   const windData = [
     {
       position: {
