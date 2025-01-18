@@ -6,7 +6,7 @@ export class LangChainService {
   private llm: ChatOpenAI;
 
   constructor() {
-    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    const apiKey = Deno.env.get('OPENAI_API_KEY');
     if (!apiKey) {
       throw new Error("OpenAI API key not found. Please set it in your Supabase secrets.");
     }
