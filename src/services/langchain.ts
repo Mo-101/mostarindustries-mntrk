@@ -7,7 +7,7 @@ export class LangChainService {
 
   constructor() {
     this.llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY,
       temperature: 0.7,
       modelName: "gpt-4", // Using GPT-4 for better results
     });
