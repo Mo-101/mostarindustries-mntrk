@@ -6,10 +6,15 @@ export class LangChainService {
   private llm: ChatOpenAI;
 
   constructor() {
+    const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("OpenAI API key not found. Please set it in your Supabase secrets.");
+    }
+
     this.llm = new ChatOpenAI({
-      openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY,
+      openAIApiKey: apiKey,
       temperature: 0.7,
-      modelName: "gpt-4", // Using GPT-4 for better results
+      modelName: "gpt-4o-mini", // Using the recommended fast and cheap model
     });
   }
 
