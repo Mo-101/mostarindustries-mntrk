@@ -21,9 +21,10 @@ serve(async (req) => {
     })
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-4o-mini", // Using the mini model to avoid quota issues
       messages: [{ role: "user", content: message }],
       temperature: 0.7,
+      max_tokens: 500, // Adding token limit
     })
 
     return new Response(
@@ -32,10 +33,20 @@ serve(async (req) => {
     )
   } catch (error) {
     console.error('Error in chat function:', error)
+    
+    // Better error handling with specific messages
+    let errorMessage = error.message
+    let statusCode = 500
+
+    if (error.message.includes('429')) {
+      errorMessage = 'Rate limit exceeded. Please try again in a few moments.'
+      statusCode = 429
+    }
+
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: errorMessage }),
       { 
-        status: 500,
+        status: statusCode,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     )
