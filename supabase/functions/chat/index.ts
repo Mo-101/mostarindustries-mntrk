@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import "https://deno.land/x/xhr@0.1.0/mod.ts"
 import { OpenAI } from "https://esm.sh/langchain@0.0.197/llms/openai"
 import { PromptTemplate } from "https://esm.sh/langchain@0.0.197/prompts"
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3"
+import { traceable } from "https://esm.sh/langsmith/traceable"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -14,7 +14,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 const MAX_RETRIES = 5;
 const INITIAL_DELAY = 1000; // 1 second
 
-async function callOpenAIWithRetry(message: string) {
+const callOpenAIWithRetry = traceable(async (message: string) => {
   let attempt = 0;
   let delay = INITIAL_DELAY;
 
@@ -50,7 +50,7 @@ async function callOpenAIWithRetry(message: string) {
     }
   }
   throw new Error('Max retries reached');
-}
+});
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
