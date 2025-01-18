@@ -15,7 +15,7 @@ export class LangChainService {
   async chat(message: string): Promise<string> {
     try {
       const response = await this.llm.invoke(message);
-      return response.content;
+      return typeof response.content === 'string' ? response.content : response.content[0].text;
     } catch (error) {
       console.error('Error in LangChain chat:', error);
       throw error;
