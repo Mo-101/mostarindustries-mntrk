@@ -19,7 +19,7 @@ serve(async (req) => {
     
     const model = new OpenAI({
       openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-      modelName: "gpt-4",
+      modelName: "gpt-4o-mini",
       temperature: 0.7,
       maxTokens: 500,
     })
