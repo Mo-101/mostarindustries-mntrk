@@ -7,6 +7,7 @@ import { traceable } from "https://esm.sh/langsmith/traceable"
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 }
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -20,6 +21,8 @@ const callOpenAIWithRetry = traceable(async (message: string) => {
 
   while (attempt < MAX_RETRIES) {
     try {
+      console.log(`Attempt ${attempt + 1} of ${MAX_RETRIES}`);
+      
       const model = new OpenAI({
         openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
         modelName: "gpt-4o-mini",
@@ -53,20 +56,34 @@ const callOpenAIWithRetry = traceable(async (message: string) => {
 });
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+    return new Response(null, { 
+      status: 204,
+      headers: corsHeaders 
+    });
   }
 
   try {
     const { message } = await req.json();
     console.log('Received message:', message);
 
+    if (!message) {
+      throw new Error('Message is required');
+    }
+
     const response = await callOpenAIWithRetry(message);
     console.log('Successfully generated response');
 
     return new Response(
       JSON.stringify({ response }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        status: 200,
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        } 
+      }
     );
   } catch (error) {
     console.error('Error in chat function:', error);
@@ -83,7 +100,10 @@ serve(async (req) => {
       JSON.stringify({ error: errorMessage }),
       { 
         status: statusCode,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        }
       }
     );
   }

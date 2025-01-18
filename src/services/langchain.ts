@@ -8,7 +8,10 @@ export const langChainService = {
   chat: async (message: string) => {
     try {
       const { data, error } = await supabase.functions.invoke('chat', {
-        body: { message }
+        body: { message },
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
       if (error) {
@@ -20,6 +23,9 @@ export const langChainService = {
       return data.response;
     } catch (error) {
       console.error('Error in langchain service:', error);
+      if (error.message === 'Failed to fetch') {
+        throw new Error('Network error. Please check your connection and try again.');
+      }
       throw error;
     }
   },
