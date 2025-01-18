@@ -8,4 +8,5 @@ export interface WindDataPoint {
   };
   color: Color;
   velocity: number;
+  weather?: string;
 }

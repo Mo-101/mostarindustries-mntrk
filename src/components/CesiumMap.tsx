@@ -11,7 +11,8 @@ export const CesiumMap = () => {
         altitude: 0
       },
       color: Color.RED,
-      velocity: 10
+      velocity: 10,
+      weather: "rain"
     },
     {
       position: {
@@ -20,7 +21,8 @@ export const CesiumMap = () => {
         altitude: 0
       },
       color: Color.BLUE,
-      velocity: 15
+      velocity: 15,
+      weather: "clear"
     },
     {
       position: {
@@ -29,7 +31,8 @@ export const CesiumMap = () => {
         altitude: 0
       },
       color: Color.GREEN,
-      velocity: 20
+      velocity: 20,
+      weather: "cloudy"
     }
   ];
 
