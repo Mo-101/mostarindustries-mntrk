@@ -1,7 +1,11 @@
-import { Cartesian3, Color } from "cesium";
+import { Color } from "cesium";
 
 export interface WindDataPoint {
-  position: Cartesian3;
+  position: {
+    latitude: number;
+    longitude: number;
+    altitude?: number;
+  };
   color: Color;
   velocity: number;
 }

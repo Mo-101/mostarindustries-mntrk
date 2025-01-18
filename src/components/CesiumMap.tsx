@@ -1,34 +1,44 @@
-import { useEffect, useState } from "react";
-import { Viewer, Globe, Scene } from "resium";
+import { Viewer } from "resium";
 import { WindParticleSystem } from "./WindParticleSystem";
-import { Cartesian3, Color } from "cesium";
-import { WindDataPoint } from "@/types/wind";
+import { Color, Cartesian3 } from "cesium";
 
 export const CesiumMap = () => {
-  const [windData, setWindData] = useState<WindDataPoint[]>([]);
-
-  useEffect(() => {
-    // Sample wind data with velocity
-    const sampleData: WindDataPoint[] = [
-      {
-        position: Cartesian3.fromDegrees(-75.0, 40.0, 100000.0),
-        color: Color.RED,
-        velocity: 10
+  // Sample wind data with correct type
+  const windData = [
+    {
+      position: {
+        latitude: 35.6895,
+        longitude: 139.6917,
+        altitude: 0
       },
-      {
-        position: Cartesian3.fromDegrees(-80.0, 35.0, 100000.0),
-        color: Color.BLUE,
-        velocity: 15
-      }
-    ];
-    setWindData(sampleData);
-  }, []);
+      color: Color.RED,
+      velocity: 10
+    },
+    {
+      position: {
+        latitude: 34.0522,
+        longitude: -118.2437,
+        altitude: 0
+      },
+      color: Color.BLUE,
+      velocity: 15
+    },
+    {
+      position: {
+        latitude: 51.5074,
+        longitude: -0.1278,
+        altitude: 0
+      },
+      color: Color.GREEN,
+      velocity: 20
+    }
+  ];
 
   return (
-    <Viewer full>
-      <Scene />
-      <Globe enableLighting />
-      <WindParticleSystem windData={windData} />
-    </Viewer>
+    <div className="h-screen w-full">
+      <Viewer full>
+        <WindParticleSystem windData={windData} />
+      </Viewer>
+    </div>
   );
 };

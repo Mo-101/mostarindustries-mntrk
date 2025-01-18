@@ -1,10 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import "https://deno.land/x/xhr@0.1.0/mod.ts"
-import { ChatOpenAI } from "npm:@langchain/openai"
-import { StringOutputParser } from "npm:@langchain/core/output_parsers"
-import { ChatPromptTemplate } from "npm:@langchain/core/prompts"
-import { SupabaseVectorStore } from "npm:@langchain/supabase"
-import { createClient } from "npm:@supabase/supabase-js"
+import { ChatOpenAI } from "langchain/chat_models/openai"
+import { StringOutputParser } from "langchain/schema/output_parser"
+import { ChatPromptTemplate } from "langchain/prompts"
+import { SupabaseVectorStore } from "langchain/vectorstores/supabase"
+import { createClient } from "@supabase/supabase-js"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
