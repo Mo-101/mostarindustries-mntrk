@@ -8,7 +8,6 @@ export const langChainService = {
       });
 
       if (error) {
-        // Check if it's a rate limit error
         if (error.message.includes('429') || error.status === 429) {
           throw new Error('The service is experiencing high demand. Please try again in a few moments.');
         }
