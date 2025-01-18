@@ -9,6 +9,8 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
@@ -17,41 +19,57 @@ serve(async (req) => {
   try {
     const { message } = await req.json()
     
-    const model = new OpenAI({
-      openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-      modelName: "gpt-4o-mini",
-      temperature: 0.7,
-      maxTokens: 500,
-    })
+    // Add retries with exponential backoff
+    let retries = 3;
+    let delay = 1000; // Start with 1 second delay
 
-    // Initialize Supabase client
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    )
+    while (retries > 0) {
+      try {
+        const model = new OpenAI({
+          openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
+          modelName: "gpt-4o-mini",
+          temperature: 0.7,
+          maxTokens: 500,
+        })
 
-    const prompt = PromptTemplate.fromTemplate(
-      "You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {question}"
-    )
+        const prompt = PromptTemplate.fromTemplate(
+          "You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {question}"
+        )
 
-    const formattedPrompt = await prompt.format({
-      question: message,
-    })
+        const formattedPrompt = await prompt.format({
+          question: message,
+        })
 
-    const response = await model.call(formattedPrompt)
+        const response = await model.call(formattedPrompt)
+        
+        return new Response(
+          JSON.stringify({ response }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      } catch (error) {
+        console.error(`Attempt failed (${retries} retries left):`, error)
+        
+        if (error.message.includes('429') || error.message.includes('Rate limit')) {
+          if (retries > 1) {
+            await sleep(delay)
+            retries--
+            delay *= 2 // Exponential backoff
+            continue
+          }
+        }
+        throw error // Re-throw if it's not a rate limit error or we're out of retries
+      }
+    }
 
-    return new Response(
-      JSON.stringify({ response }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    )
+    throw new Error('Max retries reached')
   } catch (error) {
     console.error('Error in chat function:', error)
     
     let errorMessage = error.message
     let statusCode = 500
 
-    if (error.message.includes('429')) {
-      errorMessage = 'Rate limit exceeded. Please try again in a few moments.'
+    if (error.message.includes('429') || error.message.includes('Rate limit')) {
+      errorMessage = 'The service is experiencing high demand. Please try again in a few moments.'
       statusCode = 429
     }
 
