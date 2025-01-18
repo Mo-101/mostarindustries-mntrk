@@ -1,18 +1,22 @@
 import { useEffect, useRef } from 'react';
-import { Entity, CustomDataSource } from 'resium';
-import { Cartesian3, Color, ParticleSystem, Particle } from '@cesium/engine';
+import { Color, ParticleSystem, Cartesian3, Matrix4 } from '@cesium/engine';
+import { CustomDataSource } from '@cesium/engine';
+import { CesiumComponentRef } from 'resium';
 
 interface WindParticleSystemProps {
-  windData?: {
-    position: Cartesian3;
-    direction: Cartesian3;
-    speed: number;
-  }[];
+  windData: Array<{
+    position: {
+      x: number;
+      y: number;
+      z: number;
+    };
+    velocity: number;
+  }>;
 }
 
 const WindParticleSystem = ({ windData = [] }: WindParticleSystemProps) => {
   const particleSystemRef = useRef<ParticleSystem | null>(null);
-  const dataSourceRef = useRef<typeof CustomDataSource | null>(null);
+  const dataSourceRef = useRef<CesiumComponentRef<CustomDataSource> | null>(null);
 
   useEffect(() => {
     if (!dataSourceRef.current) return;
@@ -24,31 +28,23 @@ const WindParticleSystem = ({ windData = [] }: WindParticleSystemProps) => {
       endColor: Color.WHITE.withAlpha(0.0),
       startScale: 1.0,
       endScale: 4.0,
-      minimumParticleLife: 1.0,
-      maximumParticleLife: 3.0,
+      minimumParticleLife: 1.2,
+      maximumParticleLife: 1.2,
       minimumSpeed: 1.0,
       maximumSpeed: 4.0,
-      imageSize: new Cartesian3(12.0, 12.0, 12.0),
+      imageSize: new Cartesian3(25.0, 25.0, 25.0),
       emissionRate: 5.0,
-      lifetime: 16.0,
-      updateCallback: (particle: Particle) => {
-        // Update particle position based on wind data
-        const windPoint = findNearestWindPoint(particle.position);
-        if (windPoint) {
-          const direction = Cartesian3.normalize(windPoint.direction, new Cartesian3());
-          const speed = windPoint.speed;
-          particle.velocity = Cartesian3.multiplyByScalar(
-            direction,
-            speed,
-            new Cartesian3()
-          );
-        }
-      }
+      lifetime: 16.0
     });
 
+    const viewer = dataSourceRef.current.cesiumElement;
+    if (viewer) {
+      viewer.scene.primitives.add(particleSystemRef.current);
+    }
+
     return () => {
-      if (particleSystemRef.current) {
-        particleSystemRef.current.complete();
+      if (viewer && particleSystemRef.current) {
+        viewer.scene.primitives.remove(particleSystemRef.current);
       }
     };
   }, []);
@@ -56,28 +52,19 @@ const WindParticleSystem = ({ windData = [] }: WindParticleSystemProps) => {
   useEffect(() => {
     if (!particleSystemRef.current || !windData.length) return;
 
-    // Update particle system with new wind data
-    const modelMatrix = Cartesian3.fromElements(
+    const position = Cartesian3.fromElements(
       windData[0].position.x,
       windData[0].position.y,
       windData[0].position.z,
       new Cartesian3()
     );
-    particleSystemRef.current.modelMatrix = modelMatrix;
+
+    particleSystemRef.current.modelMatrix = Matrix4.fromTranslation(position);
   }, [windData]);
 
   return (
-    <Entity>
-      <CustomDataSource ref={dataSourceRef} />
-    </Entity>
+    <CustomDataSource ref={dataSourceRef} />
   );
-};
-
-// Utility function to find nearest wind data point
-const findNearestWindPoint = (position: Cartesian3) => {
-  // Implement nearest neighbor search for wind data points
-  // This is a placeholder - you'll need to implement the actual logic
-  return null;
 };
 
 export default WindParticleSystem;

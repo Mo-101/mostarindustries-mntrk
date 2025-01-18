@@ -3,6 +3,8 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts"
 import { ChatOpenAI } from "npm:@langchain/openai"
 import { StringOutputParser } from "npm:@langchain/core/output_parsers"
 import { ChatPromptTemplate } from "npm:@langchain/core/prompts"
+import { SupabaseVectorStore } from "npm:@langchain/supabase"
+import { createClient } from "npm:@supabase/supabase-js"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -19,20 +21,35 @@ serve(async (req) => {
     
     const chatModel = new ChatOpenAI({
       openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-      modelName: "gpt-4o-mini",
+      modelName: "gpt-4",
       temperature: 0.7,
       maxTokens: 500,
     })
 
+    // Initialize Supabase client for vector store
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    )
+
+    // Create vector store
+    const vectorStore = new SupabaseVectorStore(chatModel, {
+      client: supabaseClient,
+      tableName: 'knowledge_base',
+      queryName: 'match_documents'
+    })
+
     const prompt = ChatPromptTemplate.fromMessages([
-      ["system", "You are a helpful AI assistant focused on providing clear and concise responses about weather and environmental data."],
+      ["system", "You are an AI assistant specializing in environmental monitoring and disease tracking. Use the knowledge base to provide accurate information about weather patterns, disease outbreaks, and environmental conditions. If you're not sure about something, say so."],
       ["human", "{input}"]
     ])
 
+    // Create a chain that combines the prompt with the model and vector store
     const chain = prompt.pipe(chatModel).pipe(new StringOutputParser())
 
     const response = await chain.invoke({
-      input: message
+      input: message,
+      vectorStore
     })
 
     return new Response(
