@@ -1,6 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import "https://deno.land/x/xhr@0.1.0/mod.ts"
-import OpenAI from "https://esm.sh/openai@4.20.1"
+import { ChatOpenAI } from "npm:@langchain/openai"
+import { StringOutputParser } from "npm:@langchain/core/output_parsers"
+import { ChatPromptTemplate } from "npm:@langchain/core/prompts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,7 +10,6 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
@@ -16,25 +17,31 @@ serve(async (req) => {
   try {
     const { message } = await req.json()
     
-    const openai = new OpenAI({
-      apiKey: Deno.env.get('OPENAI_API_KEY'),
+    const chatModel = new ChatOpenAI({
+      openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
+      modelName: "gpt-4o-mini",
+      temperature: 0.7,
+      maxTokens: 500,
     })
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Using the mini model to avoid quota issues
-      messages: [{ role: "user", content: message }],
-      temperature: 0.7,
-      max_tokens: 500, // Adding token limit
+    const prompt = ChatPromptTemplate.fromMessages([
+      ["system", "You are a helpful AI assistant focused on providing clear and concise responses about weather and environmental data."],
+      ["human", "{input}"]
+    ])
+
+    const chain = prompt.pipe(chatModel).pipe(new StringOutputParser())
+
+    const response = await chain.invoke({
+      input: message
     })
 
     return new Response(
-      JSON.stringify({ response: response.choices[0].message.content }),
+      JSON.stringify({ response }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   } catch (error) {
     console.error('Error in chat function:', error)
     
-    // Better error handling with specific messages
     let errorMessage = error.message
     let statusCode = 500
 

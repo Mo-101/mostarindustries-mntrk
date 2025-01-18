@@ -1,10 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
-import { BaseMessageChunk } from "@langchain/core/messages";
 
 export class LangChainService {
   private retryCount = 0;
   private maxRetries = 3;
-  private retryDelay = 1000; // 1 second
+  private retryDelay = 1000;
 
   private async delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -26,7 +25,7 @@ export class LangChainService {
         throw error;
       }
 
-      this.retryCount = 0; // Reset retry count on success
+      this.retryCount = 0;
       return data.response;
     } catch (error) {
       console.error('Error in LangChain chat:', error);
