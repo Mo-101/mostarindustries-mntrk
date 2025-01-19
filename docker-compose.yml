@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
     environment:
       - VITE_SUPABASE_URL=${SUPABASE_URL:-http://localhost:54321}
       - VITE_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-your-local-anon-key}
@@ -31,6 +31,11 @@ services:
       POSTGRES_DB: mntracker
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   api:
     build:
@@ -40,8 +45,19 @@ services:
       - "5000:5000"
     environment:
       - DATABASE_URL=postgresql://postgres:mostar@db:5432/mntracker
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    volumes:
+      - ./Backend/API:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   agent:
     build:
@@ -51,8 +67,18 @@ services:
       - "5001:5001"
     environment:
       - DATABASE_URL=postgresql://postgres:mostar@db:5432/mntracker
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    volumes:
+      - ./Backend/Agent:/app
 
 volumes:
   postgres_data:
+
+networks:
+  default:
+    driver: bridge

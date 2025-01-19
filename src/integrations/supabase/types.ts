@@ -659,6 +659,38 @@ export type Database = {
         }
         Relationships: []
       }
+      training_feedback: {
+        Row: {
+          created_at: string | null
+          feedback_data: Json
+          id: number
+          prediction_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          feedback_data: Json
+          id?: number
+          prediction_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          feedback_data?: Json
+          id?: number
+          prediction_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_feedback_prediction_id_fkey"
+            columns: ["prediction_id"]
+            isOneToOne: false
+            referencedRelation: "predictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       training_metrics: {
         Row: {
           id: number
@@ -677,6 +709,30 @@ export type Database = {
           metric_name?: string
           metric_value?: Json
           recorded_at?: string | null
+        }
+        Relationships: []
+      }
+      training_pipeline_configs: {
+        Row: {
+          config_name: string
+          created_at: string | null
+          id: number
+          parameters: Json
+          updated_at: string | null
+        }
+        Insert: {
+          config_name: string
+          created_at?: string | null
+          id?: number
+          parameters: Json
+          updated_at?: string | null
+        }
+        Update: {
+          config_name?: string
+          created_at?: string | null
+          id?: number
+          parameters?: Json
+          updated_at?: string | null
         }
         Relationships: []
       }
