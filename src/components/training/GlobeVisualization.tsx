@@ -1,4 +1,3 @@
-import { Viewer } from "resium";
 import { cn } from "@/lib/utils";
 
 interface GlobeVisualizationProps {
@@ -7,10 +6,11 @@ interface GlobeVisualizationProps {
 
 export const GlobeVisualization = ({ className }: GlobeVisualizationProps) => {
   return (
-    <div className={cn("w-full h-[400px] rounded-lg overflow-hidden", className)}>
-      <Viewer full>
-        {/* Add your globe visualization content here */}
-      </Viewer>
+    <div className={cn("h-[300px] w-full rounded-lg bg-widgetcontentbg p-4", className)}>
+      {/* Globe visualization content will go here */}
+      <div className="flex h-full items-center justify-center text-themecyan">
+        Globe Visualization Placeholder
+      </div>
     </div>
   );
 };
