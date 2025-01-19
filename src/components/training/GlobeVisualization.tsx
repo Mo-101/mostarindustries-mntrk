@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Viewer, createWorldTerrainAsync } from "@cesium/engine";
+import { createWorldTerrainAsync } from "@cesium/engine";
+import { Viewer } from "@cesium/widgets";
+import "cesium/Build/Cesium/Widgets/widgets.css";
 import React from "react";
 
 interface GlobeVisualizationProps {
@@ -9,14 +11,24 @@ interface GlobeVisualizationProps {
 export const GlobeVisualization = ({ className }: GlobeVisualizationProps) => {
   // Initialize Cesium Viewer after component mounts
   React.useEffect(() => {
-    // Access Token for Cesium Ion – You'll need a Cesium Ion account
+    // Initialize Cesium
     const initCesium = async () => {
       try {
         const terrainProvider = await createWorldTerrainAsync();
         
         const viewer = new Viewer("cesiumContainer", {
           terrainProvider,
-      // ...other Cesium Viewer options...
+          animation: false,
+          baseLayerPicker: false,
+          fullscreenButton: false,
+          geocoder: false,
+          homeButton: false,
+          infoBox: false,
+          sceneModePicker: false,
+          selectionIndicator: false,
+          timeline: false,
+          navigationHelpButton: false,
+          navigationInstructionsInitiallyVisible: false
         });
 
         // Clean up when component unmounts
