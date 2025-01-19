@@ -1,5 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Ion, Viewer, createWorldTerrain } from "cesium";
+import { Viewer } from "@cesium/widgets";
+import { createWorldTerrainAsync } from "@cesium/engine";
+import "@cesium/widgets/Source/widgets.css";
 import React from "react";
 
 interface GlobeVisualizationProps {
@@ -9,33 +11,47 @@ interface GlobeVisualizationProps {
 export const GlobeVisualization = ({ className }: GlobeVisualizationProps) => {
   // Initialize Cesium Viewer after component mounts
   React.useEffect(() => {
-    // Access Token for Cesium Ion – You'll need a Cesium Ion account
-    Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiMmRmYzcxNC0yZjM5LTQ0NzUtYWRkYi1kMjc1NzYwYTQ0NjYiLCJpZCI6MjE0OTQzLCJpYXQiOjE3MTU2NTMyNjN9.1fW--_-6R3TApPF2tAlOfXrqJadYPdwKqpPVkPetHP4";
-
+    // Initialize viewer
     const viewer = new Viewer("cesiumContainer", {
-      terrainProvider: createWorldTerrain() // Or any other terrain provider
-      // ...other Cesium Viewer options...
+      // Initialize with basic options first
+      animation: false,
+      baseLayerPicker: false,
+      fullscreenButton: false,
+      geocoder: false,
+      homeButton: false,
+      infoBox: false,
+      sceneModePicker: false,
+      selectionIndicator: false,
+      timeline: false,
+      navigationHelpButton: false,
+      navigationInstructionsInitiallyVisible: false
     });
 
+    // Initialize terrain asynchronously
+    createWorldTerrainAsync()
+      .then(terrain => {
+        viewer.terrainProvider = terrain;
+      })
+      .catch(error => {
+        console.error("Error loading terrain:", error);
+      });
 
     // Clean up when component unmounts
     return () => {
-      viewer.destroy();
+      if (viewer && !viewer.isDestroyed()) {
+        viewer.destroy();
+      }
     };
-
   }, []);
 
   return (
     <div
-      id="cesiumContainer" // Important: Provide a container for Cesium to render
-      style={{ height: "100%", width: "100%" }}
+      id="cesiumContainer"
       className={cn(
-        "h-screen w-screen fixed top-0 left-0 bg-black", // Full-screen settings
+        "h-[400px] w-full bg-black rounded-lg", // Fixed height for better control
         className
       )}
-    >
-      {/* The Cesium map will be rendered here */}
-    </div>
+    />
   );
 };
 
