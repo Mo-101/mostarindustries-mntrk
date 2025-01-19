@@ -58,7 +58,7 @@ export const ConversationBox = () => {
       {isOpen && (
         <Card className="w-[350px] h-[500px] flex flex-col">
           <div className="flex justify-between items-center p-4 border-b">
-            <h3 className="font-semibold">Chat Assistant</h3>
+            <h3 className="font-semibold">MNTRK Assistant</h3>
             <Button
               variant="ghost"
               size="sm"

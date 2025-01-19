@@ -36,7 +36,7 @@ const getWeatherIcon = (type: string) => {
 
 export const WeatherMetrics = ({ metrics }: WeatherMetricsProps) => {
   return (
-    <div className="fixed top-4 right-4 z-50 space-y-2">
+    <div className="fixed top-12 right-4 z-50 space-y-2">
       {metrics.map((metric, index) => (
         <Card key={index} className="p-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm">
           <div className="flex items-center gap-3">

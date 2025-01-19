@@ -87,7 +87,7 @@ export const TrainingMetrics = ({ title, metrics, className }: TrainingMetricsPr
             <h4 className={`font-medium mb-2 text-${metric.color}`}>{metric.label}</h4>
             <p className="text-2xl font-bold text-themewhite">{metric.value}</p>
             {metric.trend && (
-              <div className="h-[200px] mt-4">
+              <div className="h-[100px] mt-4">
                 <Line data={metric.trend} options={chartOptions} />
               </div>
             )}
