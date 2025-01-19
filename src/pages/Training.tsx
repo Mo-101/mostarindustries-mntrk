@@ -31,14 +31,14 @@ const Training = () => {
     {
       label: "Accuracy",
       value: "93%",
-      color: "orange",
+      color: "themecyan",
       trend: {
         labels: ["Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4", "Epoch 5"],
         datasets: [{
           label: "Accuracy",
           data: [0.8, 0.85, 0.9, 0.92, 0.93],
-          borderColor: "#00b4d8",
-          backgroundColor: "rgba(0, 180, 216, 0.2)",
+          borderColor: "rgb(24, 254, 254)",
+          backgroundColor: "rgba(24, 254, 254, 0.2)",
           fill: true,
         }],
       },
@@ -49,24 +49,24 @@ const Training = () => {
     {
       label: "Epoch",
       value: "15 / 100",
-      color: "orange",
+      color: "secondaryfluorescent",
     },
     {
       label: "Dataset Size",
       value: "50,000",
-      color: "orange",
+      color: "themegreen",
     },
     {
       label: "Loss Trend",
       value: "0.042",
-      color: "orange",
+      color: "themecyan",
       trend: {
         labels: ["Epoch 1", "Epoch 2", "Epoch 3", "Epoch 4", "Epoch 5"],
         datasets: [{
           label: "Loss",
           data: [0.2, 0.15, 0.1, 0.07, 0.042],
-          borderColor: "#ffa726",
-          backgroundColor: "rgba(255, 167, 38, 0.2)",
+          borderColor: "rgb(6, 247, 161)",
+          backgroundColor: "rgba(6, 247, 161, 0.2)",
           fill: true,
         }],
       },
@@ -74,24 +74,38 @@ const Training = () => {
   ];
 
   return (
-    <div className="container mx-auto p-8 max-w-7xl">
+    <div className="container mx-auto p-8 max-w-7xl bg-widgetcontentbg">
       <div className="flex items-center gap-3 mb-8">
-        <BookOpen className="h-8 w-8 text-primary" />
-        <h1 className="text-3xl font-bold">Training Center</h1>
+        <BookOpen className="h-8 w-8 text-themecyan" />
+        <h1 className="text-3xl font-bold text-themewhite">Training Center</h1>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-3">
-          <TrainingMetrics title="Training Metrics" metrics={accuracyMetrics} />
+          <TrainingMetrics 
+            title="Training Metrics" 
+            metrics={accuracyMetrics} 
+            className="border border-elementmainborder shadow-effect-halo-1"
+          />
         </div>
 
         <div className="lg:col-span-6">
-          <GlobeVisualization />
+          <GlobeVisualization className="border border-elementmainborder shadow-effect-halo-2 mb-6" />
           
           <Tabs defaultValue="modules" className="space-y-6">
-            <TabsList>
-              <TabsTrigger value="modules">Training Modules</TabsTrigger>
-              <TabsTrigger value="resources">Resources</TabsTrigger>
+            <TabsList className="border border-elementcontentborder bg-transparent">
+              <TabsTrigger 
+                value="modules"
+                className="data-[state=active]:bg-themecyan data-[state=active]:text-black"
+              >
+                Training Modules
+              </TabsTrigger>
+              <TabsTrigger 
+                value="resources"
+                className="data-[state=active]:bg-themecyan data-[state=active]:text-black"
+              >
+                Resources
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="modules" className="space-y-6">
@@ -105,7 +119,11 @@ const Training = () => {
         </div>
 
         <div className="lg:col-span-3">
-          <TrainingMetrics title="Training Logs" metrics={trainingMetrics} />
+          <TrainingMetrics 
+            title="Training Logs" 
+            metrics={trainingMetrics} 
+            className="border border-elementmainborder shadow-effect-halo-1"
+          />
         </div>
       </div>
     </div>

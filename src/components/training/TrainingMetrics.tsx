@@ -11,6 +11,7 @@ import {
   Legend,
   Filler
 } from 'chart.js';
+import { cn } from "@/lib/utils";
 
 // Register Chart.js components
 ChartJS.register(
@@ -43,6 +44,7 @@ interface MetricsData {
 interface TrainingMetricsProps {
   title: string;
   metrics: MetricsData[];
+  className?: string;
 }
 
 const chartOptions = {
@@ -55,28 +57,37 @@ const chartOptions = {
   scales: {
     x: {
       grid: {
-        color: "rgba(255, 255, 255, 0.2)",
+        color: "rgba(255, 255, 255, 0.1)",
       },
+      ticks: {
+        color: "rgba(255, 255, 255, 0.7)",
+      }
     },
     y: {
       grid: {
-        color: "rgba(255, 255, 255, 0.2)",
+        color: "rgba(255, 255, 255, 0.1)",
       },
+      ticks: {
+        color: "rgba(255, 255, 255, 0.7)",
+      }
     },
   },
 };
 
-export const TrainingMetrics = ({ title, metrics }: TrainingMetricsProps) => {
+export const TrainingMetrics = ({ title, metrics, className }: TrainingMetricsProps) => {
   return (
-    <Card className="p-6 bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-      <h3 className="text-xl font-semibold text-primary mb-4">{title}</h3>
+    <Card className={cn(
+      "p-6 bg-widgetcontentbg backdrop-blur supports-[backdrop-filter]:bg-black/20",
+      className
+    )}>
+      <h3 className="text-xl font-semibold text-themewhite mb-4">{title}</h3>
       <div className="space-y-4">
         {metrics.map((metric, index) => (
-          <div key={index} className="p-4 bg-muted rounded-lg">
-            <h4 className={`font-medium mb-2 text-${metric.color}-400`}>{metric.label}</h4>
-            <p className="text-2xl font-bold">{metric.value}</p>
+          <div key={index} className="p-4 rounded-lg border border-elementcontentborder">
+            <h4 className={`font-medium mb-2 text-${metric.color}`}>{metric.label}</h4>
+            <p className="text-2xl font-bold text-themewhite">{metric.value}</p>
             {metric.trend && (
-              <div className="h-[200px]">
+              <div className="h-[200px] mt-4">
                 <Line data={metric.trend} options={chartOptions} />
               </div>
             )}
