@@ -23,5 +23,12 @@ export const ResourcesSection = () => {
           <h4 className="font-medium mb-2">Model Training Guide</h4>
           <p className="text-sm text-muted-foreground">
             Step-by-step guide to training and optimizing weather prediction models.
-          );
+          </p>
+          <Button variant="link" className="mt-2 p-0">
+            Read Guide →
+          </Button>
+        </div>
+      </div>
+    </Card>
+  );
 };
