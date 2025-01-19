@@ -4,7 +4,8 @@ import { Card } from "@/components/ui/card";
 interface MetricsData {
   label: string;
   value: string;
-  trend: {
+  color: string;
+  trend?: {
     labels: string[];
     datasets: {
       label: string;
@@ -14,7 +15,6 @@ interface MetricsData {
       fill: boolean;
     }[];
   };
-  color: string;
 }
 
 interface TrainingMetricsProps {
