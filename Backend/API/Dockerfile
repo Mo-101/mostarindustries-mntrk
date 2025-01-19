@@ -1,14 +1,16 @@
-FROM python:3.9-slim
+FROM python:3.6-alpine
 
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /usr/src/app/
 
-COPY . .
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Add healthcheck endpoint
-COPY healthcheck.py .
+COPY . /usr/src/app
 
-EXPOSE 5000
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+EXPOSE 8080
+
+ENTRYPOINT ["python3"]
+
+CMD ["-m", "swagger_server"]
