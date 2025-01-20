@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 import { ChatOpenAI } from "https://esm.sh/@langchain/openai"
 import { PromptTemplate } from "https://esm.sh/@langchain/core/prompts"
 import { LLMChain } from "https://esm.sh/langchain/chains"
