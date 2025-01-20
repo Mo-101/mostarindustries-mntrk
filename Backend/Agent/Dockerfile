@@ -1,16 +1,32 @@
-FROM python:3.6-alpine
+FROM python:3.9-slim
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY requirements.txt /usr/src/app/
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Copy requirements first for better caching
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /usr/src/app
+# Copy the rest of the application
+COPY . .
 
+# Add OpenAI and other required packages
+RUN pip install --no-cache-dir \
+    openai>=1.0.0 \
+    python-dotenv \
+    flask-cors \
+    gunicorn
+
+# Expose the port the app runs on
 EXPOSE 8080
 
-ENTRYPOINT ["python3"]
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
 
-CMD ["-m", "swagger_server"]
+# Command to run the application
+CMD ["python3", "-m", "swagger_server"]

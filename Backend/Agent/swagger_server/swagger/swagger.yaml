@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: MNTRK by MoStar Industries AI Agent API
   description: |
-    This API provides robust and accurate tools for tracking Mastomys Natalensis populations, analyzing ecological trends, and supporting Lassa fever outbreak management in Nigeria. Designed with a focus on real-time data, environmental analysis, and outbreak hotspots. This is the API for the AI agent, providing direct interaction with the AI system.
+    This API provides robust and accurate tools for tracking Mastomys Natalensis populations, analyzing ecological trends, and supporting Lassa fever outbreak management in Nigeria.
   contact:
     name: Mastomys Tracker Support Team
     url: https://www.mo-overlord.tech/
@@ -12,6 +12,70 @@ servers:
 - url: https://www.mo-overlord.tech/
   description: Primary Production Server (Nigeria-focused)
 paths:
+  /gpt3:
+    post:
+      summary: Process text with GPT-3
+      operationId: gpt3_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The text prompt to process
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  
+  /gpt4mini:
+    post:
+      summary: Process text with GPT-4 Mini
+      operationId: gpt4mini_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The text prompt to process
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+
   /ai/habitats:
     post:
       summary: Analyze satellite and environmental data to identify potential habitats.
@@ -589,4 +653,3 @@ components:
           description: End date for the analysis.
           format: date
       description: Temporal range for the analysis.
-

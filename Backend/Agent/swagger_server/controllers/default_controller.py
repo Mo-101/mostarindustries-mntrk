@@ -1,8 +1,13 @@
 import connexion
 import six
+import os
+import openai
+import logging
+from flask import jsonify
+from dotenv import load_dotenv
 
-from swagger_server.models.community_observation_request import CommunityObservationRequest  # noqa: E501
-from swagger_server.models.community_observation_response import CommunityObservationResponse  # noqa: E501
+from swagger_server.models.community_observation_request import CommunityObservationRequest
+from swagger_server.models.community_observation_response import CommunityObservationResponse
 from swagger_server.models.data_management_open_request import DataManagementOpenRequest  # noqa: E501
 from swagger_server.models.data_management_open_response import DataManagementOpenResponse  # noqa: E501
 from swagger_server.models.data_management_transform_request import DataManagementTransformRequest  # noqa: E501
@@ -26,6 +31,65 @@ from swagger_server.models.video_stream_request import VideoStreamRequest  # noq
 from swagger_server.models.video_stream_response import VideoStreamResponse  # noqa: E501
 from swagger_server import util
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Load environment variables
+load_dotenv()
+
+# Configure OpenAI
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+def process_gpt_request(prompt, model="gpt-4o-mini"):
+    """
+    Process GPT request with error handling and logging
+    """
+    try:
+        logger.info(f"Processing GPT request with model: {model}")
+        response = openai.ChatCompletion.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant specializing in Mastomys tracking and analysis."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return jsonify({
+            "success": True,
+            "response": response.choices[0].message.content
+        })
+    except Exception as e:
+        logger.error(f"Error processing GPT request: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+def gpt3_post():
+    """Process GPT-3 requests"""
+    if not connexion.request.is_json:
+        return jsonify({"error": "Invalid request format"}), 400
+    
+    data = connexion.request.get_json()
+    prompt = data.get('prompt')
+    
+    if not prompt:
+        return jsonify({"error": "No prompt provided"}), 400
+        
+    return process_gpt_request(prompt, "gpt-4o")
+
+def gpt4mini_post():
+    """Process GPT-4 Mini requests"""
+    if not connexion.request.is_json:
+        return jsonify({"error": "Invalid request format"}), 400
+    
+    data = connexion.request.get_json()
+    prompt = data.get('prompt')
+    
+    if not prompt:
+        return jsonify({"error": "No prompt provided"}), 400
+        
+    return process_gpt_request(prompt, "gpt-4o-mini")
 
 def ai_community_submit_post(body):  # noqa: E501
     """Submit community observations.
