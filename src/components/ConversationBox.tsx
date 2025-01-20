@@ -24,18 +24,29 @@ export const ConversationBox = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const messageType = input.toLowerCase().includes('analyze') ? 'analysis' 
-      : input.toLowerCase().includes('predict') ? 'prediction' 
-      : 'general';
+    const messageType = input.toLowerCase().includes('analyze') 
+      ? 'analysis' as const
+      : input.toLowerCase().includes('predict') 
+      ? 'prediction' as const
+      : 'general' as const;
 
-    const userMessage = { content: input, isUser: true, type: messageType };
+    const userMessage: Message = { 
+      content: input, 
+      isUser: true, 
+      type: messageType 
+    };
+    
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
     try {
       const response = await langChainService.chat(input, messageType);
-      const aiMessage = { content: response, isUser: false, type: messageType };
+      const aiMessage: Message = { 
+        content: response, 
+        isUser: false, 
+        type: messageType 
+      };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       toast({
