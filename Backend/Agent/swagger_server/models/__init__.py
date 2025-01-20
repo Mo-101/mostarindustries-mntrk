@@ -15,6 +15,8 @@ from swagger_server.models.detection_pattern_response import DetectionPatternRes
 from swagger_server.models.explain_request import ExplainRequest
 from swagger_server.models.explain_response import ExplainResponse
 from swagger_server.models.explain_response_explanation import ExplainResponseExplanation
+from swagger_server.models.gpt3_request import GPT3Request
+from swagger_server.models.gpt3_response import GPT3Response
 from swagger_server.models.geospatial_analysis_request import GeospatialAnalysisRequest
 from swagger_server.models.geospatial_analysis_request_time_range import GeospatialAnalysisRequestTimeRange
 from swagger_server.models.geospatial_analysis_response import GeospatialAnalysisResponse

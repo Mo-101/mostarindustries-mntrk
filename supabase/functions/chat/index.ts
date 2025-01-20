@@ -1,109 +1,82 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import "https://deno.land/x/xhr@0.1.0/mod.ts"
-import { OpenAI } from "https://esm.sh/langchain@0.0.197/llms/openai"
-import { PromptTemplate } from "https://esm.sh/langchain@0.0.197/prompts"
-import { traceable } from "https://esm.sh/langsmith/traceable"
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { Configuration, OpenAIApi } from "openai"; // Direct OpenAI import
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-}
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-const MAX_RETRIES = 5;
-const INITIAL_DELAY = 1000;
-
-const callOpenAIWithRetry = traceable(async (message: string) => {
-  let attempt = 0;
-  let delay = INITIAL_DELAY;
-
-  while (attempt < MAX_RETRIES) {
-    try {
-      console.log(`Attempt ${attempt + 1} of ${MAX_RETRIES}`);
-      
-      const model = new OpenAI({
-        openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-        modelName: "gpt-4",
-        temperature: 0.7,
-        maxTokens: 500,
-      });
-
-      const prompt = PromptTemplate.fromTemplate(
-        "You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {question}"
-      );
-
-      const formattedPrompt = await prompt.format({
-        question: message,
-      });
-
-      return await model.call(formattedPrompt);
-    } catch (error) {
-      attempt++;
-      console.error(`Attempt ${attempt} failed:`, error);
-
-      if (attempt === MAX_RETRIES || !error.message.includes('429')) {
-        throw error;
-      }
-
-      console.log(`Waiting ${delay}ms before retry...`);
-      await sleep(delay);
-      delay *= 2;
-    }
-  }
-  throw new Error('Max retries reached');
-});
+};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { 
-      status: 204,
-      headers: corsHeaders 
-    });
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    const { message } = await req.json();
-    console.log('Received message:', message);
+    const { query, type } = await req.json();
 
-    if (!message) {
-      throw new Error('Message is required');
+    if (!query || !type) {
+      return new Response(
+        JSON.stringify({ error: "Query and type are required" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    const response = await callOpenAIWithRetry(message);
-    console.log('Successfully generated response');
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+    );
+
+    const configuration = new Configuration({
+      apiKey: Deno.env.get('OPENAI_API_KEY'),
+    });
+    const openai = new OpenAIApi(configuration);
+
+    let prompt = '';
+    switch (type) {
+      case 'analysis':
+        prompt = `Analyze the following environmental data and provide insights: ${query}`;
+        break;
+      case 'prediction':
+        prompt = `Based on the data: ${query}, predict potential environmental changes.`;
+        break;
+      default:
+        prompt = `Answer the following question about environmental data: ${query}`;
+    }
+
+    const completion = await openai.createCompletion({
+      model: "gpt-3.5-turbo", // Or gpt-4, or any other model
+      prompt: prompt,
+      temperature: 0.7,
+      max_tokens: 500, // Adjust as needed
+    });
+    const response = completion.data.choices[0].text!.trim();
+
+
+    await supabaseClient
+      .from('chat_history') // Make sure this table exists
+      .insert([
+        { query, response, type, timestamp: new Date().toISOString() },
+      ]);
 
     return new Response(
-      JSON.stringify({ response }),
-      { 
-        status: 200,
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
+      JSON.stringify({ result: response }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200
       }
     );
   } catch (error) {
-    console.error('Error in chat function:', error);
-    
-    let errorMessage = error.message;
-    let statusCode = 500;
-
-    if (error.message.includes('429')) {
-      errorMessage = 'The service is experiencing high demand. Please try again in a few moments.';
-      statusCode = 429;
-    }
+    console.error('Error in GPT process:', error);
 
     return new Response(
-      JSON.stringify({ error: errorMessage }),
-      { 
-        status: statusCode,
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        }
+      JSON.stringify({ error: error.message }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500
       }
     );
   }
 });
+

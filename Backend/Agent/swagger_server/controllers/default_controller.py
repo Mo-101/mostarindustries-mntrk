@@ -11,6 +11,8 @@ from swagger_server.models.detection_pattern import DetectionPattern  # noqa: E5
 from swagger_server.models.detection_pattern_response import DetectionPatternResponse  # noqa: E501
 from swagger_server.models.explain_request import ExplainRequest  # noqa: E501
 from swagger_server.models.explain_response import ExplainResponse  # noqa: E501
+from swagger_server.models.gpt3_request import GPT3Request  # noqa: E501
+from swagger_server.models.gpt3_response import GPT3Response  # noqa: E501
 from swagger_server.models.geospatial_analysis_request import GeospatialAnalysisRequest  # noqa: E501
 from swagger_server.models.geospatial_analysis_response import GeospatialAnalysisResponse  # noqa: E501
 from swagger_server.models.habitat_analysis_request import HabitatAnalysisRequest  # noqa: E501
@@ -200,4 +202,19 @@ def data_management_transform_post(body):  # noqa: E501
     """
     if connexion.request.is_json:
         body = DataManagementTransformRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def gpt3_post(body):  # noqa: E501
+    """Interact with GPT
+
+    Send a prompt to GPT and get a response. # noqa: E501
+
+    :param body: 
+    :type body: dict | bytes
+
+    :rtype: GPT3Response
+    """
+    if connexion.request.is_json:
+        body = GPT3Request.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'

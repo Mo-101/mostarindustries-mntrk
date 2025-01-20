@@ -303,6 +303,45 @@ paths:
         "500":
           description: Internal server error.
       x-openapi-router-controller: swagger_server.controllers.default_controller
+  /gpt3:
+    post:
+      summary: Interact with GPT
+      description: Send a prompt to GPT and get a response.
+      operationId: gpt3_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GPT3Request'
+            examples:
+              GPT4:
+                value:
+                  prompt: Explain the role of Mastomys Natalensis in Lassa fever transmission.
+              GPT4mini:
+                value:
+                  prompt: Summarize the ecological impact of Mastomys Natalensis.
+        required: true
+      responses:
+        "200":
+          description: GPT response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GPT3Response'
+              examples:
+                GPT4:
+                  value:
+                    response: "Mastomys Natalensis is a reservoir species for Lassa\
+                      \ fever, transmitting the virus to humans in endemic regions."
+                GPT4mini:
+                  value:
+                    response: "Mastomys Natalensis significantly affects ecosystems,\
+                      \ serving as both a pest and a disease vector."
+        "400":
+          description: Bad Request - Prompt not provided.
+        "500":
+          description: Internal server error.
+      x-openapi-router-controller: swagger_server.controllers.default_controller
 components:
   schemas:
     HabitatAnalysisRequest:
@@ -512,6 +551,18 @@ components:
       example:
         heatmap_url: ""
         geojson_data: ""
+    GPT3Request:
+      required:
+      - prompt
+      properties:
+        prompt:
+          description: The input prompt for GPT.
+    GPT3Response:
+      properties:
+        response:
+          description: The GPT-generated response.
+      example:
+        response: ""
     HabitatAnalysisRequest_environmental_data:
       properties:
         temperature:
@@ -589,4 +640,17 @@ components:
           description: End date for the analysis.
           format: date
       description: Temporal range for the analysis.
+  securitySchemes:
+    OpenAIAuth:
+      type: apiKey
+      description: Use your OpenAI API key.
+      name: Authorization
+      in: header
+      x-apikeyInfoFunc: swagger_server.controllers.authorization_controller.check_OpenAIAuth
+    LangChainAuth:
+      type: apiKey
+      description: Use your LangChain API key.
+      name: Authorization
+      in: header
+      x-apikeyInfoFunc: swagger_server.controllers.authorization_controller.check_LangChainAuth
 

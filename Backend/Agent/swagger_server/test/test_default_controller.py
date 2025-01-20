@@ -15,6 +15,8 @@ from swagger_server.models.detection_pattern import DetectionPattern  # noqa: E5
 from swagger_server.models.detection_pattern_response import DetectionPatternResponse  # noqa: E501
 from swagger_server.models.explain_request import ExplainRequest  # noqa: E501
 from swagger_server.models.explain_response import ExplainResponse  # noqa: E501
+from swagger_server.models.gpt3_request import GPT3Request  # noqa: E501
+from swagger_server.models.gpt3_response import GPT3Response  # noqa: E501
 from swagger_server.models.geospatial_analysis_request import GeospatialAnalysisRequest  # noqa: E501
 from swagger_server.models.geospatial_analysis_response import GeospatialAnalysisResponse  # noqa: E501
 from swagger_server.models.habitat_analysis_request import HabitatAnalysisRequest  # noqa: E501
@@ -194,6 +196,20 @@ class TestDefaultController(BaseTestCase):
         body = DataManagementTransformRequest()
         response = self.client.open(
             '//data-management/transform',
+            method='POST',
+            data=json.dumps(body),
+            content_type='application/json')
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_gpt3_post(self):
+        """Test case for gpt3_post
+
+        Interact with GPT
+        """
+        body = GPT3Request()
+        response = self.client.open(
+            '//gpt3',
             method='POST',
             data=json.dumps(body),
             content_type='application/json')

@@ -1,3 +1,9 @@
 project_id = "fdezrtfnjsweyoborhwg"
 [functions.chat]
 verify_jwt = false
+
+[functions]
+  [functions.chat] # Example for the 'chat' function
+    path = "chat" # The path to your function's directory (relative to supabase/functions/)
+    name = "chat"  # Function name
+    runtime = "deno"
