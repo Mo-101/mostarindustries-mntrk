@@ -1,7 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { ChatOpenAI } from "https://esm.sh/@langchain/openai"
-import { PromptTemplate } from "https://esm.sh/@langchain/core/prompts"
-import { LLMChain } from "https://esm.sh/langchain/chains"
+import "https://deno.land/x/xhr@0.1.0/mod.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -37,42 +35,52 @@ serve(async (req) => {
 
     console.log('Processing request:', { type, query })
     
-    // Initialize ChatOpenAI with proper configuration
-    const llm = new ChatOpenAI({
-      openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-      modelName: 'gpt-4o-mini',
-      temperature: 0.7,
-      maxTokens: 500
-    })
-
-    // Define template based on type
-    let template = ''
+    // Define system message based on type
+    let systemMessage = ''
     switch(type) {
       case 'analysis':
-        template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Analyze the following data and provide insights: {query}`
+        systemMessage = 'You are an AI assistant specializing in environmental monitoring and disease tracking. Analyze the provided data and provide insights.'
         break
       case 'prediction':
-        template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Based on the data: {query}, predict potential environmental changes`
+        systemMessage = 'You are an AI assistant specializing in environmental monitoring and disease tracking. Make predictions based on the provided data.'
         break
       default:
-        template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {query}`
+        systemMessage = 'You are an AI assistant specializing in environmental monitoring and disease tracking.'
     }
 
-    console.log('Using template:', template)
+    console.log('Using system message:', systemMessage)
 
-    // Create prompt and chain
-    const prompt = PromptTemplate.fromTemplate(template)
-    const chain = new LLMChain({ llm, prompt })
-    
-    // Execute chain
-    console.log('Executing LangChain...')
-    const response = await chain.call({ query })
-    console.log('LangChain response received:', response)
+    // Call OpenAI API
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemMessage },
+          { role: 'user', content: query }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      }),
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      console.error('OpenAI API error:', error)
+      throw new Error(error.error?.message || 'Failed to get response from OpenAI')
+    }
+
+    const data = await response.json()
+    console.log('OpenAI response received')
 
     // Return successful response
     return new Response(
       JSON.stringify({ 
-        result: response.text,
+        result: data.choices[0].message.content,
         type: type 
       }),
       { 
@@ -84,7 +92,7 @@ serve(async (req) => {
       }
     )
   } catch (error) {
-    console.error('Error in langchain-process:', error)
+    console.error('Error in chat process:', error)
     
     // Return detailed error response
     return new Response(
