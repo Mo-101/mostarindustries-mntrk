@@ -25,19 +25,20 @@ serve(async (req) => {
     const llm = new ChatOpenAI({
       openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
       modelName: 'gpt-4o-mini',
-      temperature: 0
+      temperature: 0.7,
+      streaming: true
     })
 
     let template = ''
     switch(type) {
       case 'analysis':
-        template = `Analyze the following environmental data and provide insights: {query}`
+        template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Analyze the following data and provide insights: {query}`
         break
       case 'prediction':
-        template = `Based on the data: {query}, predict potential environmental changes`
+        template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Based on the data: {query}, predict potential environmental changes`
         break
       default:
-        template = `Answer the following question about environmental data: {query}`
+        template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {query}`
     }
 
     const prompt = PromptTemplate.fromTemplate(template)
@@ -53,6 +54,7 @@ serve(async (req) => {
       }
     )
   } catch (error) {
+    console.error('Error in langchain-process:', error)
     return new Response(
       JSON.stringify({ error: error.message }),
       { 

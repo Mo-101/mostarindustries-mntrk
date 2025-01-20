@@ -10,6 +10,7 @@ import { langChainService } from "@/services/langchain";
 interface Message {
   content: string;
   isUser: boolean;
+  type?: 'analysis' | 'prediction' | 'general';
 }
 
 export const ConversationBox = () => {
@@ -23,19 +24,23 @@ export const ConversationBox = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMessage = { content: input, isUser: true };
+    const messageType = input.toLowerCase().includes('analyze') ? 'analysis' 
+      : input.toLowerCase().includes('predict') ? 'prediction' 
+      : 'general';
+
+    const userMessage = { content: input, isUser: true, type: messageType };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
     try {
-      const response = await langChainService.chat(input);
-      const aiMessage = { content: response, isUser: false };
+      const response = await langChainService.chat(input, messageType);
+      const aiMessage = { content: response, isUser: false, type: messageType };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to get response. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to get response. Please try again.",
         variant: "destructive",
       });
     } finally {
