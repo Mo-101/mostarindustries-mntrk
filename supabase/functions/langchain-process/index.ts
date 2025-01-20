@@ -10,6 +10,7 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -17,18 +18,21 @@ serve(async (req) => {
   try {
     const { query, type } = await req.json()
     
+    // Initialize Supabase client
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? ''
     )
 
+    // Initialize ChatOpenAI with proper configuration
     const llm = new ChatOpenAI({
       openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-      modelName: 'gpt-4o-mini', // Updated to use the correct model name
+      modelName: 'gpt-4o-mini',
       temperature: 0.7,
-      streaming: true
+      maxTokens: 500
     })
 
+    // Define template based on type
     let template = ''
     switch(type) {
       case 'analysis':
@@ -41,11 +45,14 @@ serve(async (req) => {
         template = `You are an AI assistant specializing in environmental monitoring and disease tracking. Answer the following question: {query}`
     }
 
+    // Create prompt and chain
     const prompt = PromptTemplate.fromTemplate(template)
     const chain = new LLMChain({ llm, prompt })
     
+    // Execute chain
     const response = await chain.call({ query })
 
+    // Return successful response
     return new Response(
       JSON.stringify({ result: response.text }),
       { 
@@ -55,8 +62,13 @@ serve(async (req) => {
     )
   } catch (error) {
     console.error('Error in langchain-process:', error)
+    
+    // Return detailed error response
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.stack
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500
