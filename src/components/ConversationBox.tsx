@@ -7,10 +7,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { langChainService } from "@/services/langchain";
 
+type MessageType = 'analysis' | 'prediction' | 'general';
+
 interface Message {
   content: string;
   isUser: boolean;
-  type?: 'analysis' | 'prediction' | 'general';
+  type: MessageType;
 }
 
 export const ConversationBox = () => {

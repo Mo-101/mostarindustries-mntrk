@@ -24,7 +24,7 @@ serve(async (req) => {
 
     const llm = new ChatOpenAI({
       openAIApiKey: Deno.env.get('OPENAI_API_KEY'),
-      modelName: 'gpt-4o-mini',
+      modelName: 'gpt-4o-mini', // Updated to use the correct model name
       temperature: 0.7,
       streaming: true
     })
