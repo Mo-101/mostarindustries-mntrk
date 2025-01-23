@@ -5,10 +5,13 @@ import { EvaluationResult } from "langsmith/evaluation";
 const client = new Client();
 
 export const langChainService = {
-  chat: async (message: string) => {
+  chat: async (message: string, type: 'analysis' | 'prediction' | 'general' = 'general') => {
     try {
-      const { data, error } = await supabase.functions.invoke('chat', {
-        body: { message },
+      const { data, error } = await supabase.functions.invoke('langchain-process', {
+        body: { 
+          query: message,
+          type 
+        },
         headers: {
           'Content-Type': 'application/json',
         }
@@ -26,7 +29,7 @@ export const langChainService = {
         throw new Error('No response received from the chat function');
       }
 
-      return data.response;
+      return data.result;
     } catch (error) {
       console.error('Error in langchain service:', error);
       if (error.message === 'Failed to fetch') {

@@ -2,16 +2,78 @@ openapi: 3.1.0
 info:
   title: MNTRK by MoStar Industries AI Agent API
   description: |
-    This API provides robust and accurate tools for tracking Mastomys Natalensis populations, analyzing ecological trends, and supporting Lassa fever outbreak management in Nigeria. Designed with a focus on real-time data, environmental analysis, and outbreak hotspots. This is the API for the AI agent, providing direct interaction with the AI system.
+    This API provides robust and accurate tools for tracking Mastomys Natalensis populations, analyzing ecological trends, and supporting Lassa fever outbreak management in Nigeria.
   contact:
     name: Mastomys Tracker Support Team
     url: https://www.mo-overlord.tech/
     email: akanimo@57vflx.onmicrosoft.com
   version: 1.4.0
 servers:
-- url: https://www.mo-overlord.tech/
-  description: Primary Production Server (Nigeria-focused)
+  - url: https://www.mo-overlord.tech/
+    description: Primary Production Server (Nigeria-focused)
 paths:
+  /gpt3:
+    post:
+      summary: Process text with GPT-3
+      operationId: gpt3_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The text prompt to process
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /gpt4mini:
+    post:
+      summary: Process text with GPT-4 Mini
+      operationId: gpt4mini_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The text prompt to process
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  response:
+                    type: string
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
   /ai/habitats:
     post:
       summary: Analyze satellite and environmental data to identify potential habitats.
@@ -331,12 +393,10 @@ paths:
               examples:
                 GPT4:
                   value:
-                    response: "Mastomys Natalensis is a reservoir species for Lassa\
-                      \ fever, transmitting the virus to humans in endemic regions."
+                    response: "Mastomys Natalensis is a reservoir species for Lassa fever, transmitting the virus to humans in endemic regions."
                 GPT4mini:
                   value:
-                    response: "Mastomys Natalensis significantly affects ecosystems,\
-                      \ serving as both a pest and a disease vector."
+                    response: "Mastomys Natalensis significantly affects ecosystems, serving as both a pest and a disease vector."
         "400":
           description: Bad Request - Prompt not provided.
         "500":
@@ -376,8 +436,7 @@ components:
           items:
             properties:
               bounding_box:
-                description: "Coordinates of the detected object (x_min, y_min, x_max,\
-                  \ y_max)."
+                description: "Coordinates of the detected object (x_min, y_min, x_max, y_max)."
                 items: {}
               confidence:
                 description: Confidence score of the detection (0-1).
@@ -415,8 +474,7 @@ components:
     ModelTrainingResponse:
       properties:
         status:
-          description: "Status of the training process (e.g., \"Training complete\"\
-            )."
+          description: "Status of the training process (e.g., \"Training complete\")."
         evaluation_metrics:
           $ref: '#/components/schemas/ModelTrainingResponse_evaluation_metrics'
       description: Response schema for model training.
@@ -553,7 +611,7 @@ components:
         geojson_data: ""
     GPT3Request:
       required:
-      - prompt
+        - prompt
       properties:
         prompt:
           description: The input prompt for GPT.
@@ -640,17 +698,3 @@ components:
           description: End date for the analysis.
           format: date
       description: Temporal range for the analysis.
-  securitySchemes:
-    OpenAIAuth:
-      type: apiKey
-      description: Use your OpenAI API key.
-      name: Authorization
-      in: header
-      x-apikeyInfoFunc: swagger_server.controllers.authorization_controller.check_OpenAIAuth
-    LangChainAuth:
-      type: apiKey
-      description: Use your LangChain API key.
-      name: Authorization
-      in: header
-      x-apikeyInfoFunc: swagger_server.controllers.authorization_controller.check_LangChainAuth
-

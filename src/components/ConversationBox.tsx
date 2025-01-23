@@ -7,9 +7,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { langChainService } from "@/services/langchain";
 
+type MessageType = 'analysis' | 'prediction' | 'general';
+
 interface Message {
   content: string;
   isUser: boolean;
+  type: MessageType;
 }
 
 export const ConversationBox = () => {
@@ -23,19 +26,34 @@ export const ConversationBox = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    const userMessage = { content: input, isUser: true };
+    const messageType = input.toLowerCase().includes('analyze') 
+      ? 'analysis' as const
+      : input.toLowerCase().includes('predict') 
+      ? 'prediction' as const
+      : 'general' as const;
+
+    const userMessage: Message = { 
+      content: input, 
+      isUser: true, 
+      type: messageType 
+    };
+    
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
     try {
-      const response = await langChainService.chat(input);
-      const aiMessage = { content: response, isUser: false };
+      const response = await langChainService.chat(input, messageType);
+      const aiMessage: Message = { 
+        content: response, 
+        isUser: false, 
+        type: messageType 
+      };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to get response. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to get response. Please try again.",
         variant: "destructive",
       });
     } finally {

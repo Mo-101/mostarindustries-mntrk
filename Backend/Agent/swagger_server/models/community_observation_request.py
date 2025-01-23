@@ -2,8 +2,7 @@
 
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
-
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # noqa: F401
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
@@ -14,20 +13,20 @@ class CommunityObservationRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, image_file: Object=None, video_file: Object=None, description: Object=None):  # noqa: E501
+    def __init__(self, image_file: Any=None, video_file: Any=None, description: str=None):  # noqa: E501
         """CommunityObservationRequest - a model defined in Swagger
 
         :param image_file: The image_file of this CommunityObservationRequest.  # noqa: E501
-        :type image_file: Object
+        :type image_file: Any
         :param video_file: The video_file of this CommunityObservationRequest.  # noqa: E501
-        :type video_file: Object
+        :type video_file: Any
         :param description: The description of this CommunityObservationRequest.  # noqa: E501
-        :type description: Object
+        :type description: str
         """
         self.swagger_types = {
-            'image_file': Object,
-            'video_file': Object,
-            'description': Object
+            'image_file': Any,
+            'video_file': Any,
+            'description': str
         }
 
         self.attribute_map = {
@@ -51,70 +50,70 @@ class CommunityObservationRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def image_file(self) -> Object:
+    def image_file(self) -> Any:
         """Gets the image_file of this CommunityObservationRequest.
 
         Image file of the observation.  # noqa: E501
 
         :return: The image_file of this CommunityObservationRequest.
-        :rtype: Object
+        :rtype: Any
         """
         return self._image_file
 
     @image_file.setter
-    def image_file(self, image_file: Object):
+    def image_file(self, image_file: Any):
         """Sets the image_file of this CommunityObservationRequest.
 
         Image file of the observation.  # noqa: E501
 
         :param image_file: The image_file of this CommunityObservationRequest.
-        :type image_file: Object
+        :type image_file: Any
         """
 
         self._image_file = image_file
 
     @property
-    def video_file(self) -> Object:
+    def video_file(self) -> Any:
         """Gets the video_file of this CommunityObservationRequest.
 
         Video file of the observation.  # noqa: E501
 
         :return: The video_file of this CommunityObservationRequest.
-        :rtype: Object
+        :rtype: Any
         """
         return self._video_file
 
     @video_file.setter
-    def video_file(self, video_file: Object):
+    def video_file(self, video_file: Any):
         """Sets the video_file of this CommunityObservationRequest.
 
         Video file of the observation.  # noqa: E501
 
         :param video_file: The video_file of this CommunityObservationRequest.
-        :type video_file: Object
+        :type video_file: Any
         """
 
         self._video_file = video_file
 
     @property
-    def description(self) -> Object:
+    def description(self) -> str:
         """Gets the description of this CommunityObservationRequest.
 
         Additional details about the observation.  # noqa: E501
 
         :return: The description of this CommunityObservationRequest.
-        :rtype: Object
+        :rtype: str
         """
         return self._description
 
     @description.setter
-    def description(self, description: Object):
+    def description(self, description: str):
         """Sets the description of this CommunityObservationRequest.
 
         Additional details about the observation.  # noqa: E501
 
         :param description: The description of this CommunityObservationRequest.
-        :type description: Object
+        :type description: str
         """
 
         self._description = description
