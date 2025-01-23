@@ -1,9 +1,9 @@
-import connexion
+import connexion # type: ignore
 import six
 import os
-import openai
+import openai # type: ignore
 import logging
-from flask import jsonify
+from flask import jsonify # type: ignore
 from dotenv import load_dotenv
 
 from swagger_server.models.community_observation_request import CommunityObservationRequest

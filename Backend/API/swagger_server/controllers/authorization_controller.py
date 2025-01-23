@@ -14,5 +14,13 @@ def validate_scope_OAuth2(required_scopes, token_scopes):
 
 def check_openAIAuth(api_key, required_scopes):
     return {'test_key': 'test_value'}
+from flask import Blueprint, jsonify # type: ignore
+
+# Create Blueprint
+blueprint = Blueprint('authorization', __name__)
+
+@blueprint.route('/auth/validate', methods=['GET'])
+def validate():
+    return jsonify({"status": "success", "message": "Authorization successful"})
 
 

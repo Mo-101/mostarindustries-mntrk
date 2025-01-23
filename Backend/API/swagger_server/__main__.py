@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import connexion
+import connexion # type: ignore
 
 from swagger_server import encoder
 

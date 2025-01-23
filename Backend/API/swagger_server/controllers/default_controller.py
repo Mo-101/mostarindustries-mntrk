@@ -1,5 +1,28 @@
-import connexion
+import connexion # type: ignore
 import six
+from flask import Blueprint, request, jsonify # type: ignore
+from swagger_server.util.supabase_service import fetch_data # type: ignore
+from swagger_server.util.openai_service import generate_response # type: ignore
+
+# Create Blueprint
+blueprint = Blueprint('default', __name__)
+
+@blueprint.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "Welcome to Celestial Map Portal!"})
+
+@blueprint.route('/data/<table_name>', methods=['GET'])
+def get_table_data(table_name):
+    data = fetch_data(table_name)
+    return jsonify(data)
+
+@blueprint.route('/generate', methods=['POST'])
+def generate_text():
+    data = request.get_json()
+    prompt = data.get("prompt", "")
+    result = generate_response(prompt)
+    return jsonify({"response": result})
+
 
 from swagger_server.models.adaptive_learning_request import AdaptiveLearningRequest  # noqa: E501
 from swagger_server.models.adaptive_learning_response import AdaptiveLearningResponse  # noqa: E501
@@ -149,11 +172,11 @@ def predict_movements(latitude, longitude, _date):  # noqa: E501
     :rtype: MovementPredictionResponse
     """
     if connexion.request.is_json:
-        latitude = Object.from_dict(connexion.request.get_json())  # noqa: E501
+        latitude = object.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
-        longitude = Object.from_dict(connexion.request.get_json())  # noqa: E501
+        longitude = object.from_dict(connexion.request.get_json())  # noqa: E501
     if connexion.request.is_json:
-        _date = Object.from_dict(connexion.request.get_json())  # noqa: E501
+        _date = object.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
