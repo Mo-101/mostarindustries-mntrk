@@ -7,11 +7,7 @@ export const aiService = {
       console.log('Sending chat request:', { message, type });
       
       const { data, error } = await supabase.functions.invoke('deepseek-process', {
-        body: { 
-          query: message,
-          type,
-          userId: (await supabase.auth.getUser()).data.user?.id
-        }
+        body: { query: message, type }
       });
 
       if (error) {
