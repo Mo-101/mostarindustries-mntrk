@@ -4,4 +4,3 @@ project_id = "fdezrtfnjsweyoborhwg"
 [[functions]]
 [functions.deepseek-process]
 verify_jwt = false
-
