@@ -24,8 +24,6 @@ serve(async (req) => {
 
     console.log('Processing query:', query);
     
-    // For now, implement a simple response mechanism
-    // You can later integrate with a proper hosted LLM API
     const responses = {
       analysis: "Based on the analysis of Mastomys patterns, there appears to be significant activity in the specified region.",
       prediction: "Based on historical data and current patterns, Mastomys activity is likely to increase in the coming weeks.",
