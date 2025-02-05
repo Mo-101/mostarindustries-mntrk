@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { langChainService } from "@/services/langchain";
+import { aiService } from "@/services/ai";
 
 type MessageType = 'analysis' | 'prediction' | 'general';
 
@@ -43,7 +44,7 @@ export const ConversationBox = () => {
     setIsLoading(true);
 
     try {
-      const response = await langChainService.chat(input, messageType);
+      const response = await aiService.chat(input, messageType);
       const aiMessage: Message = { 
         content: response, 
         isUser: false, 
