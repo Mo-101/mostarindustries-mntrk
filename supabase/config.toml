@@ -1,9 +1,8 @@
-project_id = "fdezrtfnjsweyoborhwg"
-[functions.chat]
-verify_jwt = false
 
+project_id = "fdezrtfnjsweyoborhwg"
 [functions]
-  [functions.chat] # Example for the 'chat' function
-    path = "chat" # The path to your function's directory (relative to supabase/functions/)
-    name = "chat"  # Function name
+  [functions.deepseek-process]
+    verify_jwt = false
+    path = "deepseek-process"
+    name = "deepseek-process"
     runtime = "deno"

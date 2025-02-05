@@ -9,7 +9,8 @@ export const aiService = {
       const { data, error } = await supabase.functions.invoke('deepseek-process', {
         body: { 
           query: message,
-          type 
+          type,
+          userId: (await supabase.auth.getUser()).data.user?.id
         }
       });
 
@@ -36,4 +37,3 @@ export const aiService = {
     }
   }
 };
-
