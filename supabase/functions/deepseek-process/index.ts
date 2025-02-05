@@ -1,6 +1,5 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,6 +22,8 @@ serve(async (req) => {
       );
     }
 
+    console.log('Sending request to DeepSeek with query:', query);
+
     const response = await fetch("http://localhost:1234/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -32,7 +33,11 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: "You are a helpful assistant that specializes in Mastomys tracking and analysis."
+            content: type === 'analysis' 
+              ? "You are a helpful assistant that specializes in Mastomys analysis." 
+              : type === 'prediction'
+              ? "You are a helpful assistant that specializes in Mastomys prediction."
+              : "You are a helpful assistant that specializes in Mastomys tracking and analysis."
           },
           {
             role: "user",
@@ -45,7 +50,17 @@ serve(async (req) => {
       }),
     });
 
+    if (!response.ok) {
+      throw new Error(`DeepSeek API error: ${response.status} ${response.statusText}`);
+    }
+
     const result = await response.json();
+    console.log('Received response from DeepSeek:', result);
+
+    if (!result.choices || !result.choices[0] || !result.choices[0].message) {
+      throw new Error('Invalid response format from DeepSeek');
+    }
+
     const answer = result.choices[0].message.content;
 
     return new Response(
@@ -59,7 +74,10 @@ serve(async (req) => {
     console.error('Error in DeepSeek process:', error);
 
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: 'Make sure LM Studio is running with DeepSeek model loaded on localhost:1234'
+      }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500 
@@ -67,4 +85,3 @@ serve(async (req) => {
     );
   }
 });
-
