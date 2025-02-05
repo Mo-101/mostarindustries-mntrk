@@ -17,22 +17,27 @@ serve(async (req) => {
   }
 
   try {
-    const { query, type } = await req.json();
-    console.log('Received request:', { query, type });
-
-    if (!query || !type) {
-      console.log('Missing required fields');
-      return new Response(
-        JSON.stringify({ error: "Query and type are required" }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
+    console.log('Request received:', req.method);
+    
+    if (req.method !== 'POST') {
+      throw new Error(`HTTP method ${req.method} not allowed`);
     }
 
-    // Call DeepSeek API
+    const requestData = await req.json();
+    console.log('Request data:', requestData);
+
+    const { query, type } = requestData;
+
+    if (!query || !type) {
+      throw new Error('Query and type are required fields');
+    }
+
     const deepseekApiKey = Deno.env.get('DEEPSEEK_API_KEY');
+    if (!deepseekApiKey) {
+      throw new Error('DeepSeek API key not configured');
+    }
+
+    console.log('Making request to DeepSeek API...');
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -45,32 +50,39 @@ serve(async (req) => {
           {
             role: "system",
             content: type === 'analysis' 
-              ? "You are an expert in analyzing Mastomys patterns and behavior."
+              ? "You are an expert in analyzing Mastomys patterns and behavior. Provide detailed scientific analysis."
               : type === 'prediction'
-              ? "You are an expert in predicting Mastomys movement patterns based on historical data."
-              : "You are a helpful assistant for the Mastomys tracking system."
+              ? "You are an expert in predicting Mastomys movement patterns based on historical data. Provide evidence-based predictions."
+              : "You are a helpful assistant for the Mastomys tracking system. Provide clear and accurate information."
           },
           {
             role: "user",
             content: query
           }
         ],
+        temperature: 0.7,
+        max_tokens: 1000,
         stream: false
       }),
     });
 
+    console.log('DeepSeek API response status:', response.status);
+
     if (!response.ok) {
-      const error = await response.json();
-      console.error('DeepSeek API error:', error);
-      throw new Error(error.error?.message || 'Failed to get response from DeepSeek');
+      const errorData = await response.json().catch(() => null);
+      console.error('DeepSeek API error:', errorData);
+      throw new Error(`DeepSeek API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    const result = data.choices[0].message.content;
-    console.log('Received response from DeepSeek:', result);
+    console.log('DeepSeek API response data:', data);
+
+    if (!data.choices?.[0]?.message?.content) {
+      throw new Error('Invalid response format from DeepSeek API');
+    }
 
     return new Response(
-      JSON.stringify({ result }),
+      JSON.stringify({ result: data.choices[0].message.content }),
       { 
         headers: { 
           ...corsHeaders, 
@@ -79,18 +91,20 @@ serve(async (req) => {
         status: 200 
       }
     );
+
   } catch (error) {
-    console.error('Error processing request:', error);
+    console.error('Error in edge function:', error);
     
     return new Response(
       JSON.stringify({ 
         error: error.message || 'An unexpected error occurred',
-        details: 'An error occurred while processing your request'
+        details: error.stack || 'No additional details available'
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500 
+        status: error.status || 500 
       }
     );
   }
 });
+

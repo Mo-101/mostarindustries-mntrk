@@ -10,29 +10,33 @@ export const aiService = {
         body: { query: message, type }
       });
 
+      console.log('Raw response from edge function:', response);
+
       if (response.error) {
-        console.error('Supabase function error:', response.error);
-        throw response.error;
+        console.error('Edge function error:', response.error);
+        throw new Error(response.error.message || 'Error from edge function');
       }
 
-      const data = response.data;
-      if (!data || !data.result) {
-        throw new Error('No response received from the chat function');
+      if (!response.data || !response.data.result) {
+        console.error('Invalid response format:', response.data);
+        throw new Error('Invalid response received from the chat function');
       }
 
-      console.log('Received chat response:', data.result);
-      return data.result;
+      console.log('Successfully received chat response:', response.data.result);
+      return response.data.result;
+      
     } catch (error) {
       console.error('Error in AI service:', error);
       
-      // Improved error messages for specific cases
-      if (error.message === 'Failed to fetch') {
-        throw new Error('Network error. Please check your connection and try again.');
-      } else if (error.message.includes('429')) {
-        throw new Error('The service is experiencing high demand. Please try again in a few moments.');
+      if (error.message?.includes('Failed to fetch')) {
+        throw new Error('Network error: Unable to reach the AI service. Please check your connection.');
+      } else if (error.message?.includes('429')) {
+        throw new Error('The AI service is experiencing high demand. Please try again in a few moments.');
+      } else if (error.message?.includes('401')) {
+        throw new Error('Authentication error with AI service. Please check API key configuration.');
       }
       
-      throw new Error(error.message || 'An unexpected error occurred');
+      throw new Error(error.message || 'An unexpected error occurred while processing your request');
     }
   }
 };
