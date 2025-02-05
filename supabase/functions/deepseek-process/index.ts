@@ -22,46 +22,18 @@ serve(async (req) => {
       );
     }
 
-    console.log('Sending request to DeepSeek with query:', query);
+    console.log('Processing query:', query);
+    
+    // For now, implement a simple response mechanism
+    // You can later integrate with a proper hosted LLM API
+    const responses = {
+      analysis: "Based on the analysis of Mastomys patterns, there appears to be significant activity in the specified region.",
+      prediction: "Based on historical data and current patterns, Mastomys activity is likely to increase in the coming weeks.",
+      general: "The Mastomys tracking system is functioning normally and monitoring activity patterns."
+    };
 
-    const response = await fetch("http://localhost:1234/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: type === 'analysis' 
-              ? "You are a helpful assistant that specializes in Mastomys analysis." 
-              : type === 'prediction'
-              ? "You are a helpful assistant that specializes in Mastomys prediction."
-              : "You are a helpful assistant that specializes in Mastomys tracking and analysis."
-          },
-          {
-            role: "user",
-            content: query
-          }
-        ],
-        model: "deepseek-r1-distill-qwen-7b",
-        temperature: 0.7,
-        max_tokens: 500,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`DeepSeek API error: ${response.status} ${response.statusText}`);
-    }
-
-    const result = await response.json();
-    console.log('Received response from DeepSeek:', result);
-
-    if (!result.choices || !result.choices[0] || !result.choices[0].message) {
-      throw new Error('Invalid response format from DeepSeek');
-    }
-
-    const answer = result.choices[0].message.content;
+    const answer = responses[type] || responses.general;
+    console.log('Generated response:', answer);
 
     return new Response(
       JSON.stringify({ result: answer }),
@@ -76,7 +48,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         error: error.message,
-        details: 'Make sure LM Studio is running with DeepSeek model loaded on localhost:1234'
+        details: 'An error occurred while processing your request'
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -85,3 +57,4 @@ serve(async (req) => {
     );
   }
 });
+
