@@ -6,18 +6,16 @@ export const aiService = {
     try {
       console.log('Sending chat request:', { message, type });
       
-      const { data, error } = await supabase.functions.invoke('deepseek-process', {
+      const response = await supabase.functions.invoke('deepseek-process', {
         body: { query: message, type }
       });
 
-      if (error) {
-        console.error('Supabase function error:', error);
-        if (error.message.includes('429') || error.status === 429) {
-          throw new Error('The service is experiencing high demand. Please try again in a few moments.');
-        }
-        throw error;
+      if (response.error) {
+        console.error('Supabase function error:', response.error);
+        throw response.error;
       }
 
+      const data = response.data;
       if (!data || !data.result) {
         throw new Error('No response received from the chat function');
       }
@@ -26,10 +24,15 @@ export const aiService = {
       return data.result;
     } catch (error) {
       console.error('Error in AI service:', error);
+      
+      // Improved error messages for specific cases
       if (error.message === 'Failed to fetch') {
         throw new Error('Network error. Please check your connection and try again.');
+      } else if (error.message.includes('429')) {
+        throw new Error('The service is experiencing high demand. Please try again in a few moments.');
       }
-      throw error;
+      
+      throw new Error(error.message || 'An unexpected error occurred');
     }
   }
 };

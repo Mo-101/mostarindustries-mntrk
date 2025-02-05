@@ -4,3 +4,4 @@ project_id = "fdezrtfnjsweyoborhwg"
 [[functions]]
 name = "deepseek-process"
 verify_jwt = false
+

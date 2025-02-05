@@ -10,13 +10,18 @@ const corsHeaders = {
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { 
+      status: 204, 
+      headers: corsHeaders 
+    });
   }
 
   try {
     const { query, type } = await req.json();
+    console.log('Received request:', { query, type });
 
     if (!query || !type) {
+      console.log('Missing required fields');
       return new Response(
         JSON.stringify({ error: "Query and type are required" }),
         { 
@@ -26,8 +31,6 @@ serve(async (req) => {
       );
     }
 
-    console.log('Processing query:', { query, type });
-    
     // Process based on type with predefined responses for testing
     let response;
     switch(type) {
@@ -41,18 +44,21 @@ serve(async (req) => {
         response = "The Mastomys tracking system is functioning normally and monitoring activity patterns.";
     }
 
-    console.log('Generated response:', response);
+    console.log('Sending response:', response);
 
     return new Response(
       JSON.stringify({ result: response }),
       { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { 
+          ...corsHeaders, 
+          'Content-Type': 'application/json' 
+        },
         status: 200 
       }
     );
   } catch (error) {
-    console.error('Error in DeepSeek process:', error);
-
+    console.error('Error processing request:', error);
+    
     return new Response(
       JSON.stringify({ 
         error: error.message,
@@ -65,4 +71,3 @@ serve(async (req) => {
     );
   }
 });
-
