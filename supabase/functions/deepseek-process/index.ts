@@ -1,13 +1,5 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-=======
-import { serve } from "https://deno.land/std@0.170.0/http/server.ts";
->>>>>>> Stashed changes
-=======
-import { serve } from "https://deno.land/std@0.170.0/http/server.ts";
->>>>>>> Stashed changes
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -115,4 +107,3 @@ serve(async (req) => {
     );
   }
 });
-
