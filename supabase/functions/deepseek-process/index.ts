@@ -26,7 +26,7 @@ serve(async (req) => {
     const requestData = await req.json();
     console.log('Request data:', requestData);
 
-    const { query, type } = requestData;
+    const { query, type, schema } = requestData;
 
     if (!query || !type) {
       throw new Error('Query and type are required fields');
@@ -62,6 +62,7 @@ serve(async (req) => {
         ],
         temperature: 0.7,
         max_tokens: 1000,
+        response_format: schema ? { type: "json_schema", json_schema: schema } : undefined,
         stream: false
       }),
     });
@@ -82,7 +83,10 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ result: data.choices[0].message.content }),
+      JSON.stringify({ 
+        result: data.choices[0].message.content,
+        raw: data
+      }),
       { 
         headers: { 
           ...corsHeaders, 

@@ -14,6 +14,7 @@ interface Message {
   content: string;
   isUser: boolean;
   type: MessageType;
+  structured?: boolean;
 }
 
 export const ConversationBox = () => {
@@ -44,11 +45,36 @@ export const ConversationBox = () => {
     setIsLoading(true);
 
     try {
-      const response = await aiService.chat(input, messageType);
+      // Example schema for structured responses
+      const schema = messageType === 'analysis' ? {
+        type: "object",
+        properties: {
+          analysis: {
+            type: "object",
+            properties: {
+              findings: { type: "string" },
+              confidence: { type: "number" },
+              recommendations: { 
+                type: "array",
+                items: { type: "string" }
+              }
+            },
+            required: ["findings", "confidence", "recommendations"]
+          }
+        },
+        required: ["analysis"]
+      } : undefined;
+
+      const response = await aiService.chat(input, messageType, schema ? {
+        type: "json_schema",
+        json_schema: schema
+      } : undefined);
+
       const aiMessage: Message = { 
-        content: response, 
+        content: typeof response === 'string' ? response : JSON.stringify(response, null, 2),
         isUser: false, 
-        type: messageType 
+        type: messageType,
+        structured: !!schema
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
@@ -59,6 +85,20 @@ export const ConversationBox = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const formatMessage = (message: Message) => {
+    if (!message.structured) return message.content;
+    try {
+      const parsed = JSON.parse(message.content);
+      return (
+        <pre className="whitespace-pre-wrap font-mono text-sm">
+          {JSON.stringify(parsed, null, 2)}
+        </pre>
+      );
+    } catch {
+      return message.content;
     }
   };
 
@@ -104,7 +144,7 @@ export const ConversationBox = () => {
                         : "bg-muted"
                     }`}
                   >
-                    {message.content}
+                    {formatMessage(message)}
                   </div>
                 </div>
               ))}
