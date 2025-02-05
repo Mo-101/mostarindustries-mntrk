@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
@@ -30,23 +31,46 @@ serve(async (req) => {
       );
     }
 
-    // Process based on type with predefined responses for testing
-    let response;
-    switch(type) {
-      case 'analysis':
-        response = "Based on the analysis of Mastomys patterns, there appears to be significant activity in the specified region.";
-        break;
-      case 'prediction':
-        response = "Based on historical data and current patterns, Mastomys activity is likely to increase in the coming weeks.";
-        break;
-      default:
-        response = "The Mastomys tracking system is functioning normally and monitoring activity patterns.";
+    // Call DeepSeek API
+    const deepseekApiKey = Deno.env.get('DEEPSEEK_API_KEY');
+    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${deepseekApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [
+          {
+            role: "system",
+            content: type === 'analysis' 
+              ? "You are an expert in analyzing Mastomys patterns and behavior."
+              : type === 'prediction'
+              ? "You are an expert in predicting Mastomys movement patterns based on historical data."
+              : "You are a helpful assistant for the Mastomys tracking system."
+          },
+          {
+            role: "user",
+            content: query
+          }
+        ],
+        stream: false
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.error('DeepSeek API error:', error);
+      throw new Error(error.error?.message || 'Failed to get response from DeepSeek');
     }
 
-    console.log('Sending response:', response);
+    const data = await response.json();
+    const result = data.choices[0].message.content;
+    console.log('Received response from DeepSeek:', result);
 
     return new Response(
-      JSON.stringify({ result: response }),
+      JSON.stringify({ result }),
       { 
         headers: { 
           ...corsHeaders, 
@@ -60,7 +84,7 @@ serve(async (req) => {
     
     return new Response(
       JSON.stringify({ 
-        error: error.message,
+        error: error.message || 'An unexpected error occurred',
         details: 'An error occurred while processing your request'
       }),
       { 
