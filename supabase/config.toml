@@ -2,13 +2,14 @@
 project_id = "fdezrtfnjsweyoborhwg"
 
 [[functions]]
-name = "deepseek-process"
+[functions.deepseek-process]
 verify_jwt = false
 
 [[functions]]
-name = "lmstudio-process"
+[functions.lmstudio-process]
 verify_jwt = false
 
 [[functions]]
-name = "weather-data"
+[functions.weather-data]
 verify_jwt = false
+
