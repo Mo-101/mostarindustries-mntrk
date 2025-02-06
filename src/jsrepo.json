@@ -1,0 +1,16 @@
+{
+  "$schema": "https://unpkg.com/jsrepo@1.32.0/schemas/project-config.json",
+  "repos": ["https://reactbits.dev/default"],
+  "includeTests": false,
+  "watermark": false,
+  "formatter": "prettier",
+  "paths": {
+    "*": "./src/blocks"
+  },
+  "exclude": ["**/node_modules/**", "**/dist/**"],
+  "ignore": ["**/node_modules/**", "**/dist/**"],
+  "ignorePatterns": ["**/node_modules/**", "**/dist/**"],
+  "ignoreFiles": ["**/node_modules/**", "**/dist/**"],
+  "ignorePaths": ["**/node_modules/**", "**/dist/**"]
+  }
+  

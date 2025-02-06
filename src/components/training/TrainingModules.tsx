@@ -1,51 +1,108 @@
-import { Book, CheckCircle } from "lucide-react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { toast } from "sonner";
+import React from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap'; // Import Button from react-bootstrap
+import { TrainingMetrics } from './TrainingMetrics'; 
+import { ResourceCard } from './ResourcesSection';
+import { GlobeVisualization } from './GlobeVisualization'; 
+import GradientText from '../../blocks/TextAnimations/GradientText/GradientText.tsx';
+import { card } from '../../components/ui/card'; // Corrected import statement
+import './Training.css'; // Import CSS file for styling
 
-interface TrainingModule {
-  title: string;
-  progress: number;
-  completed: boolean;
-  description: string;
-}
-
-interface TrainingModulesProps {
-  modules: TrainingModule;
-}
-
-export const TrainingModules = ({ modules }: TrainingModulesProps) => {
-  const handleStartModule = (moduleTitle: string) => {
-    toast.success(`Starting module: ${moduleTitle}`);
-  };
-
+const Training = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Grid layout */}
-      {modules.map((module, index) => (
-        <Card key={index} className="bg-card rounded-lg p-6 dark:bg-zinc-800"> {/* Dark mode support */}
-          <h3 className="text-lg font-semibold mb-4 text-white">{module.title}</h3> {/* White title */}
-          <div className="space-y-3">
-            <p className="text-muted-foreground dark:text-zinc-400">{module.description}</p> {/* Dark mode text */}
-            <div className="flex justify-between items-center"> {/* Align items vertically */}
-              <div>
-                <div className="flex justify-between text-sm text-gray-400 dark:text-zinc-500"> {/* Dark mode text */}
-                  <span>Progress</span>
-                  <span>{module.progress}%</span>
+    <div className="training-container"> {/* Use CSS class for styling */}
+      <Container fluid>
+        <Row>
+          <Col md={2}>
+            <Card className="training-card"> {/* Use CSS class for styling */}
+              <GradientText
+                text="Introduction to Weather APIs"
+                className="training-card-title" // Use CSS class for styling
+              />
+              <p className="training-card-description"> {/* Use CSS class for styling */}
+                Learn how to use weather APIs to build powerful applications.
+              </p>
+              <div className="training-progress-container"> {/* Use CSS class for styling */}
+                <div className="training-progress-bar">
+                  <div className="training-progress-fill">
+                    <span className="training-progress-text">50%</span>
+                  </div>
                 </div>
-                <Progress value={module.progress} className="h-2 mt-1 dark:bg-zinc-700" /> {/* Dark mode progress */}
               </div>
               <Button
-                variant={module.completed? "outline": "default"}
-                onClick={() => handleStartModule(module.title)}
-                className={`dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:text-white ${module.completed? 'dark:border-zinc-500': ''}`} // Dark mode buttons
+                className="training-button review-button" // Use CSS classes for styling
+                onClick={() => {
+                  // Replace with actual review action
+                  if (typeof window!== 'undefined') {
+                    window.alert('Review button clicked!');
+                  }
+                }}
               >
-                {module.completed? "Review": "Start"}
+                Review
               </Button>
+              <Button
+                className="training-button start-button" // Use CSS classes for styling
+                onClick={() => {
+                  // Replace with actual start action
+                  if (typeof window!== 'undefined') {
+                    window.alert('Start button clicked!');
+                  }
+                }}
+              >
+                Start
+              </Button>
+            </Card>
+          </Col>
+          <Col md={8}>
+            <div style={{ height: '80vh', width: '100%' }}>
+              <GlobeVisualization />
             </div>
-          </div>
-        </Card>
-      ))}
+          </Col>
+          <Col md={2}>
+            <Card className="training-card"> {/* Use CSS class for styling */}
+              <GradientText
+                text="Metrics"
+                className="training-card-title" // Use CSS class for styling
+              />
+              <TrainingMetrics title="Training Metrics" metrics={[]} />
+            </Card>
+            <Card className="training-card"> {/* Use CSS class for styling */}
+              <GradientText
+                text="Resources"
+                className="training-card-title" // Use CSS class for styling
+              />
+              <ResourceCard
+                title="Resource Title"
+                description="Resource Description"
+                link="https://example.com/resource"
+              />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}> {/* Top title area */}
+            <h1>Training Title</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}> {/* Bottom footer area */}
+            <footer>Training Footer</footer>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
+
+const ResourceCard = () => {
+  // ResourceCard implementation
+};
+
+const GlobeVisualization = () => {
+  // GlobeVisualization implementation
+};
+
+const TrainingMetrics = () => {
+  // TrainingMetrics implementation
+}
+
+export default Training;

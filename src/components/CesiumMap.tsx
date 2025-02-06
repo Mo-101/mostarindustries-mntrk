@@ -37,7 +37,7 @@ export const CesiumMap = () => {
   ];
 
   return (
-    <div className="h-screen w-full">
+    <div className="position-fixed top-0 bottom-0 left-0 right-0 h-screen w-full">
       <Viewer full>
         <WindParticleSystem windData={windData} />
       </Viewer>
