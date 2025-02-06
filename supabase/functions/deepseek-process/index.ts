@@ -32,6 +32,60 @@ serve(async (req) => {
       throw new Error('Query and type are required fields');
     }
 
+    // Try local LLM server first
+    try {
+      console.log('Attempting to connect to local LLM server...');
+      const localResponse = await fetch('http://localhost:1234/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: "local-model",
+          messages: [
+            {
+              role: "system",
+              content: type === 'analysis' 
+                ? "You are an expert in analyzing Mastomys patterns and behavior. Provide detailed scientific analysis."
+                : type === 'prediction'
+                ? "You are an expert in predicting Mastomys movement patterns based on historical data. Provide evidence-based predictions."
+                : "You are a helpful assistant for the Mastomys tracking system. Provide clear and accurate information."
+            },
+            {
+              role: "user",
+              content: query
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 1000,
+          stream: false,
+          ...(schema && { response_format: { type: "json_schema", schema } })
+        }),
+      });
+
+      if (localResponse.ok) {
+        const data = await localResponse.json();
+        console.log('Local LLM server response:', data);
+        return new Response(
+          JSON.stringify({ 
+            result: data.choices[0].message.content,
+            raw: data,
+            source: 'local'
+          }),
+          { 
+            headers: { 
+              ...corsHeaders, 
+              'Content-Type': 'application/json' 
+            },
+            status: 200 
+          }
+        );
+      }
+    } catch (localError) {
+      console.log('Local LLM server unavailable, falling back to DeepSeek:', localError);
+    }
+
+    // Fallback to DeepSeek API
     const deepseekApiKey = Deno.env.get('DEEPSEEK_API_KEY');
     if (!deepseekApiKey) {
       throw new Error('DeepSeek API key not configured');
@@ -81,7 +135,8 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         result: data.choices[0].message.content,
-        raw: data
+        raw: data,
+        source: 'deepseek'
       }),
       { 
         headers: { 

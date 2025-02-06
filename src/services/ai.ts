@@ -33,6 +33,7 @@ export const aiService = {
       }
 
       console.log('Successfully received chat response:', response.data.result);
+      console.log('Response source:', response.data.source);
       
       // If schema was provided, try to parse the response as JSON
       if (schema) {
