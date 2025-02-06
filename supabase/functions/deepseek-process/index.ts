@@ -62,8 +62,8 @@ serve(async (req) => {
         ],
         temperature: 0.7,
         max_tokens: 1000,
-        response_format: schema ? { type: "json_schema", json_schema: schema } : undefined,
-        stream: false
+        stream: false,
+        ...(schema && { response_format: { type: "json_schema", schema } })
       }),
     });
 
@@ -77,10 +77,6 @@ serve(async (req) => {
 
     const data = await response.json();
     console.log('DeepSeek API response data:', data);
-
-    if (!data.choices?.[0]?.message?.content) {
-      throw new Error('Invalid response format from DeepSeek API');
-    }
 
     return new Response(
       JSON.stringify({ 
