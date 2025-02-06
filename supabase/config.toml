@@ -5,3 +5,7 @@ project_id = "fdezrtfnjsweyoborhwg"
 name = "deepseek-process"
 verify_jwt = false
 
+[[functions]]
+name = "lmstudio-process"
+verify_jwt = false
+
