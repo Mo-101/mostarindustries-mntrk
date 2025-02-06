@@ -93,7 +93,7 @@ export const ConversationBox = () => {
     try {
       const parsed = JSON.parse(message.content);
       return (
-        <pre className="whitespace-pre-wrap font-mono text-sm">
+        <pre className="whitespace-pre-wrap font-mono text-sm overflow-hidden">
           {JSON.stringify(parsed, null, 2)}
         </pre>
       );
@@ -103,7 +103,7 @@ export const ConversationBox = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-50 overflow-hidden">
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
@@ -115,8 +115,8 @@ export const ConversationBox = () => {
       )}
 
       {isOpen && (
-        <Card className="w-[350px] h-[500px] flex flex-col">
-          <div className="flex justify-between items-center p-4 border-b">
+        <Card className="w-[350px] h-[500px] flex flex-col overflow-hidden">
+          <div className="flex justify-between items-center p-4 border-b overflow-hidden">
             <h3 className="font-semibold">MNTRK Assistant</h3>
             <Button
               variant="ghost"

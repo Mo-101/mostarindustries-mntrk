@@ -10,7 +10,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="w-full h-screen overflow-hidden">
+    <div className="w-full h-full overflow-hidden">
       <CesiumMap />
       <WeatherMetrics metrics={weatherMetrics} />
       <ConversationBox />

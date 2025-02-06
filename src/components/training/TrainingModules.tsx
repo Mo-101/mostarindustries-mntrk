@@ -12,7 +12,7 @@ interface TrainingModule {
 }
 
 interface TrainingModulesProps {
-  modules: TrainingModule[];
+  modules: TrainingModule;
 }
 
 export const TrainingModules = ({ modules }: TrainingModulesProps) => {
@@ -21,34 +21,28 @@ export const TrainingModules = ({ modules }: TrainingModulesProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Grid layout */}
       {modules.map((module, index) => (
-        <Card key={index} className="p-6">
-          <div className="flex items-start justify-between">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                {module.completed ? (
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                ) : (
-                  <Book className="h-5 w-5 text-blue-500" />
-                )}
-                <h3 className="text-xl font-semibold">{module.title}</h3>
-              </div>
-              <p className="text-muted-foreground">{module.description}</p>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
+        <Card key={index} className="bg-card rounded-lg p-6 dark:bg-zinc-800"> {/* Dark mode support */}
+          <h3 className="text-lg font-semibold mb-4 text-white">{module.title}</h3> {/* White title */}
+          <div className="space-y-3">
+            <p className="text-muted-foreground dark:text-zinc-400">{module.description}</p> {/* Dark mode text */}
+            <div className="flex justify-between items-center"> {/* Align items vertically */}
+              <div>
+                <div className="flex justify-between text-sm text-gray-400 dark:text-zinc-500"> {/* Dark mode text */}
                   <span>Progress</span>
                   <span>{module.progress}%</span>
                 </div>
-                <Progress value={module.progress} className="h-2" />
+                <Progress value={module.progress} className="h-2 mt-1 dark:bg-zinc-700" /> {/* Dark mode progress */}
               </div>
+              <Button
+                variant={module.completed? "outline": "default"}
+                onClick={() => handleStartModule(module.title)}
+                className={`dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:text-white ${module.completed? 'dark:border-zinc-500': ''}`} // Dark mode buttons
+              >
+                {module.completed? "Review": "Start"}
+              </Button>
             </div>
-            <Button
-              variant={module.completed ? "outline" : "default"}
-              onClick={() => handleStartModule(module.title)}
-            >
-              {module.completed ? "Review" : "Start"}
-            </Button>
           </div>
         </Card>
       ))}
