@@ -9,6 +9,14 @@ const corsHeaders = {
 
 const LM_STUDIO_BASE_URL = 'http://localhost:1234';
 
+function logRequest(method: string, endpoint: string, body?: any) {
+  console.log('Request:', { method, endpoint, body: body ? JSON.stringify(body) : undefined });
+}
+
+function logResponse(endpoint: string, data: any) {
+  console.log('Response from', endpoint + ':', JSON.stringify(data));
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -21,9 +29,10 @@ serve(async (req) => {
   try {
     const url = new URL(req.url);
     const endpoint = url.pathname.split('/').pop();
-    console.log('Request received:', { method: req.method, endpoint });
+    logRequest(req.method, endpoint || '');
 
     let response;
+    let requestBody;
 
     switch (endpoint) {
       case 'models':
@@ -34,29 +43,38 @@ serve(async (req) => {
         break;
 
       case 'chat':
-        const chatData = await req.json();
+        requestBody = await req.json();
+        logRequest('POST', 'chat', requestBody);
+        
         response = await fetch(`${LM_STUDIO_BASE_URL}/v1/chat/completions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(chatData)
+          body: JSON.stringify({
+            ...requestBody,
+            stream: false // Ensure streaming is disabled for consistent handling
+          })
         });
         break;
 
       case 'completions':
-        const completionData = await req.json();
+        requestBody = await req.json();
+        logRequest('POST', 'completions', requestBody);
+        
         response = await fetch(`${LM_STUDIO_BASE_URL}/v1/completions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(completionData)
+          body: JSON.stringify(requestBody)
         });
         break;
 
       case 'embeddings':
-        const embeddingData = await req.json();
+        requestBody = await req.json();
+        logRequest('POST', 'embeddings', requestBody);
+        
         response = await fetch(`${LM_STUDIO_BASE_URL}/v1/embeddings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(embeddingData)
+          body: JSON.stringify(requestBody)
         });
         break;
 
@@ -65,11 +83,13 @@ serve(async (req) => {
     }
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`LM Studio server error: ${response.status} ${response.statusText}`, errorText);
       throw new Error(`LM Studio server error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log('LM Studio server response:', data);
+    logResponse(endpoint || '', data);
 
     return new Response(
       JSON.stringify({ result: data }),
