@@ -35,7 +35,6 @@ export const lmStudioService = {
     try {
       const response = await supabase.functions.invoke('lmstudio-process', {
         body: {},
-        responseType: 'json',
         query: { endpoint: 'models' }
       });
 
@@ -53,7 +52,6 @@ export const lmStudioService = {
       console.log('Sending chat request:', request);
       const response = await supabase.functions.invoke('lmstudio-process', {
         body: request,
-        responseType: 'json',
         query: { endpoint: 'chat' }
       });
 
@@ -71,7 +69,6 @@ export const lmStudioService = {
       console.log('Sending completion request:', { prompt, ...options });
       const response = await supabase.functions.invoke('lmstudio-process', {
         body: { prompt, ...options },
-        responseType: 'json',
         query: { endpoint: 'completions' }
       });
 
@@ -89,7 +86,6 @@ export const lmStudioService = {
       console.log('Requesting embeddings for:', request);
       const response = await supabase.functions.invoke('lmstudio-process', {
         body: request,
-        responseType: 'json',
         query: { endpoint: 'embeddings' }
       });
 
