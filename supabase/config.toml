@@ -9,3 +9,6 @@ verify_jwt = false
 name = "lmstudio-process"
 verify_jwt = false
 
+[[functions]]
+name = "weather-data"
+verify_jwt = false
