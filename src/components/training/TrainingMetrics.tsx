@@ -1,5 +1,5 @@
 import { Line } from "react-chartjs-2";
-import { Card } from "@/components/ui/card";
+import Card from "@/components/ui/card";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -74,7 +74,7 @@ const chartOptions = {
   },
 };
 
-export const TrainingMetrics = ({ title, metrics, className }: TrainingMetricsProps) => {
+const TrainingMetrics: React.FC<TrainingMetricsProps> = ({ title, metrics, className }) => {
   return (
     <Card className={cn(
       "p-6 bg-widgetcontentbg backdrop-blur supports-[backdrop-filter]:bg-black/20",
@@ -97,3 +97,5 @@ export const TrainingMetrics = ({ title, metrics, className }: TrainingMetricsPr
     </Card>
   );
 };
+
+export default TrainingMetrics;

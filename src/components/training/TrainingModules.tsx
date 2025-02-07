@@ -1,38 +1,115 @@
-import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap'; // Import Button from react-bootstrap
-import { TrainingMetrics } from './TrainingMetrics'; 
-import { ResourceCard } from './ResourcesSection';
-import { GlobeVisualization } from './GlobeVisualization'; 
-import GradientText from '../../blocks/TextAnimations/GradientText/GradientText.tsx';
-import { card } from '../../components/ui/card'; // Corrected import statement
-import './Training.css'; // Import CSS file for styling
+import { Row, Col } from 'react-bootstrap'; // Removed Container, as it's not a valid export
+import TrainingModules from './TrainingModules'; // Removed .tsx extension
+import ResourceCard from '../ui/card'; // Updated import path
+import GlobeVisualization from './GlobeVisualization'; // Removed .tsx extension
+import GradientText from '../../blocks/TextAnimations/GradientText'; // Removed .jsx extension
+
+const App = () => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  try {
+    return (
+      <div>
+        <Training /> // Use the Training component here
+      </div>
+    );
+  } catch (error) {
+    console.error('Error occurred in App component:', error);
+    return null;
+  }
+};
 
 const Training = () => {
   return (
-    <div className="training-container"> {/* Use CSS class for styling */}
-      <Container fluid>
+    <div
+      style={{
+        backgroundColor: '#1a1d23', // Dark background
+        height: '100vh',
+        padding: '20px',
+        overflow: 'hidden',
+      }}
+    >
+      <Container fluid style={{ padding: '20px' }}>
         <Row>
-          <Col md={2}>
-            <Card className="training-card"> {/* Use CSS class for styling */}
+          <Col md={4}>
+            <Card
+              style={{
+                backgroundColor: '#2a2d33', // Card background
+                borderRadius: '10px',
+                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                padding: '20px',
+              }}
+            >
               <GradientText
                 text="Introduction to Weather APIs"
-                className="training-card-title" // Use CSS class for styling
+                style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  color: '#ffffff', // Title color
+                  marginBottom: '10px',
+                }}
               />
-              <p className="training-card-description"> {/* Use CSS class for styling */}
+              <p
+                style={{
+                  fontSize: '14px',
+                  color: '#cccccc', // Description color
+                  marginBottom: '20px',
+                }}
+              >
                 Learn how to use weather APIs to build powerful applications.
               </p>
-              <div className="training-progress-container"> {/* Use CSS class for styling */}
-                <div className="training-progress-bar">
-                  <div className="training-progress-fill">
-                    <span className="training-progress-text">50%</span>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '20px',
+                }}
+              >
+                <div
+                  style={{
+                    width: '100%',
+                    height: '10px',
+                    backgroundColor: '#4be2fe', // Progress bar color
+                    borderRadius: '5px',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: '50%',
+                      height: '10px',
+                      backgroundColor: '#34c759', // Progress bar fill color
+                      borderRadius: '5px',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: '12px',
+                        color: '#ffffff', // Progress percentage color
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                      }}
+                    >
+                      50%
+                    </span>
                   </div>
                 </div>
               </div>
               <Button
-                className="training-button review-button" // Use CSS classes for styling
+                style={{
+                  backgroundColor: '#34c759', // Review button color
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                }}
                 onClick={() => {
-                  // Replace with actual review action
-                  if (typeof window!== 'undefined') {
+                  if (typeof window !== 'undefined') {
                     window.alert('Review button clicked!');
                   }
                 }}
@@ -40,10 +117,17 @@ const Training = () => {
                 Review
               </Button>
               <Button
-                className="training-button start-button" // Use CSS classes for styling
+                style={{
+                  backgroundColor: '#4be2fe', // Start button color
+                  color: '#ffffff',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  marginLeft: '10px',
+                }}
                 onClick={() => {
-                  // Replace with actual start action
-                  if (typeof window!== 'undefined') {
+                  if (typeof window !== 'undefined') {
                     window.alert('Start button clicked!');
                   }
                 }}
@@ -53,39 +137,42 @@ const Training = () => {
             </Card>
           </Col>
           <Col md={8}>
-            <div style={{ height: '80vh', width: '100%' }}>
+            <Card
+              style={{
+                backgroundColor: '#2a2d33', // Card background
+                borderRadius: '10px',
+                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                padding: '20px',
+              }}
+            >
+              <TrainingModule />
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4}>
+            <Card
+              style={{
+                backgroundColor: '#2a2d33', // Card background
+                borderRadius: '10px',
+                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                padding: '20px',
+              }}
+            >
+              <ResourceCard />
+            </Card>
+          </Col>
+          <Col md={8}>
+            <Card
+              style={{
+                backgroundColor: '#2a2d33', // Card background
+                borderRadius: '10px',
+                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                padding: '20px',
+              }}
+            >
               <GlobeVisualization />
-            </div>
-          </Col>
-          <Col md={2}>
-            <Card className="training-card"> {/* Use CSS class for styling */}
-              <GradientText
-                text="Metrics"
-                className="training-card-title" // Use CSS class for styling
-              />
-              <TrainingMetrics title="Training Metrics" metrics={[]} />
             </Card>
-            <Card className="training-card"> {/* Use CSS class for styling */}
-              <GradientText
-                text="Resources"
-                className="training-card-title" // Use CSS class for styling
-              />
-              <ResourceCard
-                title="Resource Title"
-                description="Resource Description"
-                link="https://example.com/resource"
-              />
-            </Card>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}> {/* Top title area */}
-            <h1>Training Title</h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}> {/* Bottom footer area */}
-            <footer>Training Footer</footer>
           </Col>
         </Row>
       </Container>
@@ -93,16 +180,5 @@ const Training = () => {
   );
 };
 
-const ResourceCard = () => {
-  // ResourceCard implementation
-};
 
-const GlobeVisualization = () => {
-  // GlobeVisualization implementation
-};
-
-const TrainingMetrics = () => {
-  // TrainingMetrics implementation
-}
-
-export default Training;
+export default TrainingModules;
