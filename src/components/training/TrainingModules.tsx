@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { TrainingMetrics } from './TrainingMetrics';
 import { ResourceCard } from './ResourcesSection';
 import { GlobeVisualization } from './GlobeVisualization';
-import GradientText from '../../blocks/TextAnimations/GradientText/GradientText';
+import GradientText from '@/blocks/TextAnimations/GradientText/GradientText';
 import { Card } from "@/components/ui/card";
 
 const Training = () => {
