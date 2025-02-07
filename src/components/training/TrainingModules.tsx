@@ -1,11 +1,17 @@
 
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { TrainingMetrics } from './TrainingMetrics';
 import { ResourceCard } from './ResourcesSection';
 import { GlobeVisualization } from './GlobeVisualization';
-import GradientText from '@/blocks/TextAnimations/GradientText/GradientText';
 import { Card } from "@/components/ui/card";
+
+const GradientText = ({ text, className }: { text: string; className?: string }) => (
+  <span className={`bg-gradient-to-r from-[#4be2fe] to-[#34c759] bg-clip-text text-transparent ${className}`}>
+    {text}
+  </span>
+);
 
 const Training = () => {
   return (
