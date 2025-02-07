@@ -2,7 +2,7 @@ import { CustomDataSource, Entity, Viewer, Cartesian3, BillboardGraphics } from 
 import { useEffect, useRef } from "react";
 import { useCesium } from "resium";
 import { WindDataPoint } from "@/types/wind";
-import { Cloud, CloudRain, CloudSnow, CloudSun, CloudLightning, Sun, Wind, Tornado } from "lucide-react";
+import { Cloud, CloudRain, CloudSnow, CloudSun, CloudLightning, Sun, Snowflake, Wind, Tornado } from "lucide-react";
 import ReactDOMServer from "react-dom/server";
 
 interface WindParticleSystemProps {

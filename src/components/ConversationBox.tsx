@@ -14,7 +14,6 @@ interface Message {
   content: string;
   isUser: boolean;
   type: MessageType;
-  structured?: boolean;
 }
 
 export const ConversationBox = () => {
@@ -45,36 +44,11 @@ export const ConversationBox = () => {
     setIsLoading(true);
 
     try {
-      // Example schema for structured responses
-      const schema = messageType === 'analysis' ? {
-        type: "object",
-        properties: {
-          analysis: {
-            type: "object",
-            properties: {
-              findings: { type: "string" },
-              confidence: { type: "number" },
-              recommendations: { 
-                type: "array",
-                items: { type: "string" }
-              }
-            },
-            required: ["findings", "confidence", "recommendations"]
-          }
-        },
-        required: ["analysis"]
-      } : undefined;
-
-      const response = await aiService.chat(input, messageType, schema ? {
-        type: "json_schema",
-        json_schema: schema
-      } : undefined);
-
+      const response = await aiService.chat(input, messageType);
       const aiMessage: Message = { 
-        content: typeof response === 'string' ? response : JSON.stringify(response, null, 2),
+        content: response, 
         isUser: false, 
-        type: messageType,
-        structured: !!schema
+        type: messageType 
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
@@ -88,22 +62,8 @@ export const ConversationBox = () => {
     }
   };
 
-  const formatMessage = (message: Message) => {
-    if (!message.structured) return message.content;
-    try {
-      const parsed = JSON.parse(message.content);
-      return (
-        <pre className="whitespace-pre-wrap font-mono text-sm overflow-hidden">
-          {JSON.stringify(parsed, null, 2)}
-        </pre>
-      );
-    } catch {
-      return message.content;
-    }
-  };
-
   return (
-    <div className="fixed bottom-4 right-4 z-50 overflow-hidden">
+    <div className="fixed bottom-4 right-4 z-50">
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
@@ -115,8 +75,8 @@ export const ConversationBox = () => {
       )}
 
       {isOpen && (
-        <Card className="w-[350px] h-[500px] flex flex-col overflow-hidden">
-          <div className="flex justify-between items-center p-4 border-b overflow-hidden">
+        <Card className="w-[350px] h-[500px] flex flex-col">
+          <div className="flex justify-between items-center p-4 border-b">
             <h3 className="font-semibold">MNTRK Assistant</h3>
             <Button
               variant="ghost"
@@ -144,7 +104,7 @@ export const ConversationBox = () => {
                         : "bg-muted"
                     }`}
                   >
-                    {formatMessage(message)}
+                    {message.content}
                   </div>
                 </div>
               ))}

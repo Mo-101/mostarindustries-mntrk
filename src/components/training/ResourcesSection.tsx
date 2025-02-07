@@ -1,7 +1,6 @@
 import { Info } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import Button from '@/components/ui/button.tsx';
-import React from "react";
+import { Button } from "@/components/ui/button";
 
 interface ResourceCardProps {
   title: string;
@@ -14,7 +13,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ title, description, link })
     <div className="p-4 bg-muted rounded-lg">
       <h4 className="font-medium mb-2">{title}</h4>
       <p className="text-sm text-muted-foreground">{description}</p>
-      <Button variant="link" className="mt-2 p-0" href={link}>
+      <Button variant="link" className="mt-2 p-0" ref={link}>
         Learn More →
       </Button>
     </div>

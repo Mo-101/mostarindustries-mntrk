@@ -1,23 +1,13 @@
 
 import { supabase } from "@/integrations/supabase/client";
 
-type ChatType = 'analysis' | 'prediction' | 'general';
-type ResponseSchema = {
-  type: "json_schema";
-  json_schema: Record<string, any>;
-};
-
 export const aiService = {
-  chat: async (
-    message: string, 
-    type: ChatType = 'general',
-    schema?: ResponseSchema
-  ) => {
+  chat: async (message: string, type: 'analysis' | 'prediction' | 'general' = 'general') => {
     try {
-      console.log('Sending chat request:', { message, type, schema });
+      console.log('Sending chat request:', { message, type });
       
       const response = await supabase.functions.invoke('deepseek-process', {
-        body: { query: message, type, schema }
+        body: { query: message, type }
       });
 
       console.log('Raw response from edge function:', response);
@@ -33,18 +23,6 @@ export const aiService = {
       }
 
       console.log('Successfully received chat response:', response.data.result);
-      console.log('Response source:', response.data.source);
-      
-      // If schema was provided, try to parse the response as JSON
-      if (schema) {
-        try {
-          return JSON.parse(response.data.result);
-        } catch (e) {
-          console.error('Failed to parse JSON response:', e);
-          throw new Error('Invalid JSON response from AI');
-        }
-      }
-      
       return response.data.result;
       
     } catch (error) {
