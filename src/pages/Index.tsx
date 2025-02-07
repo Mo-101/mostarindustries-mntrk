@@ -1,6 +1,8 @@
+
 import { CesiumMap } from "@/components/CesiumMap";
 import { ConversationBox } from "@/components/ConversationBox";
 import { WeatherMetrics } from "@/components/WeatherMetrics";
+import NavBar from "@/components/NavBar";
 
 const Index = () => {
   const weatherMetrics = [
@@ -11,6 +13,7 @@ const Index = () => {
 
   return (
     <div className="w-full h-full overflow-hidden">
+      <NavBar />
       <CesiumMap />
       <WeatherMetrics metrics={weatherMetrics} />
       <ConversationBox />
