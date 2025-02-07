@@ -77,7 +77,7 @@ const chartOptions = {
 export const TrainingMetrics = ({ title, metrics, className }: TrainingMetricsProps) => {
   return (
     <Card className={cn(
-      "p-6 bg-widgetcontentbg backdrop-blur supports-[backdrop-filter]:bg-black/20",
+      "p-1 bg-widgetcontentbg backdrop-blur supports-[backdrop-filter]:bg-black/20",
       className
     )}>
       <h3 className="text-xl font-semibold text-themewhite mb-4">{title}</h3>
@@ -87,7 +87,7 @@ export const TrainingMetrics = ({ title, metrics, className }: TrainingMetricsPr
             <h4 className={`font-medium mb-2 text-${metric.color}`}>{metric.label}</h4>
             <p className="text-2xl font-bold text-themewhite">{metric.value}</p>
             {metric.trend && (
-              <div className="h-[100px] mt-4">
+              <div className="h-[100px] mt-2">
                 <Line data={metric.trend} options={chartOptions} />
               </div>
             )}

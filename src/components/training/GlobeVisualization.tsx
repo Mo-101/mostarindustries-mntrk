@@ -48,7 +48,7 @@ export const GlobeVisualization = ({ className }: GlobeVisualizationProps) => {
     <div
       id="cesiumContainer"
       className={cn(
-        "h-[400px] w-full bg-black rounded-lg", // Fixed height for better control
+        "top-60% bottom-60% right-0 left-0 bg-black",
         className
       )}
     />
