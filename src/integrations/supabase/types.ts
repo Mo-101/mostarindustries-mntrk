@@ -78,6 +78,36 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_history: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json | null
+          model: string
+          prompt: string
+          response: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          model: string
+          prompt: string
+          response: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          model?: string
+          prompt?: string
+          response?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       colonies: {
         Row: {
           colony_name: string
