@@ -401,6 +401,77 @@ export type Database = {
         }
         Relationships: []
       }
+      llm_models: {
+        Row: {
+          base_url: string
+          created_at: string
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          model_type: Database["public"]["Enums"]["llm_model_type"]
+          name: string
+        }
+        Insert: {
+          base_url: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          model_type: Database["public"]["Enums"]["llm_model_type"]
+          name: string
+        }
+        Update: {
+          base_url?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          model_type?: Database["public"]["Enums"]["llm_model_type"]
+          name?: string
+        }
+        Relationships: []
+      }
+      llm_responses: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json | null
+          model_id: string | null
+          prompt: string
+          response: string | null
+          response_time: number | null
+          tokens_used: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          model_id?: string | null
+          prompt: string
+          response?: string | null
+          response_time?: number | null
+          tokens_used?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          model_id?: string | null
+          prompt?: string
+          response?: string | null
+          response_time?: number | null
+          tokens_used?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "llm_responses_model_id_fkey"
+            columns: ["model_id"]
+            isOneToOne: false
+            referencedRelation: "llm_models"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mastomys_location_data: {
         Row: {
           country_country: string | null
@@ -1051,7 +1122,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      llm_model_type: "chat" | "completion" | "embedding"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -1,100 +1,129 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
+
+const LLM_BASE_URL = "http://192.168.0.102:1234";
+const LLM_API_KEY = "sk-330b8cd8f8b54871b589c358a00f5e03";
 
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { 
-      status: 204, 
-      headers: corsHeaders 
-    });
+    return new Response(null, { headers: corsHeaders });
   }
 
   try {
     console.log('Request received:', req.method);
+    const { type, prompt, model = "default" } = await req.json();
     
-    if (req.method !== 'POST') {
-      throw new Error(`HTTP method ${req.method} not allowed`);
+    let endpoint;
+    switch (type) {
+      case 'chat':
+        endpoint = '/v1/chat/completions';
+        break;
+      case 'completion':
+        endpoint = '/v1/completions';
+        break;
+      case 'embedding':
+        endpoint = '/v1/embeddings';
+        break;
+      case 'models':
+        endpoint = '/v1/models';
+        break;
+      default:
+        throw new Error('Invalid request type');
     }
 
-    const requestData = await req.json();
-    console.log('Request data:', requestData);
-
-    const { query, type } = requestData;
-
-    if (!query || !type) {
-      throw new Error('Query and type are required fields');
-    }
-
-    const deepseekApiKey = Deno.env.get('DEEPSEEK_API_KEY');
-    if (!deepseekApiKey) {
-      throw new Error('DeepSeek API key not configured');
-    }
-
-    console.log('Making request to DeepSeek API...');
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+    console.log(`Making request to ${LLM_BASE_URL}${endpoint}`);
+    
+    const startTime = Date.now();
+    
+    const response = await fetch(`${LLM_BASE_URL}${endpoint}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${deepseekApiKey}`,
+        'Authorization': `Bearer ${LLM_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: "deepseek-chat",
-        messages: [
-          {
-            role: "system",
-            content: type === 'analysis' 
-              ? "You are an expert in analyzing Mastomys patterns and behavior. Provide detailed scientific analysis."
-              : type === 'prediction'
-              ? "You are an expert in predicting Mastomys movement patterns based on historical data. Provide evidence-based predictions."
-              : "You are a helpful assistant for the Mastomys tracking system. Provide clear and accurate information."
-          },
-          {
-            role: "user",
-            content: query
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 1000,
-        stream: false
+      body: type === 'models' ? null : JSON.stringify({
+        model: model,
+        messages: type === 'chat' ? [
+          { role: "user", content: prompt }
+        ] : undefined,
+        prompt: type !== 'chat' ? prompt : undefined,
+        input: type === 'embedding' ? prompt : undefined,
       }),
     });
 
-    console.log('DeepSeek API response status:', response.status);
-
     if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      console.error('DeepSeek API error:', errorData);
-      throw new Error(`DeepSeek API error: ${response.status} ${response.statusText}`);
+      const errorData = await response.text();
+      console.error('LLM API error:', errorData);
+      throw new Error(`LLM API error: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log('DeepSeek API response data:', data);
+    const responseTime = (Date.now() - startTime) / 1000; // Convert to seconds
 
-    if (!data.choices?.[0]?.message?.content) {
-      throw new Error('Invalid response format from DeepSeek API');
+    // Store response in database if it's not a models request
+    if (type !== 'models') {
+      const { supabase } = await import('https://esm.sh/@supabase/supabase-js@2');
+      const supabaseClient = supabase.createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+      );
+
+      // Get model ID from the models table or create if it doesn't exist
+      const { data: modelData } = await supabaseClient
+        .from('llm_models')
+        .select('id')
+        .eq('name', model)
+        .eq('base_url', LLM_BASE_URL)
+        .single();
+
+      let modelId;
+      if (!modelData) {
+        const { data: newModel } = await supabaseClient
+          .from('llm_models')
+          .insert({
+            name: model,
+            model_type: type,
+            base_url: LLM_BASE_URL,
+          })
+          .select('id')
+          .single();
+        modelId = newModel?.id;
+      } else {
+        modelId = modelData.id;
+      }
+
+      // Store the response
+      await supabaseClient
+        .from('llm_responses')
+        .insert({
+          model_id: modelId,
+          prompt: prompt,
+          response: JSON.stringify(data),
+          response_time: responseTime,
+          metadata: {
+            type: type,
+            timestamp: new Date().toISOString(),
+          },
+        });
     }
 
     return new Response(
-      JSON.stringify({ result: data.choices[0].message.content }),
+      JSON.stringify({ result: data }),
       { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        },
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200 
       }
     );
 
   } catch (error) {
-    console.error('Error in edge function:', error);
-    
+    console.error('Error in deepseek-process function:', error);
     return new Response(
       JSON.stringify({ 
         error: error.message || 'An unexpected error occurred',
