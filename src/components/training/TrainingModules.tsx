@@ -1,8 +1,12 @@
-import { Row, Col } from 'react-bootstrap'; // Removed Container, as it's not a valid export
-import TrainingModules from './TrainingModules'; // Removed .tsx extension
-import ResourceCard from '../ui/card'; // Updated import path
-import GlobeVisualization from './GlobeVisualization'; // Removed .tsx extension
-import GradientText from '../../blocks/TextAnimations/GradientText'; // Removed .jsx extension
+import { Row, Col, Container, Button, Card } from 'react-bootstrap';
+import TrainingMetrics from './TrainingMetrics';
+import ResourceCard from '../ui/card';
+import GlobeVisualization from './GlobeVisualization';
+import GradientText from '../../blocks/TextAnimations/GradientText';
+import TrainingModule from './TrainingModule';
+
+
+
 
 const App = () => {
   if (typeof window === 'undefined') {
@@ -12,7 +16,7 @@ const App = () => {
   try {
     return (
       <div>
-        <Training /> // Use the Training component here
+        <Training/>
       </div>
     );
   } catch (error) {
@@ -159,7 +163,7 @@ const Training = () => {
                 padding: '20px',
               }}
             >
-              <ResourceCard />
+              <ResourceCard children={''} />
             </Card>
           </Col>
           <Col md={8}>
@@ -181,4 +185,4 @@ const Training = () => {
 };
 
 
-export default TrainingModules;
+export default App;
