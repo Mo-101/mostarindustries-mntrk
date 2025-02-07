@@ -9,494 +9,976 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      api_training_status: {
+      adaptive_learning_configs: {
+        Row: {
+          config_name: string
+          created_at: string | null
+          id: number
+          parameters: Json
+          updated_at: string | null
+        }
+        Insert: {
+          config_name: string
+          created_at?: string | null
+          id?: number
+          parameters: Json
+          updated_at?: string | null
+        }
+        Update: {
+          config_name?: string
+          created_at?: string | null
+          id?: number
+          parameters?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      anomaly_detections: {
+        Row: {
+          anomaly_type: string
+          data_source: string
+          details: Json
+          detected_at: string | null
+          id: number
+        }
+        Insert: {
+          anomaly_type: string
+          data_source: string
+          details: Json
+          detected_at?: string | null
+          id?: number
+        }
+        Update: {
+          anomaly_type?: string
+          data_source?: string
+          details?: Json
+          detected_at?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
+      cache_configs: {
+        Row: {
+          cache_key: string
+          cache_value: Json
+          expires_at: string | null
+          id: number
+        }
+        Insert: {
+          cache_key: string
+          cache_value: Json
+          expires_at?: string | null
+          id?: number
+        }
+        Update: {
+          cache_key?: string
+          cache_value?: Json
+          expires_at?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
+      colonies: {
+        Row: {
+          colony_name: string
+          created_at: string | null
+          id: number
+          location: Json
+        }
+        Insert: {
+          colony_name: string
+          created_at?: string | null
+          id?: number
+          location: Json
+        }
+        Update: {
+          colony_name?: string
+          created_at?: string | null
+          id?: number
+          location?: Json
+        }
+        Relationships: []
+      }
+      colony_diseases: {
+        Row: {
+          colony_id: number
+          detected_at: string | null
+          disease_id: number
+          id: number
+          severity: string | null
+        }
+        Insert: {
+          colony_id: number
+          detected_at?: string | null
+          disease_id: number
+          id?: number
+          severity?: string | null
+        }
+        Update: {
+          colony_id?: number
+          detected_at?: string | null
+          disease_id?: number
+          id?: number
+          severity?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "colony_diseases_colony_id_fkey"
+            columns: ["colony_id"]
+            isOneToOne: false
+            referencedRelation: "colonies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "colony_diseases_disease_id_fkey"
+            columns: ["disease_id"]
+            isOneToOne: false
+            referencedRelation: "diseases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      context_aware_predictions: {
+        Row: {
+          id: number
+          predicted_at: string | null
+          predicted_value: string
+          prediction_context: Json
+        }
+        Insert: {
+          id?: number
+          predicted_at?: string | null
+          predicted_value: string
+          prediction_context: Json
+        }
+        Update: {
+          id?: number
+          predicted_at?: string | null
+          predicted_value?: string
+          prediction_context?: Json
+        }
+        Relationships: []
+      }
+      data_augmentation: {
+        Row: {
+          augmentation_method: string
+          augmented_data: Json
+          id: number
+          original_data_id: number
+        }
+        Insert: {
+          augmentation_method: string
+          augmented_data: Json
+          id?: number
+          original_data_id: number
+        }
+        Update: {
+          augmentation_method?: string
+          augmented_data?: Json
+          id?: number
+          original_data_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "data_augmentation_original_data_id_fkey"
+            columns: ["original_data_id"]
+            isOneToOne: false
+            referencedRelation: "environmental_data"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      data_quality_reports: {
+        Row: {
+          generated_at: string | null
+          id: number
+          report_details: Json
+        }
+        Insert: {
+          generated_at?: string | null
+          id?: number
+          report_details: Json
+        }
+        Update: {
+          generated_at?: string | null
+          id?: number
+          report_details?: Json
+        }
+        Relationships: []
+      }
+      data_transformations: {
+        Row: {
+          applied_at: string | null
+          id: number
+          transformation_details: Json
+          transformation_name: string
+        }
+        Insert: {
+          applied_at?: string | null
+          id?: number
+          transformation_details: Json
+          transformation_name: string
+        }
+        Update: {
+          applied_at?: string | null
+          id?: number
+          transformation_details?: Json
+          transformation_name?: string
+        }
+        Relationships: []
+      }
+      detection_patterns: {
+        Row: {
+          confidence: number
+          created_at: string | null
+          detection_date: string
+          id: number
+          location: Json
+        }
+        Insert: {
+          confidence: number
+          created_at?: string | null
+          detection_date: string
+          id?: number
+          location: Json
+        }
+        Update: {
+          confidence?: number
+          created_at?: string | null
+          detection_date?: string
+          id?: number
+          location?: Json
+        }
+        Relationships: []
+      }
+      diseases: {
+        Row: {
+          description: string | null
+          disease_name: string
+          id: number
+          severity: string | null
+        }
+        Insert: {
+          description?: string | null
+          disease_name: string
+          id?: number
+          severity?: string | null
+        }
+        Update: {
+          description?: string | null
+          disease_name?: string
+          id?: number
+          severity?: string | null
+        }
+        Relationships: []
+      }
+      environmental_data: {
+        Row: {
+          data_source: string
+          data_value: Json
+          id: number
+          recorded_at: string | null
+        }
+        Insert: {
+          data_source: string
+          data_value: Json
+          id?: number
+          recorded_at?: string | null
+        }
+        Update: {
+          data_source?: string
+          data_value?: Json
+          id?: number
+          recorded_at?: string | null
+        }
+        Relationships: []
+      }
+      habitat_predictions: {
+        Row: {
+          habitat_details: Json
+          id: number
+          predicted_at: string | null
+          prediction_value: string
+        }
+        Insert: {
+          habitat_details: Json
+          id?: number
+          predicted_at?: string | null
+          prediction_value: string
+        }
+        Update: {
+          habitat_details?: Json
+          id?: number
+          predicted_at?: string | null
+          prediction_value?: string
+        }
+        Relationships: []
+      }
+      knowledge_base: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: number
+          tags: string[] | null
+          title: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: number
+          tags?: string[] | null
+          title: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: number
+          tags?: string[] | null
+          title?: string
+        }
+        Relationships: []
+      }
+      lassa_fever_data: {
+        Row: {
+          address_lga: string | null
+          address_state: string | null
+          address_ward: string | null
+          city: string | null
+          id: number
+          latitude: string | null
+          longitude: string | null
+          street: string | null
+        }
+        Insert: {
+          address_lga?: string | null
+          address_state?: string | null
+          address_ward?: string | null
+          city?: string | null
+          id: number
+          latitude?: string | null
+          longitude?: string | null
+          street?: string | null
+        }
+        Update: {
+          address_lga?: string | null
+          address_state?: string | null
+          address_ward?: string | null
+          city?: string | null
+          id?: number
+          latitude?: string | null
+          longitude?: string | null
+          street?: string | null
+        }
+        Relationships: []
+      }
+      mastomys_location_data: {
+        Row: {
+          country_country: string | null
+          id: number
+          id_id: number | null
+          latitude: number | null
+          locality_community: string | null
+          location: string | null
+          longitude: number | null
+          state_province: string | null
+        }
+        Insert: {
+          country_country?: string | null
+          id: number
+          id_id?: number | null
+          latitude?: number | null
+          locality_community?: string | null
+          location?: string | null
+          longitude?: number | null
+          state_province?: string | null
+        }
+        Update: {
+          country_country?: string | null
+          id?: number
+          id_id?: number | null
+          latitude?: number | null
+          locality_community?: string | null
+          location?: string | null
+          longitude?: number | null
+          state_province?: string | null
+        }
+        Relationships: []
+      }
+      model_datasets: {
+        Row: {
+          data_format: string
+          dataset_name: string
+          description: string | null
+          id: number
+        }
+        Insert: {
+          data_format: string
+          dataset_name: string
+          description?: string | null
+          id?: number
+        }
+        Update: {
+          data_format?: string
+          dataset_name?: string
+          description?: string | null
+          id?: number
+        }
+        Relationships: []
+      }
+      model_features: {
+        Row: {
+          data_type: string
+          description: string | null
+          feature_name: string
+          id: number
+        }
+        Insert: {
+          data_type: string
+          description?: string | null
+          feature_name: string
+          id?: number
+        }
+        Update: {
+          data_type?: string
+          description?: string | null
+          feature_name?: string
+          id?: number
+        }
+        Relationships: []
+      }
+      models: {
+        Row: {
+          description: string | null
+          id: number
+          model_name: string
+          version: string
+        }
+        Insert: {
+          description?: string | null
+          id?: number
+          model_name: string
+          version: string
+        }
+        Update: {
+          description?: string | null
+          id?: number
+          model_name?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      module_progress: {
         Row: {
           completed_at: string | null
           created_at: string | null
           id: string
-          last_validation_date: string | null
-          model_name: string
+          last_activity_at: string | null
+          module_id: string | null
           progress: number | null
+          session_id: string | null
           started_at: string | null
-          status: Database["public"]["Enums"]["api_status"]
-          training_epochs: number | null
-          training_metrics: Json | null
+          status: string | null
           updated_at: string | null
-          validation_accuracy: number | null
+          user_id: string | null
         }
         Insert: {
           completed_at?: string | null
           created_at?: string | null
           id?: string
-          last_validation_date?: string | null
-          model_name: string
+          last_activity_at?: string | null
+          module_id?: string | null
           progress?: number | null
+          session_id?: string | null
           started_at?: string | null
-          status?: Database["public"]["Enums"]["api_status"]
-          training_epochs?: number | null
-          training_metrics?: Json | null
+          status?: string | null
           updated_at?: string | null
-          validation_accuracy?: number | null
+          user_id?: string | null
         }
         Update: {
           completed_at?: string | null
           created_at?: string | null
           id?: string
-          last_validation_date?: string | null
-          model_name?: string
+          last_activity_at?: string | null
+          module_id?: string | null
           progress?: number | null
+          session_id?: string | null
           started_at?: string | null
-          status?: Database["public"]["Enums"]["api_status"]
-          training_epochs?: number | null
-          training_metrics?: Json | null
-          updated_at?: string | null
-          validation_accuracy?: number | null
-        }
-        Relationships: []
-      }
-      backtesting_results: {
-        Row: {
-          created_at: string | null
-          end_date: string
-          id: string
-          losing_trades: number
-          market_type: Database["public"]["Enums"]["market_type"]
-          max_drawdown: number
-          profit_factor: number
-          sharpe_ratio: number
-          start_date: string
-          strategy_name: string
-          symbol: string
-          total_trades: number
-          updated_at: string | null
-          winning_trades: number
-        }
-        Insert: {
-          created_at?: string | null
-          end_date: string
-          id?: string
-          losing_trades: number
-          market_type: Database["public"]["Enums"]["market_type"]
-          max_drawdown: number
-          profit_factor: number
-          sharpe_ratio: number
-          start_date: string
-          strategy_name: string
-          symbol: string
-          total_trades: number
-          updated_at?: string | null
-          winning_trades: number
-        }
-        Update: {
-          created_at?: string | null
-          end_date?: string
-          id?: string
-          losing_trades?: number
-          market_type?: Database["public"]["Enums"]["market_type"]
-          max_drawdown?: number
-          profit_factor?: number
-          sharpe_ratio?: number
-          start_date?: string
-          strategy_name?: string
-          symbol?: string
-          total_trades?: number
-          updated_at?: string | null
-          winning_trades?: number
-        }
-        Relationships: []
-      }
-      historical_prices: {
-        Row: {
-          close: number
-          created_at: string | null
-          high: number
-          id: string
-          low: number
-          open: number
-          symbol: string
-          timeframe: Database["public"]["Enums"]["timeframe"]
-          timestamp: string
-          volume: number
-        }
-        Insert: {
-          close: number
-          created_at?: string | null
-          high: number
-          id?: string
-          low: number
-          open: number
-          symbol: string
-          timeframe: Database["public"]["Enums"]["timeframe"]
-          timestamp: string
-          volume: number
-        }
-        Update: {
-          close?: number
-          created_at?: string | null
-          high?: number
-          id?: string
-          low?: number
-          open?: number
-          symbol?: string
-          timeframe?: Database["public"]["Enums"]["timeframe"]
-          timestamp?: string
-          volume?: number
-        }
-        Relationships: []
-      }
-      market_conditions: {
-        Row: {
-          condition: Database["public"]["Enums"]["market_condition"]
-          confidence: number
-          created_at: string | null
-          detected_at: string
-          id: string
-          symbol: string
-        }
-        Insert: {
-          condition: Database["public"]["Enums"]["market_condition"]
-          confidence: number
-          created_at?: string | null
-          detected_at: string
-          id?: string
-          symbol: string
-        }
-        Update: {
-          condition?: Database["public"]["Enums"]["market_condition"]
-          confidence?: number
-          created_at?: string | null
-          detected_at?: string
-          id?: string
-          symbol?: string
-        }
-        Relationships: []
-      }
-      market_stats: {
-        Row: {
-          daily_pnl: number
-          id: string
-          market_sentiment: number
-          open_positions: number
-          portfolio_value: number
-          symbol: string
-          updated_at: string | null
-          win_rate: number
-        }
-        Insert: {
-          daily_pnl: number
-          id?: string
-          market_sentiment: number
-          open_positions: number
-          portfolio_value: number
-          symbol: string
-          updated_at?: string | null
-          win_rate: number
-        }
-        Update: {
-          daily_pnl?: number
-          id?: string
-          market_sentiment?: number
-          open_positions?: number
-          portfolio_value?: number
-          symbol?: string
-          updated_at?: string | null
-          win_rate?: number
-        }
-        Relationships: []
-      }
-      portfolio_risk_metrics: {
-        Row: {
-          correlation_score: number
-          created_at: string | null
-          daily_drawdown: number
-          free_margin: number
-          id: string
-          margin_level: number
-          max_drawdown: number
-          risk_per_trade: number
-          total_equity: number
-          updated_at: string | null
-          used_margin: number
-          user_id: string | null
-        }
-        Insert: {
-          correlation_score: number
-          created_at?: string | null
-          daily_drawdown: number
-          free_margin: number
-          id?: string
-          margin_level: number
-          max_drawdown: number
-          risk_per_trade: number
-          total_equity: number
-          updated_at?: string | null
-          used_margin: number
-          user_id?: string | null
-        }
-        Update: {
-          correlation_score?: number
-          created_at?: string | null
-          daily_drawdown?: number
-          free_margin?: number
-          id?: string
-          margin_level?: number
-          max_drawdown?: number
-          risk_per_trade?: number
-          total_equity?: number
-          updated_at?: string | null
-          used_margin?: number
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      secrets: {
-        Row: {
-          created_at: string | null
-          id: string
-          name: string
-          updated_at: string | null
-          value: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          name: string
-          updated_at?: string | null
-          value: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          name?: string
-          updated_at?: string | null
-          value?: string
-        }
-        Relationships: []
-      }
-      signals: {
-        Row: {
-          created_at: string | null
-          entry_price: number
-          id: string
-          market_type: Database["public"]["Enums"]["market_type"]
-          signal_type: string
-          stop_loss: number | null
-          symbol: string
-          take_profit: number | null
-          updated_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          entry_price: number
-          id?: string
-          market_type: Database["public"]["Enums"]["market_type"]
-          signal_type: string
-          stop_loss?: number | null
-          symbol: string
-          take_profit?: number | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          entry_price?: number
-          id?: string
-          market_type?: Database["public"]["Enums"]["market_type"]
-          signal_type?: string
-          stop_loss?: number | null
-          symbol?: string
-          take_profit?: number | null
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      trade_setups: {
-        Row: {
-          created_at: string | null
-          entry_price: number
-          expected_profit: number | null
-          id: string
-          leverage: number
-          pair_id: string | null
-          position_size: number
-          stop_loss: number
-          take_profit: number
-          updated_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          entry_price: number
-          expected_profit?: number | null
-          id?: string
-          leverage: number
-          pair_id?: string | null
-          position_size: number
-          stop_loss: number
-          take_profit: number
-          updated_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          entry_price?: number
-          expected_profit?: number | null
-          id?: string
-          leverage?: number
-          pair_id?: string | null
-          position_size?: number
-          stop_loss?: number
-          take_profit?: number
+          status?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "trade_setups_pair_id_fkey"
-            columns: ["pair_id"]
+            foreignKeyName: "module_progress_module_id_fkey"
+            columns: ["module_id"]
             isOneToOne: false
-            referencedRelation: "trading_pairs"
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "module_progress_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
             referencedColumns: ["id"]
           },
         ]
       }
-      trading_pairs: {
+      movement_predictions: {
         Row: {
-          base_asset: string
-          created_at: string | null
-          id: string
-          is_active: boolean | null
-          max_leverage: number | null
-          min_leverage: number | null
-          quote_asset: string
-          symbol: string
+          id: number
+          movement_details: Json
+          predicted_at: string | null
+          predicted_value: string
         }
         Insert: {
-          base_asset: string
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          max_leverage?: number | null
-          min_leverage?: number | null
-          quote_asset: string
-          symbol: string
+          id?: number
+          movement_details: Json
+          predicted_at?: string | null
+          predicted_value: string
         }
         Update: {
-          base_asset?: string
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          max_leverage?: number | null
-          min_leverage?: number | null
-          quote_asset?: string
-          symbol?: string
+          id?: number
+          movement_details?: Json
+          predicted_at?: string | null
+          predicted_value?: string
         }
         Relationships: []
       }
-      trading_signals: {
+      outbreak_predictions: {
         Row: {
-          confidence: number
+          id: number
+          predicted_at: string | null
+          predicted_outbreak: Json
+          region: string
+        }
+        Insert: {
+          id?: number
+          predicted_at?: string | null
+          predicted_outbreak: Json
+          region: string
+        }
+        Update: {
+          id?: number
+          predicted_at?: string | null
+          predicted_outbreak?: Json
+          region?: string
+        }
+        Relationships: []
+      }
+      points: {
+        Row: {
+          id: number
+          point_details: Json
+        }
+        Insert: {
+          id?: number
+          point_details: Json
+        }
+        Update: {
+          id?: number
+          point_details?: Json
+        }
+        Relationships: []
+      }
+      predictions: {
+        Row: {
+          id: number
+          predicted_at: string | null
+          predicted_value: string
+          prediction_details: Json
+        }
+        Insert: {
+          id?: number
+          predicted_at?: string | null
+          predicted_value: string
+          prediction_details: Json
+        }
+        Update: {
+          id?: number
+          predicted_at?: string | null
+          predicted_value?: string
+          prediction_details?: Json
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
           created_at: string | null
-          entry_price: number
+          id: number
+          profile_data: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          profile_data: Json
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          profile_data?: Json
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rate_limit_configs: {
+        Row: {
+          config_name: string
+          id: number
+          limit_value: number
+        }
+        Insert: {
+          config_name: string
+          id?: number
+          limit_value: number
+        }
+        Update: {
+          config_name?: string
+          id?: number
+          limit_value?: number
+        }
+        Relationships: []
+      }
+      remote_sensing_data: {
+        Row: {
+          data_source: string
+          id: number
+          recorded_at: string | null
+          sensing_data: Json
+        }
+        Insert: {
+          data_source: string
+          id?: number
+          recorded_at?: string | null
+          sensing_data: Json
+        }
+        Update: {
+          data_source?: string
+          id?: number
+          recorded_at?: string | null
+          sensing_data?: Json
+        }
+        Relationships: []
+      }
+      risk_assessments: {
+        Row: {
+          assessment_details: Json
+          id: number
+          risk_level: string
+        }
+        Insert: {
+          assessment_details: Json
+          id?: number
+          risk_level: string
+        }
+        Update: {
+          assessment_details?: Json
+          id?: number
+          risk_level?: string
+        }
+        Relationships: []
+      }
+      secrets: {
+        Row: {
+          id: number
+          secret_key: string
+          secret_value: string
+        }
+        Insert: {
+          id?: number
+          secret_key: string
+          secret_value: string
+        }
+        Update: {
+          id?: number
+          secret_key?: string
+          secret_value?: string
+        }
+        Relationships: []
+      }
+      sightings: {
+        Row: {
+          id: number
+          recorded_at: string | null
+          sighting_details: Json
+        }
+        Insert: {
+          id?: number
+          recorded_at?: string | null
+          sighting_details: Json
+        }
+        Update: {
+          id?: number
+          recorded_at?: string | null
+          sighting_details?: Json
+        }
+        Relationships: []
+      }
+      training_feedback: {
+        Row: {
+          created_at: string | null
+          feedback_data: Json
+          id: number
+          prediction_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          feedback_data: Json
+          id?: number
+          prediction_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          feedback_data?: Json
+          id?: number
+          prediction_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_feedback_prediction_id_fkey"
+            columns: ["prediction_id"]
+            isOneToOne: false
+            referencedRelation: "predictions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_metrics: {
+        Row: {
+          id: number
+          metric_name: string
+          metric_value: Json
+          recorded_at: string | null
+        }
+        Insert: {
+          id?: number
+          metric_name: string
+          metric_value: Json
+          recorded_at?: string | null
+        }
+        Update: {
+          id?: number
+          metric_name?: string
+          metric_value?: Json
+          recorded_at?: string | null
+        }
+        Relationships: []
+      }
+      training_modules: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          duration: number | null
           id: string
-          market_type: Database["public"]["Enums"]["market_type"]
-          potential_profit: number | null
-          signal: Database["public"]["Enums"]["signal_type"]
-          stop_loss: number
-          symbol: string
-          take_profit: number
+          order_index: number | null
+          prerequisites: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          duration?: number | null
+          id?: string
+          order_index?: number | null
+          prerequisites?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          duration?: number | null
+          id?: string
+          order_index?: number | null
+          prerequisites?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      training_pipeline_configs: {
+        Row: {
+          config_name: string
+          created_at: string | null
+          id: number
+          parameters: Json
+          updated_at: string | null
+        }
+        Insert: {
+          config_name: string
+          created_at?: string | null
+          id?: number
+          parameters: Json
+          updated_at?: string | null
+        }
+        Update: {
+          config_name?: string
+          created_at?: string | null
+          id?: number
+          parameters?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      training_sessions: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          current_module: string | null
+          id: string
+          progress: number | null
+          started_at: string | null
+          status: string | null
           updated_at: string | null
           user_id: string | null
         }
         Insert: {
-          confidence: number
+          completed_at?: string | null
           created_at?: string | null
-          entry_price: number
+          current_module?: string | null
           id?: string
-          market_type?: Database["public"]["Enums"]["market_type"]
-          potential_profit?: number | null
-          signal: Database["public"]["Enums"]["signal_type"]
-          stop_loss: number
-          symbol: string
-          take_profit: number
+          progress?: number | null
+          started_at?: string | null
+          status?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
         Update: {
-          confidence?: number
+          completed_at?: string | null
           created_at?: string | null
-          entry_price?: number
+          current_module?: string | null
           id?: string
-          market_type?: Database["public"]["Enums"]["market_type"]
-          potential_profit?: number | null
-          signal?: Database["public"]["Enums"]["signal_type"]
-          stop_loss?: number
-          symbol?: string
-          take_profit?: number
+          progress?: number | null
+          started_at?: string | null
+          status?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
         Relationships: []
       }
-      training_datasets: {
+      vision_analysis: {
         Row: {
-          created_at: string | null
-          dataset_type: string
-          features: Json
-          id: string
-          labels: Json
-          model_name: string
-          updated_at: string | null
-          validation_split: number | null
+          analysis_details: Json
+          analyzed_at: string | null
+          id: number
         }
         Insert: {
-          created_at?: string | null
-          dataset_type: string
-          features: Json
-          id?: string
-          labels: Json
-          model_name: string
-          updated_at?: string | null
-          validation_split?: number | null
+          analysis_details: Json
+          analyzed_at?: string | null
+          id?: number
         }
         Update: {
-          created_at?: string | null
-          dataset_type?: string
-          features?: Json
-          id?: string
-          labels?: Json
-          model_name?: string
-          updated_at?: string | null
-          validation_split?: number | null
+          analysis_details?: Json
+          analyzed_at?: string | null
+          id?: number
         }
         Relationships: []
       }
-      user_preferences: {
+      weather_data: {
         Row: {
+          cloud_cover_percent: number | null
           created_at: string | null
-          default_market: Database["public"]["Enums"]["market_type"] | null
-          id: string
-          preferred_symbols: Json | null
+          description: string | null
+          dew_point_celsius: number | null
+          feels_like_celsius: number | null
+          id: number
+          latitude: number
+          location: Json
+          location_point: unknown
+          longitude: number
+          max_temp_celsius: number | null
+          min_temp_celsius: number | null
+          precipitation_mm: number | null
+          precipitation_probability: number | null
+          pressure_hpa: number | null
+          relative_humidity_percent: number | null
+          sea_level_pressure_hpa: number | null
+          soil_moisture_percent: number | null
+          soil_temperature_celsius: number | null
+          source: string | null
+          station_id: string
+          temperature_celsius: number | null
+          timestamp: string
           updated_at: string | null
-          user_id: string
+          uv_index: number | null
+          visibility_meters: number | null
+          weather_conditions: string | null
+          weather_icon: string | null
+          wind_direction_degrees: number | null
+          wind_gust_ms: number | null
+          wind_speed_ms: number | null
         }
         Insert: {
+          cloud_cover_percent?: number | null
           created_at?: string | null
-          default_market?: Database["public"]["Enums"]["market_type"] | null
-          id?: string
-          preferred_symbols?: Json | null
+          description?: string | null
+          dew_point_celsius?: number | null
+          feels_like_celsius?: number | null
+          id?: number
+          latitude: number
+          location: Json
+          location_point: unknown
+          longitude: number
+          max_temp_celsius?: number | null
+          min_temp_celsius?: number | null
+          precipitation_mm?: number | null
+          precipitation_probability?: number | null
+          pressure_hpa?: number | null
+          relative_humidity_percent?: number | null
+          sea_level_pressure_hpa?: number | null
+          soil_moisture_percent?: number | null
+          soil_temperature_celsius?: number | null
+          source?: string | null
+          station_id: string
+          temperature_celsius?: number | null
+          timestamp: string
           updated_at?: string | null
-          user_id: string
+          uv_index?: number | null
+          visibility_meters?: number | null
+          weather_conditions?: string | null
+          weather_icon?: string | null
+          wind_direction_degrees?: number | null
+          wind_gust_ms?: number | null
+          wind_speed_ms?: number | null
         }
         Update: {
+          cloud_cover_percent?: number | null
           created_at?: string | null
-          default_market?: Database["public"]["Enums"]["market_type"] | null
-          id?: string
-          preferred_symbols?: Json | null
+          description?: string | null
+          dew_point_celsius?: number | null
+          feels_like_celsius?: number | null
+          id?: number
+          latitude?: number
+          location?: Json
+          location_point?: unknown
+          longitude?: number
+          max_temp_celsius?: number | null
+          min_temp_celsius?: number | null
+          precipitation_mm?: number | null
+          precipitation_probability?: number | null
+          pressure_hpa?: number | null
+          relative_humidity_percent?: number | null
+          sea_level_pressure_hpa?: number | null
+          soil_moisture_percent?: number | null
+          soil_temperature_celsius?: number | null
+          source?: string | null
+          station_id?: string
+          temperature_celsius?: number | null
+          timestamp?: string
           updated_at?: string | null
-          user_id?: string
+          uv_index?: number | null
+          visibility_meters?: number | null
+          weather_conditions?: string | null
+          weather_icon?: string | null
+          wind_direction_degrees?: number | null
+          wind_gust_ms?: number | null
+          wind_speed_ms?: number | null
         }
         Relationships: []
       }
@@ -505,14 +987,41 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_anomalies_by_confidence: {
+        Args: {
+          p_min_confidence: number
+        }
+        Returns: {
+          anomaly_type: string
+          data_source: string
+          details: Json
+          detected_at: string | null
+          id: number
+        }[]
+      }
+      insert_movement_prediction: {
+        Args: {
+          p_movement_details: Json
+          p_predicted_value: string
+        }
+        Returns: undefined
+      }
+      start_training_process: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      update_weather: {
+        Args: {
+          p_station_id: string
+          p_temperature: number
+          p_humidity: number
+          p_weather_conditions: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      api_status: "training" | "ready" | "error"
-      market_condition: "trending" | "ranging" | "volatile"
-      market_type: "crypto" | "forex"
-      signal_type: "buy" | "sell" | "hold" | "neutral"
-      timeframe: "1m" | "5m" | "15m" | "30m" | "1h" | "4h" | "1d"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
