@@ -9,7 +9,128 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      module_progress: {
+        Row: {
+          completed_at: string | null
+          id: string
+          last_activity_at: string | null
+          module_id: string | null
+          progress: number | null
+          session_id: string | null
+          started_at: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          id?: string
+          last_activity_at?: string | null
+          module_id?: string | null
+          progress?: number | null
+          session_id?: string | null
+          started_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          id?: string
+          last_activity_at?: string | null
+          module_id?: string | null
+          progress?: number | null
+          session_id?: string | null
+          started_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "module_progress_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "module_progress_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "training_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_modules: {
+        Row: {
+          created_at: string | null
+          description: string
+          duration: number | null
+          id: string
+          order_index: number
+          prerequisites: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description: string
+          duration?: number | null
+          id?: string
+          order_index: number
+          prerequisites?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          duration?: number | null
+          id?: string
+          order_index?: number
+          prerequisites?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      training_sessions: {
+        Row: {
+          completed_at: string | null
+          current_module: string | null
+          id: string
+          progress: number | null
+          started_at: string | null
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          current_module?: string | null
+          id?: string
+          progress?: number | null
+          started_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          current_module?: string | null
+          id?: string
+          progress?: number | null
+          started_at?: string | null
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_sessions_current_module_fkey"
+            columns: ["current_module"]
+            isOneToOne: false
+            referencedRelation: "training_modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

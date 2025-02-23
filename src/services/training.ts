@@ -1,19 +1,12 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { TrainingModule, ModuleProgress, TrainingSession } from "@/types/training";
-
-// Type assertion to help TypeScript understand our table names
-const Tables = {
-  TRAINING_MODULES: 'training_modules',
-  TRAINING_SESSIONS: 'training_sessions',
-  MODULE_PROGRESS: 'module_progress'
-} as const;
+import type { TrainingModule, ModuleProgress, TrainingSession } from "@/types/training";
 
 export const trainingService = {
   // Fetch available training modules
   getModules: async (): Promise<TrainingModule[]> => {
     const { data, error } = await supabase
-      .from(Tables.TRAINING_MODULES)
+      .from('training_modules')
       .select('*')
       .order('order_index');
 
@@ -24,7 +17,7 @@ export const trainingService = {
   // Start a new training session
   startSession: async (): Promise<TrainingSession> => {
     const { data, error } = await supabase
-      .from(Tables.TRAINING_SESSIONS)
+      .from('training_sessions')
       .insert([{ 
         progress: 0,
         status: 'in_progress'
@@ -45,7 +38,7 @@ export const trainingService = {
     status: ModuleProgress['status']
   ): Promise<ModuleProgress> => {
     const { data, error } = await supabase
-      .from(Tables.MODULE_PROGRESS)
+      .from('module_progress')
       .upsert({
         module_id: moduleId,
         session_id: sessionId,
@@ -64,7 +57,7 @@ export const trainingService = {
   // Get progress for all modules in a session
   getSessionProgress: async (sessionId: string): Promise<ModuleProgress[]> => {
     const { data, error } = await supabase
-      .from(Tables.MODULE_PROGRESS)
+      .from('module_progress')
       .select('*')
       .eq('session_id', sessionId);
 
@@ -75,9 +68,9 @@ export const trainingService = {
   // Complete a training session
   completeSession: async (sessionId: string): Promise<TrainingSession> => {
     const { data, error } = await supabase
-      .from(Tables.TRAINING_SESSIONS)
+      .from('training_sessions')
       .update({ 
-        status: 'completed',
+        status: 'completed' as const,
         completed_at: new Date().toISOString(),
         progress: 100
       })
