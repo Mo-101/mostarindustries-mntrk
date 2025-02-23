@@ -24,8 +24,12 @@ export const useTraining = () => {
   });
 
   const updateProgress = useMutation({
-    mutationFn: ({ moduleId, sessionId, progress, status }) => 
-      trainingService.updateModuleProgress(moduleId, sessionId, progress, status),
+    mutationFn: ({ moduleId, sessionId, progress, status }: { 
+      moduleId: string; 
+      sessionId: string; 
+      progress: number; 
+      status: 'not_started' | 'in_progress' | 'completed' 
+    }) => trainingService.updateModuleProgress(moduleId, sessionId, progress, status),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['module-progress'] });
       toast.success('Progress updated');
