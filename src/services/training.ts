@@ -2,22 +2,29 @@
 import { supabase } from "@/integrations/supabase/client";
 import { TrainingModule, ModuleProgress, TrainingSession } from "@/types/training";
 
+// Type assertion to help TypeScript understand our table names
+const Tables = {
+  TRAINING_MODULES: 'training_modules',
+  TRAINING_SESSIONS: 'training_sessions',
+  MODULE_PROGRESS: 'module_progress'
+} as const;
+
 export const trainingService = {
   // Fetch available training modules
   getModules: async (): Promise<TrainingModule[]> => {
     const { data, error } = await supabase
-      .from('training_modules')
+      .from(Tables.TRAINING_MODULES)
       .select('*')
       .order('order_index');
 
     if (error) throw error;
-    return data;
+    return data || [];
   },
 
   // Start a new training session
   startSession: async (): Promise<TrainingSession> => {
     const { data, error } = await supabase
-      .from('training_sessions')
+      .from(Tables.TRAINING_SESSIONS)
       .insert([{ 
         progress: 0,
         status: 'in_progress'
@@ -26,6 +33,7 @@ export const trainingService = {
       .single();
 
     if (error) throw error;
+    if (!data) throw new Error('No data returned from insert');
     return data;
   },
 
@@ -37,7 +45,7 @@ export const trainingService = {
     status: ModuleProgress['status']
   ): Promise<ModuleProgress> => {
     const { data, error } = await supabase
-      .from('module_progress')
+      .from(Tables.MODULE_PROGRESS)
       .upsert({
         module_id: moduleId,
         session_id: sessionId,
@@ -49,24 +57,25 @@ export const trainingService = {
       .single();
 
     if (error) throw error;
+    if (!data) throw new Error('No data returned from upsert');
     return data;
   },
 
   // Get progress for all modules in a session
   getSessionProgress: async (sessionId: string): Promise<ModuleProgress[]> => {
     const { data, error } = await supabase
-      .from('module_progress')
+      .from(Tables.MODULE_PROGRESS)
       .select('*')
       .eq('session_id', sessionId);
 
     if (error) throw error;
-    return data;
+    return data || [];
   },
 
   // Complete a training session
   completeSession: async (sessionId: string): Promise<TrainingSession> => {
     const { data, error } = await supabase
-      .from('training_sessions')
+      .from(Tables.TRAINING_SESSIONS)
       .update({ 
         status: 'completed',
         completed_at: new Date().toISOString(),
@@ -77,6 +86,7 @@ export const trainingService = {
       .single();
 
     if (error) throw error;
+    if (!data) throw new Error('No data returned from update');
     return data;
   }
 };
