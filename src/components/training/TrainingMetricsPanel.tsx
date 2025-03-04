@@ -27,7 +27,14 @@ export function TrainingMetricsPanel() {
             <span className="text-xs text-green-400">+3.2%</span>
           </div>
         </div>
-        <Progress value={68} className="h-1.5 bg-[#0D1326]" indicatorColor="bg-green-500" />
+        <Progress 
+          value={68} 
+          className="h-1.5 bg-[#0D1326]" 
+          // Fix the indicator styling
+          style={{
+            "--progress-indicator-color": "#10B981" // green color
+          } as React.CSSProperties}
+        />
       </div>
 
       <div className="bg-[#1C2333] p-3 rounded-md">

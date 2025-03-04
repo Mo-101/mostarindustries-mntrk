@@ -48,7 +48,14 @@ export function TrainingControls() {
           <span className="text-sm">Progress:</span>
           <span className="text-xs">{progress}%</span>
         </div>
-        <Progress value={progress} className="h-1.5 bg-[#1C2333]" indicatorColor="bg-[#3B82F6]" />
+        <Progress 
+          value={progress} 
+          className="h-1.5 bg-[#1C2333]" 
+          // Fix the styling to use inline style instead of custom prop
+          style={{
+            "--progress-indicator-color": "#3B82F6" // blue color
+          } as React.CSSProperties}
+        />
         <div className="flex justify-between text-xs text-gray-400 mt-1">
           <span>Epoch: {epoch}/100</span>
         </div>

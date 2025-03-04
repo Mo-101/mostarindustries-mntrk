@@ -23,7 +23,11 @@ export function SystemMetricsPanel() {
           <Progress 
             value={metric.value} 
             className="h-1.5 bg-[#1C2333]" 
-            indicatorColor={`bg-${getColorForValue(metric.value)}`} 
+            // Fix: Use proper className-based styling instead of custom prop
+            // The Progress component might not be accepting an indicatorColor prop
+            style={{
+              "--progress-indicator-color": getColorClass(metric.value)
+            } as React.CSSProperties}
           />
         </div>
       ))}
@@ -31,8 +35,8 @@ export function SystemMetricsPanel() {
   );
 }
 
-function getColorForValue(value: number): string {
-  if (value < 50) return "[#3B82F6]";
-  if (value < 80) return "yellow-500";
-  return "red-500";
+function getColorClass(value: number): string {
+  if (value < 50) return "#3B82F6"; // blue
+  if (value < 80) return "#EAB308"; // yellow
+  return "#EF4444"; // red
 }
