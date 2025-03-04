@@ -1,18 +1,27 @@
 
-import { useState } from "react";
-import { BookOpen, Cpu, Database, Network, AreaChart, Gauge, Shield, CircleCheck } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { Progress } from "@/components/ui/progress";
-import { Label } from "@/components/ui/label";
 import { useIsMobile } from "@/components/ui/use-mobile";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { TrainingMap } from "@/components/training/TrainingMap";
 import { TrainingControls } from "@/components/training/TrainingControls";
 import { TrainingMetricsPanel } from "@/components/training/TrainingMetricsPanel";
 import { SystemMetricsPanel } from "@/components/training/SystemMetricsPanel";
 import { ApiStatusPanel } from "@/components/training/ApiStatusPanel";
 import { RiskAssessmentPanel } from "@/components/training/RiskAssessmentPanel";
+import {
+  BookOpen, 
+  Cpu, 
+  Database, 
+  Network, 
+  AreaChart, 
+  Gauge, 
+  Shield, 
+  CircleCheck
+} from "lucide-react";
 
 const Training = () => {
   const isMobile = useIsMobile();
@@ -83,14 +92,14 @@ const Training = () => {
                     <div className="text-xs text-gray-400">Accuracy</div>
                     <div className="text-xs font-mono">0.00%</div>
                   </div>
-                  <Progress value={0} className="h-1.5 bg-[#1C2333]" indicatorColor="bg-[#3B82F6]" />
+                  <Progress value={0} className="h-1.5 bg-[#1C2333]" style={{ "--progress-indicator-color": "#3B82F6" } as React.CSSProperties} />
                 </div>
                 <div className="col-span-2">
                   <div className="flex justify-between items-center mb-1">
                     <div className="text-xs text-gray-400">Loss</div>
                     <div className="text-xs font-mono">1.0000</div>
                   </div>
-                  <Progress value={100} className="h-1.5 bg-[#1C2333]" indicatorColor="bg-red-500" />
+                  <Progress value={100} className="h-1.5 bg-[#1C2333]" style={{ "--progress-indicator-color": "#EF4444" } as React.CSSProperties} />
                 </div>
                 <div className="col-span-2">
                   <div className="text-xs text-gray-400 mb-1">Performance Score</div>

@@ -51,7 +51,6 @@ export function TrainingControls() {
         <Progress 
           value={progress} 
           className="h-1.5 bg-[#1C2333]" 
-          // Fix the styling to use inline style instead of custom prop
           style={{
             "--progress-indicator-color": "#3B82F6" // blue color
           } as React.CSSProperties}

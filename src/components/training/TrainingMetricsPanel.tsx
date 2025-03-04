@@ -30,7 +30,6 @@ export function TrainingMetricsPanel() {
         <Progress 
           value={68} 
           className="h-1.5 bg-[#0D1326]" 
-          // Fix the indicator styling
           style={{
             "--progress-indicator-color": "#10B981" // green color
           } as React.CSSProperties}

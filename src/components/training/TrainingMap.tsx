@@ -1,67 +1,90 @@
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
+import { Viewer, Entity } from "resium";
+import { Cartesian3, Color } from "cesium";
+import { Scene, createWorldTerrainAsync, Cesium3DTileset, Cesium3DTileStyle, IonResource } from "@cesium/engine";
 
 export function TrainingMap() {
-  const mapRef = useRef<HTMLDivElement>(null);
+  const viewerRef = useRef<Viewer | null>(null);
 
   useEffect(() => {
-    // In a real implementation, this would initialize a map library
-    // For now, we'll just add a placeholder with a dark theme style
-    if (mapRef.current) {
-      const mapContainer = mapRef.current;
-      mapContainer.style.background = "linear-gradient(180deg, #0D1326 0%, #1A1F2C 100%)";
-      
-      // Add placeholder overlay for the map
-      const overlay = document.createElement("div");
-      overlay.className = "absolute inset-0 flex items-center justify-center";
-      overlay.innerHTML = `
-        <div class="text-center">
-          <div class="text-[#3B82F6] text-lg mb-2">Map Visualization</div>
-          <div class="text-gray-400 text-sm max-w-md">
-            Training data visualization would be displayed here using a mapping library.
-          </div>
-        </div>
-      `;
-      
-      // Create grid lines for map effect
-      const gridOverlay = document.createElement("div");
-      gridOverlay.className = "absolute inset-0 opacity-20";
-      gridOverlay.style.backgroundImage = "linear-gradient(#3B82F6 1px, transparent 1px), linear-gradient(90deg, #3B82F6 1px, transparent 1px)";
-      gridOverlay.style.backgroundSize = "50px 50px";
-      
-      mapContainer.appendChild(gridOverlay);
-      mapContainer.appendChild(overlay);
-      
-      // Add some sample "points" to simulate data on the map
-      for (let i = 0; i < 15; i++) {
-        const dot = document.createElement("div");
-        const size = Math.random() * 6 + 2;
-        dot.className = "absolute rounded-full";
-        dot.style.width = `${size}px`;
-        dot.style.height = `${size}px`;
-        dot.style.backgroundColor = Math.random() > 0.5 ? "#3B82F6" : "#10B981";
-        dot.style.left = `${Math.random() * 90 + 5}%`;
-        dot.style.top = `${Math.random() * 90 + 5}%`;
-        dot.style.opacity = `${Math.random() * 0.5 + 0.5}`;
-        mapContainer.appendChild(dot);
-      }
+    if (!viewerRef.current) return;
 
-      // Add a "path" to simulate a route or boundary
-      const path = document.createElement("div");
-      path.className = "absolute border border-[#3B82F6] opacity-50 rounded-lg";
-      path.style.width = "60%";
-      path.style.height = "40%";
-      path.style.left = "20%";
-      path.style.top = "30%";
-      path.style.borderWidth = "2px";
-      mapContainer.appendChild(path);
-    }
+    const viewer = viewerRef.current.cesiumElement;
+    if (!viewer) return;
+
+    // Enable lighting effects
+    viewer.scene.globe.enableLighting = true;
+    
+    // Set a dark space background
+    viewer.scene.backgroundColor = Color.fromCssColorString('#0D0F1C');
+    viewer.scene.globe.baseColor = Color.fromCssColorString('#081020');
+    
+    // Configure viewer settings
+    viewer.scene.skyAtmosphere.show = true;
+    viewer.scene.fog.enabled = true;
+    viewer.scene.fog.density = 0.0002;
+    viewer.scene.fog.screenSpaceErrorFactor = 4.0;
+    
+    // Add terrain
+    createWorldTerrainAsync()
+      .then(terrain => {
+        viewer.terrainProvider = terrain;
+      })
+      .catch(error => {
+        console.error("Error loading terrain:", error);
+      });
+
+    // Dynamic camera movement
+    let lastNow = Date.now();
+    viewer.clock.onTick.addEventListener(() => {
+      const now = Date.now();
+      const delta = (now - lastNow) / 1000;
+      lastNow = now;
+      
+      if (viewer.camera.pitch < -0.3) {
+        viewer.camera.rotateRight(0.05 * delta);
+      }
+    });
+
+    // Initial view
+    viewer.camera.flyTo({
+      destination: Cartesian3.fromDegrees(9.0765, 7.3986, 1500000),
+      orientation: {
+        heading: 0.0,
+        pitch: -0.5,
+        roll: 0.0
+      }
+    });
+
+    return () => {
+      if (viewer && !viewer.isDestroyed()) {
+        viewer.destroy();
+      }
+    };
   }, []);
 
   return (
-    <div 
-      ref={mapRef} 
-      className="w-full h-full relative rounded-md overflow-hidden border border-[#2A324B]"
-    />
+    <div className="w-full h-full bg-[#0D1326] relative overflow-hidden">
+      <Viewer
+        ref={viewerRef}
+        full
+        timeline={false}
+        animation={false}
+        baseLayerPicker={false}
+        homeButton={false}
+        navigationInstructionsInitiallyVisible={false}
+        navigationHelpButton={false}
+        sceneModePicker={false}
+        selectionIndicator={false}
+        infoBox={false}
+        geocoder={false}
+        className="cesium-viewer-dark"
+      >
+        {/* Data points could be added here as entities */}
+      </Viewer>
+      {/* Overlay gradient for better UI integration */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0D0F1C] to-transparent pointer-events-none" />
+    </div>
   );
 }
