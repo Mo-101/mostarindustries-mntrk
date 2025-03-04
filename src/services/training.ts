@@ -11,7 +11,7 @@ export const trainingService = {
       .order('order_index');
 
     if (error) throw error;
-    return data || [];
+    return (data || []) as TrainingModule[];
   },
 
   // Start a new training session
@@ -20,14 +20,19 @@ export const trainingService = {
       .from('training_sessions')
       .insert([{ 
         progress: 0,
-        status: 'in_progress'
+        status: 'in_progress' as const
       }])
       .select()
       .single();
 
     if (error) throw error;
     if (!data) throw new Error('No data returned from insert');
-    return data;
+    
+    // Use type assertion to safely convert the status field
+    return {
+      ...data,
+      status: data.status as 'in_progress' | 'completed' | 'paused'
+    } as TrainingSession;
   },
 
   // Update module progress
@@ -51,7 +56,12 @@ export const trainingService = {
 
     if (error) throw error;
     if (!data) throw new Error('No data returned from upsert');
-    return data;
+    
+    // Use type assertion to safely convert the status field
+    return {
+      ...data,
+      status: data.status as 'not_started' | 'in_progress' | 'completed'
+    } as ModuleProgress;
   },
 
   // Get progress for all modules in a session
@@ -62,7 +72,12 @@ export const trainingService = {
       .eq('session_id', sessionId);
 
     if (error) throw error;
-    return data || [];
+    
+    // Use map to ensure each item has the correct status type
+    return (data || []).map(item => ({
+      ...item,
+      status: item.status as 'not_started' | 'in_progress' | 'completed'
+    })) as ModuleProgress[];
   },
 
   // Complete a training session
@@ -80,6 +95,11 @@ export const trainingService = {
 
     if (error) throw error;
     if (!data) throw new Error('No data returned from update');
-    return data;
+    
+    // Use type assertion to safely convert the status field
+    return {
+      ...data,
+      status: data.status as 'in_progress' | 'completed' | 'paused'
+    } as TrainingSession;
   }
 };

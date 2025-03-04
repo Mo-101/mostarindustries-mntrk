@@ -9,6 +9,154 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ai_logs: {
+        Row: {
+          id: string
+          processing_time: number | null
+          prompt: string
+          response: string
+          timestamp: string | null
+        }
+        Insert: {
+          id?: string
+          processing_time?: number | null
+          prompt: string
+          response: string
+          timestamp?: string | null
+        }
+        Update: {
+          id?: string
+          processing_time?: number | null
+          prompt?: string
+          response?: string
+          timestamp?: string | null
+        }
+        Relationships: []
+      }
+      environmental_data: {
+        Row: {
+          created_at: string | null
+          humidity: number | null
+          id: number
+          location_id: number | null
+          rainfall: number | null
+          soil_moisture: number | null
+          temperature: number | null
+          timestamp: string
+          vegetation_index: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          humidity?: number | null
+          id?: number
+          location_id?: number | null
+          rainfall?: number | null
+          soil_moisture?: number | null
+          temperature?: number | null
+          timestamp: string
+          vegetation_index?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          humidity?: number | null
+          id?: number
+          location_id?: number | null
+          rainfall?: number | null
+          soil_moisture?: number | null
+          temperature?: number | null
+          timestamp?: string
+          vegetation_index?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "environmental_data_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      locations: {
+        Row: {
+          created_at: string | null
+          elevation: number | null
+          id: number
+          latitude: number
+          longitude: number
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          elevation?: number | null
+          id?: number
+          latitude: number
+          longitude: number
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          elevation?: number | null
+          id?: number
+          latitude?: number
+          longitude?: number
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      mastomys_observations: {
+        Row: {
+          created_at: string | null
+          habitat_description: string | null
+          id: string
+          images: string[] | null
+          location_id: number | null
+          notes: string | null
+          observation_date: string
+          population_count: number | null
+          status: string | null
+          updated_at: string | null
+          weather_conditions: Json | null
+        }
+        Insert: {
+          created_at?: string | null
+          habitat_description?: string | null
+          id?: string
+          images?: string[] | null
+          location_id?: number | null
+          notes?: string | null
+          observation_date: string
+          population_count?: number | null
+          status?: string | null
+          updated_at?: string | null
+          weather_conditions?: Json | null
+        }
+        Update: {
+          created_at?: string | null
+          habitat_description?: string | null
+          id?: string
+          images?: string[] | null
+          location_id?: number | null
+          notes?: string | null
+          observation_date?: string
+          population_count?: number | null
+          status?: string | null
+          updated_at?: string | null
+          weather_conditions?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mastomys_observations_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       module_progress: {
         Row: {
           completed_at: string | null
@@ -59,6 +207,74 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      risk_assessments: {
+        Row: {
+          assessment_date: string
+          created_at: string | null
+          factors: Json | null
+          id: number
+          location_id: number | null
+          mitigation_measures: string[] | null
+          risk_level: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          assessment_date: string
+          created_at?: string | null
+          factors?: Json | null
+          id?: number
+          location_id?: number | null
+          mitigation_measures?: string[] | null
+          risk_level?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          assessment_date?: string
+          created_at?: string | null
+          factors?: Json | null
+          id?: number
+          location_id?: number | null
+          mitigation_measures?: string[] | null
+          risk_level?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "risk_assessments_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      system_metrics: {
+        Row: {
+          cpu_usage: number | null
+          id: string
+          network_in: number | null
+          network_out: number | null
+          ram_usage: number | null
+          timestamp: string
+        }
+        Insert: {
+          cpu_usage?: number | null
+          id?: string
+          network_in?: number | null
+          network_out?: number | null
+          ram_usage?: number | null
+          timestamp: string
+        }
+        Update: {
+          cpu_usage?: number | null
+          id?: string
+          network_in?: number | null
+          network_out?: number | null
+          ram_usage?: number | null
+          timestamp?: string
+        }
+        Relationships: []
       }
       training_modules: {
         Row: {
