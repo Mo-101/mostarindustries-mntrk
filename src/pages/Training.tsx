@@ -46,12 +46,12 @@ const Training = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {/* Training Controls Panel */}
-          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_0_15px_rgba(42,50,75,0.3)]">
+          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
             <div className="p-4">
               <div className="flex items-center mb-3">
                 <BookOpen className="h-5 w-5 text-[#3B82F6] mr-2" />
-                <h2 className="text-lg font-bold">Training Controls</h2>
-                <div className="ml-auto bg-[#1C2333] text-xs px-2 py-1 rounded">ON</div>
+                <h2 className="text-lg font-medium text-gray-200">Training Controls</h2>
+                <div className="ml-auto bg-[#1C2333]/80 text-xs font-medium text-gray-300 px-2 py-1 rounded-sm">ON</div>
               </div>
               <Separator className="bg-[#2A324B] mb-3" />
               <TrainingControls />
@@ -59,11 +59,11 @@ const Training = () => {
           </Card>
 
           {/* Training Metrics Panel */}
-          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_0_15px_rgba(42,50,75,0.3)]">
+          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
             <div className="p-4">
               <div className="flex items-center mb-3">
                 <AreaChart className="h-5 w-5 text-[#3B82F6] mr-2" />
-                <h2 className="text-lg font-bold">Training Metrics</h2>
+                <h2 className="text-lg font-medium text-gray-200">Training Metrics</h2>
               </div>
               <Separator className="bg-[#2A324B] mb-3" />
               <TrainingMetricsPanel />
@@ -71,44 +71,44 @@ const Training = () => {
           </Card>
 
           {/* Training Information Panel */}
-          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_0_15px_rgba(42,50,75,0.3)]">
+          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
             <div className="p-4">
               <div className="flex items-center mb-3">
                 <CircleCheck className="h-5 w-5 text-[#3B82F6] mr-2" />
-                <h2 className="text-lg font-bold">Training Information</h2>
+                <h2 className="text-lg font-medium text-gray-200">Training Information</h2>
               </div>
               <Separator className="bg-[#2A324B] mb-3" />
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-[#1C2333] p-3 rounded-md">
-                  <div className="text-xs text-gray-400 mb-1">Time Elapsed</div>
-                  <div className="text-xl font-mono">00:08:16</div>
+                  <div className="text-xs text-gray-400 mb-1.5">Time Elapsed</div>
+                  <div className="text-base font-mono text-gray-200">00:08:16</div>
                 </div>
                 <div className="bg-[#1C2333] p-3 rounded-md">
-                  <div className="text-xs text-gray-400 mb-1">Time Remaining</div>
-                  <div className="text-xl font-mono">--:--:--</div>
+                  <div className="text-xs text-gray-400 mb-1.5">Time Remaining</div>
+                  <div className="text-base font-mono text-gray-200">--:--:--</div>
                 </div>
                 <div className="col-span-2">
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex justify-between items-center mb-1.5">
                     <div className="text-xs text-gray-400">Accuracy</div>
-                    <div className="text-xs font-mono">0.00%</div>
+                    <div className="text-xs font-mono text-gray-300">0.00%</div>
                   </div>
-                  <Progress value={0} className="h-1.5 bg-[#1C2333]" style={{ "--progress-indicator-color": "#3B82F6" } as React.CSSProperties} />
+                  <Progress value={0} className="h-2 bg-[#1C2333]" style={{ "--progress-indicator-color": "#3B82F6" } as React.CSSProperties} />
                 </div>
                 <div className="col-span-2">
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex justify-between items-center mb-1.5">
                     <div className="text-xs text-gray-400">Loss</div>
-                    <div className="text-xs font-mono">1.0000</div>
+                    <div className="text-xs font-mono text-gray-300">1.0000</div>
                   </div>
-                  <Progress value={100} className="h-1.5 bg-[#1C2333]" style={{ "--progress-indicator-color": "#EF4444" } as React.CSSProperties} />
+                  <Progress value={100} className="h-2 bg-[#1C2333]" style={{ "--progress-indicator-color": "#EF4444" } as React.CSSProperties} />
                 </div>
                 <div className="col-span-2">
-                  <div className="text-xs text-gray-400 mb-1">Performance Score</div>
+                  <div className="text-xs text-gray-400 mb-1.5">Performance Score</div>
                   <div className="flex items-center w-full h-6 bg-[#1C2333] rounded-full overflow-hidden">
-                    <div className="text-[10px] text-center w-1/3">Low</div>
-                    <div className="text-[10px] text-center w-1/3">Medium</div>
-                    <div className="text-[10px] text-center w-1/3">High</div>
+                    <div className="text-[10px] text-center w-1/3 text-gray-400">Low</div>
+                    <div className="text-[10px] text-center w-1/3 text-gray-400">Medium</div>
+                    <div className="text-[10px] text-center w-1/3 text-gray-400">High</div>
                   </div>
-                  <div className="relative h-1.5 w-full bg-[#1C2333] mt-1 rounded-full overflow-hidden">
+                  <div className="relative h-2 w-full bg-[#1C2333] mt-1.5 rounded-full overflow-hidden">
                     <div className="absolute w-1/4 h-full bg-[#3B82F6]"></div>
                   </div>
                 </div>
@@ -119,11 +119,11 @@ const Training = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Risk Assessment Panel */}
-          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_0_15px_rgba(42,50,75,0.3)]">
+          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
             <div className="p-4">
               <div className="flex items-center mb-3">
                 <Shield className="h-5 w-5 text-[#3B82F6] mr-2" />
-                <h2 className="text-lg font-bold">Risk Assessment</h2>
+                <h2 className="text-lg font-medium text-gray-200">Risk Assessment</h2>
               </div>
               <Separator className="bg-[#2A324B] mb-3" />
               <RiskAssessmentPanel />
@@ -131,11 +131,11 @@ const Training = () => {
           </Card>
 
           {/* System Metrics Panel */}
-          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_0_15px_rgba(42,50,75,0.3)]">
+          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
             <div className="p-4">
               <div className="flex items-center mb-3">
                 <Gauge className="h-5 w-5 text-[#3B82F6] mr-2" />
-                <h2 className="text-lg font-bold">System Metrics</h2>
+                <h2 className="text-lg font-medium text-gray-200">System Metrics</h2>
               </div>
               <Separator className="bg-[#2A324B] mb-3" />
               <SystemMetricsPanel />
@@ -143,11 +143,11 @@ const Training = () => {
           </Card>
 
           {/* API Status Panel */}
-          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_0_15px_rgba(42,50,75,0.3)]">
+          <Card className="bg-[#0D1326] border-[#2A324B] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
             <div className="p-4">
               <div className="flex items-center mb-3">
                 <Network className="h-5 w-5 text-[#3B82F6] mr-2" />
-                <h2 className="text-lg font-bold">API Status</h2>
+                <h2 className="text-lg font-medium text-gray-200">API Status</h2>
               </div>
               <Separator className="bg-[#2A324B] mb-3" />
               <ApiStatusPanel />
