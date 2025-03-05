@@ -15,16 +15,16 @@ class VideoStreamResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, processed_video_url: Object=None, detections_summary: VideoStreamResponseDetectionsSummary=None):  # noqa: E501
+    def __init__(self, processed_video_url: object=None, detections_summary: VideoStreamResponseDetectionsSummary=None):  # noqa: E501
         """VideoStreamResponse - a model defined in Swagger
 
         :param processed_video_url: The processed_video_url of this VideoStreamResponse.  # noqa: E501
-        :type processed_video_url: Object
+        :type processed_video_url: object
         :param detections_summary: The detections_summary of this VideoStreamResponse.  # noqa: E501
         :type detections_summary: VideoStreamResponseDetectionsSummary
         """
         self.swagger_types = {
-            'processed_video_url': Object,
+            'processed_video_url': object,
             'detections_summary': VideoStreamResponseDetectionsSummary
         }
 
@@ -47,24 +47,24 @@ class VideoStreamResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def processed_video_url(self) -> Object:
+    def processed_video_url(self) -> object:
         """Gets the processed_video_url of this VideoStreamResponse.
 
         URL to the processed video.  # noqa: E501
 
         :return: The processed_video_url of this VideoStreamResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._processed_video_url
 
     @processed_video_url.setter
-    def processed_video_url(self, processed_video_url: Object):
+    def processed_video_url(self, processed_video_url: object):
         """Sets the processed_video_url of this VideoStreamResponse.
 
         URL to the processed video.  # noqa: E501
 
         :param processed_video_url: The processed_video_url of this VideoStreamResponse.
-        :type processed_video_url: Object
+        :type processed_video_url: object
         """
 
         self._processed_video_url = processed_video_url

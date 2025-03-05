@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server.models.model_training_request_parameters import ModelTrainingRequestParameters  # noqa: F401,E501
@@ -15,19 +15,19 @@ class ModelTrainingRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, training_data_url: Object=None, model_type: Object=None, parameters: ModelTrainingRequestParameters=None):  # noqa: E501
+    def __init__(self, training_data_url: object=None, model_type: object=None, parameters: ModelTrainingRequestParameters=None):  # noqa: E501
         """ModelTrainingRequest - a model defined in Swagger
 
         :param training_data_url: The training_data_url of this ModelTrainingRequest.  # noqa: E501
-        :type training_data_url: Object
+        :type training_data_url: object
         :param model_type: The model_type of this ModelTrainingRequest.  # noqa: E501
-        :type model_type: Object
+        :type model_type: object
         :param parameters: The parameters of this ModelTrainingRequest.  # noqa: E501
         :type parameters: ModelTrainingRequestParameters
         """
         self.swagger_types = {
-            'training_data_url': Object,
-            'model_type': Object,
+            'training_data_url': object,
+            'model_type': object,
             'parameters': ModelTrainingRequestParameters
         }
 
@@ -52,55 +52,52 @@ class ModelTrainingRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def training_data_url(self) -> Object:
+    def training_data_url(self) -> object:
         """Gets the training_data_url of this ModelTrainingRequest.
 
         URL to the dataset used for training.  # noqa: E501
 
         :return: The training_data_url of this ModelTrainingRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._training_data_url
 
     @training_data_url.setter
-    def training_data_url(self, training_data_url: Object):
+    def training_data_url(self, training_data_url: object):
         """Sets the training_data_url of this ModelTrainingRequest.
 
         URL to the dataset used for training.  # noqa: E501
 
         :param training_data_url: The training_data_url of this ModelTrainingRequest.
-        :type training_data_url: Object
+        :type training_data_url: object
         """
-
         self._training_data_url = training_data_url
 
     @property
-    def model_type(self) -> Object:
+    def model_type(self) -> object:
         """Gets the model_type of this ModelTrainingRequest.
 
         Type of model to train (e.g., LSTM, XGBoost, Random Forest).  # noqa: E501
 
         :return: The model_type of this ModelTrainingRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._model_type
 
     @model_type.setter
-    def model_type(self, model_type: Object):
+    def model_type(self, model_type: object):
         """Sets the model_type of this ModelTrainingRequest.
 
         Type of model to train (e.g., LSTM, XGBoost, Random Forest).  # noqa: E501
 
         :param model_type: The model_type of this ModelTrainingRequest.
-        :type model_type: Object
+        :type model_type: object
         """
-
         self._model_type = model_type
 
     @property
     def parameters(self) -> ModelTrainingRequestParameters:
         """Gets the parameters of this ModelTrainingRequest.
-
 
         :return: The parameters of this ModelTrainingRequest.
         :rtype: ModelTrainingRequestParameters
@@ -111,9 +108,19 @@ class ModelTrainingRequest(Model):
     def parameters(self, parameters: ModelTrainingRequestParameters):
         """Sets the parameters of this ModelTrainingRequest.
 
-
         :param parameters: The parameters of this ModelTrainingRequest.
         :type parameters: ModelTrainingRequestParameters
         """
-
         self._parameters = parameters
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'training_data_url': self._training_data_url,
+            'model_type': self._model_type,
+            'parameters': self._parameters.to_dict() if self._parameters else None
+        }

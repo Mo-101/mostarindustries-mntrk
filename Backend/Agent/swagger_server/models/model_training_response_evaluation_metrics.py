@@ -14,23 +14,23 @@ class ModelTrainingResponseEvaluationMetrics(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, accuracy: Object=None, precision: Object=None, recall: Object=None, f1_score: Object=None):  # noqa: E501
+    def __init__(self, accuracy: object=None, precision: object=None, recall: object=None, f1_score: object=None):  # noqa: E501
         """ModelTrainingResponseEvaluationMetrics - a model defined in Swagger
 
         :param accuracy: The accuracy of this ModelTrainingResponseEvaluationMetrics.  # noqa: E501
-        :type accuracy: Object
+        :type accuracy: object
         :param precision: The precision of this ModelTrainingResponseEvaluationMetrics.  # noqa: E501
-        :type precision: Object
+        :type precision: object
         :param recall: The recall of this ModelTrainingResponseEvaluationMetrics.  # noqa: E501
-        :type recall: Object
+        :type recall: object
         :param f1_score: The f1_score of this ModelTrainingResponseEvaluationMetrics.  # noqa: E501
-        :type f1_score: Object
+        :type f1_score: object
         """
         self.swagger_types = {
-            'accuracy': Object,
-            'precision': Object,
-            'recall': Object,
-            'f1_score': Object
+            'accuracy': object,
+            'precision': object,
+            'recall': object,
+            'f1_score': object
         }
 
         self.attribute_map = {
@@ -56,93 +56,93 @@ class ModelTrainingResponseEvaluationMetrics(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def accuracy(self) -> Object:
+    def accuracy(self) -> object:
         """Gets the accuracy of this ModelTrainingResponseEvaluationMetrics.
 
         Accuracy of the trained model.  # noqa: E501
 
         :return: The accuracy of this ModelTrainingResponseEvaluationMetrics.
-        :rtype: Object
+        :rtype: object
         """
         return self._accuracy
 
     @accuracy.setter
-    def accuracy(self, accuracy: Object):
+    def accuracy(self, accuracy: object):
         """Sets the accuracy of this ModelTrainingResponseEvaluationMetrics.
 
         Accuracy of the trained model.  # noqa: E501
 
         :param accuracy: The accuracy of this ModelTrainingResponseEvaluationMetrics.
-        :type accuracy: Object
+        :type accuracy: object
         """
 
         self._accuracy = accuracy
 
     @property
-    def precision(self) -> Object:
+    def precision(self) -> object:
         """Gets the precision of this ModelTrainingResponseEvaluationMetrics.
 
         Precision score of the trained model.  # noqa: E501
 
         :return: The precision of this ModelTrainingResponseEvaluationMetrics.
-        :rtype: Object
+        :rtype: object
         """
         return self._precision
 
     @precision.setter
-    def precision(self, precision: Object):
+    def precision(self, precision: object):
         """Sets the precision of this ModelTrainingResponseEvaluationMetrics.
 
         Precision score of the trained model.  # noqa: E501
 
         :param precision: The precision of this ModelTrainingResponseEvaluationMetrics.
-        :type precision: Object
+        :type precision: object
         """
 
         self._precision = precision
 
     @property
-    def recall(self) -> Object:
+    def recall(self) -> object:
         """Gets the recall of this ModelTrainingResponseEvaluationMetrics.
 
         Recall score of the trained model.  # noqa: E501
 
         :return: The recall of this ModelTrainingResponseEvaluationMetrics.
-        :rtype: Object
+        :rtype: object
         """
         return self._recall
 
     @recall.setter
-    def recall(self, recall: Object):
+    def recall(self, recall: object):
         """Sets the recall of this ModelTrainingResponseEvaluationMetrics.
 
         Recall score of the trained model.  # noqa: E501
 
         :param recall: The recall of this ModelTrainingResponseEvaluationMetrics.
-        :type recall: Object
+        :type recall: object
         """
 
         self._recall = recall
 
     @property
-    def f1_score(self) -> Object:
+    def f1_score(self) -> object:
         """Gets the f1_score of this ModelTrainingResponseEvaluationMetrics.
 
         F1 score of the trained model.  # noqa: E501
 
         :return: The f1_score of this ModelTrainingResponseEvaluationMetrics.
-        :rtype: Object
+        :rtype: object
         """
         return self._f1_score
 
     @f1_score.setter
-    def f1_score(self, f1_score: Object):
+    def f1_score(self, f1_score: object):
         """Sets the f1_score of this ModelTrainingResponseEvaluationMetrics.
 
         F1 score of the trained model.  # noqa: E501
 
         :param f1_score: The f1_score of this ModelTrainingResponseEvaluationMetrics.
-        :type f1_score: Object
+        :type f1_score: object
         """
 
         self._f1_score = f1_score

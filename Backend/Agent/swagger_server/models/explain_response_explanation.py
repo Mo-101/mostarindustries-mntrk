@@ -14,17 +14,17 @@ class ExplainResponseExplanation(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, shap_values: Object=None, decision_reason: Object=None):  # noqa: E501
+    def __init__(self, shap_values: object=None, decision_reason: object=None):  # noqa: E501
         """ExplainResponseExplanation - a model defined in Swagger
 
         :param shap_values: The shap_values of this ExplainResponseExplanation.  # noqa: E501
-        :type shap_values: Object
+        :type shap_values: object
         :param decision_reason: The decision_reason of this ExplainResponseExplanation.  # noqa: E501
-        :type decision_reason: Object
+        :type decision_reason: object
         """
         self.swagger_types = {
-            'shap_values': Object,
-            'decision_reason': Object
+            'shap_values': object,
+            'decision_reason': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class ExplainResponseExplanation(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def shap_values(self) -> Object:
+    def shap_values(self) -> object:
         """Gets the shap_values of this ExplainResponseExplanation.
 
         Feature contributions to the prediction.  # noqa: E501
 
         :return: The shap_values of this ExplainResponseExplanation.
-        :rtype: Object
+        :rtype: object
         """
         return self._shap_values
 
     @shap_values.setter
-    def shap_values(self, shap_values: Object):
+    def shap_values(self, shap_values: object):
         """Sets the shap_values of this ExplainResponseExplanation.
 
         Feature contributions to the prediction.  # noqa: E501
 
         :param shap_values: The shap_values of this ExplainResponseExplanation.
-        :type shap_values: Object
+        :type shap_values: object
         """
 
         self._shap_values = shap_values
 
     @property
-    def decision_reason(self) -> Object:
+    def decision_reason(self) -> object:
         """Gets the decision_reason of this ExplainResponseExplanation.
 
         Human-readable explanation of the prediction.  # noqa: E501
 
         :return: The decision_reason of this ExplainResponseExplanation.
-        :rtype: Object
+        :rtype: object
         """
         return self._decision_reason
 
     @decision_reason.setter
-    def decision_reason(self, decision_reason: Object):
+    def decision_reason(self, decision_reason: object):
         """Sets the decision_reason of this ExplainResponseExplanation.
 
         Human-readable explanation of the prediction.  # noqa: E501
 
         :param decision_reason: The decision_reason of this ExplainResponseExplanation.
-        :type decision_reason: Object
+        :type decision_reason: object
         """
 
         self._decision_reason = decision_reason

@@ -14,17 +14,17 @@ class RAGQueryResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, answer: Object=None, sources: Object=None):  # noqa: E501
+    def __init__(self, answer: object=None, sources: object=None):  # noqa: E501
         """RAGQueryResponse - a model defined in Swagger
 
         :param answer: The answer of this RAGQueryResponse.  # noqa: E501
-        :type answer: Object
+        :type answer: object
         :param sources: The sources of this RAGQueryResponse.  # noqa: E501
-        :type sources: Object
+        :type sources: object
         """
         self.swagger_types = {
-            'answer': Object,
-            'sources': Object
+            'answer': object,
+            'sources': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class RAGQueryResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def answer(self) -> Object:
+    def answer(self) -> object:
         """Gets the answer of this RAGQueryResponse.
 
         The AI-generated answer to the user query.  # noqa: E501
 
         :return: The answer of this RAGQueryResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._answer
 
     @answer.setter
-    def answer(self, answer: Object):
+    def answer(self, answer: object):
         """Sets the answer of this RAGQueryResponse.
 
         The AI-generated answer to the user query.  # noqa: E501
 
         :param answer: The answer of this RAGQueryResponse.
-        :type answer: Object
+        :type answer: object
         """
 
         self._answer = answer
 
     @property
-    def sources(self) -> Object:
+    def sources(self) -> object:
         """Gets the sources of this RAGQueryResponse.
 
         References or URLs used for answering the query.  # noqa: E501
 
         :return: The sources of this RAGQueryResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._sources
 
     @sources.setter
-    def sources(self, sources: Object):
+    def sources(self, sources: object):
         """Sets the sources of this RAGQueryResponse.
 
         References or URLs used for answering the query.  # noqa: E501
 
         :param sources: The sources of this RAGQueryResponse.
-        :type sources: Object
+        :type sources: object
         """
 
         self._sources = sources

@@ -14,14 +14,14 @@ class GPT3Response(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, response: Object=None):  # noqa: E501
+    def __init__(self, response: object=None):  # noqa: E501
         """GPT3Response - a model defined in Swagger
 
         :param response: The response of this GPT3Response.  # noqa: E501
-        :type response: Object
+        :type response: object
         """
         self.swagger_types = {
-            'response': Object
+            'response': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class GPT3Response(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def response(self) -> Object:
+    def response(self) -> object:
         """Gets the response of this GPT3Response.
 
         The GPT-generated response.  # noqa: E501
 
         :return: The response of this GPT3Response.
-        :rtype: Object
+        :rtype: object
         """
         return self._response
 
     @response.setter
-    def response(self, response: Object):
+    def response(self, response: object):
         """Sets the response of this GPT3Response.
 
         The GPT-generated response.  # noqa: E501
 
         :param response: The response of this GPT3Response.
-        :type response: Object
+        :type response: object
         """
 
         self._response = response

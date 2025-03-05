@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server.models.video_stream_request_analysis_parameters import VideoStreamRequestAnalysisParameters  # noqa: F401,E501
@@ -15,16 +15,16 @@ class VideoStreamRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, video_url: Object=None, analysis_parameters: VideoStreamRequestAnalysisParameters=None):  # noqa: E501
+    def __init__(self, video_url: object=None, analysis_parameters: VideoStreamRequestAnalysisParameters=None):  # noqa: E501
         """VideoStreamRequest - a model defined in Swagger
 
         :param video_url: The video_url of this VideoStreamRequest.  # noqa: E501
-        :type video_url: Object
+        :type video_url: object
         :param analysis_parameters: The analysis_parameters of this VideoStreamRequest.  # noqa: E501
         :type analysis_parameters: VideoStreamRequestAnalysisParameters
         """
         self.swagger_types = {
-            'video_url': Object,
+            'video_url': object,
             'analysis_parameters': VideoStreamRequestAnalysisParameters
         }
 
@@ -47,32 +47,30 @@ class VideoStreamRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def video_url(self) -> Object:
+    def video_url(self) -> object:
         """Gets the video_url of this VideoStreamRequest.
 
         URL to the video stream.  # noqa: E501
 
         :return: The video_url of this VideoStreamRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._video_url
 
     @video_url.setter
-    def video_url(self, video_url: Object):
+    def video_url(self, video_url: object):
         """Sets the video_url of this VideoStreamRequest.
 
         URL to the video stream.  # noqa: E501
 
         :param video_url: The video_url of this VideoStreamRequest.
-        :type video_url: Object
+        :type video_url: object
         """
-
         self._video_url = video_url
 
     @property
     def analysis_parameters(self) -> VideoStreamRequestAnalysisParameters:
         """Gets the analysis_parameters of this VideoStreamRequest.
-
 
         :return: The analysis_parameters of this VideoStreamRequest.
         :rtype: VideoStreamRequestAnalysisParameters
@@ -83,9 +81,18 @@ class VideoStreamRequest(Model):
     def analysis_parameters(self, analysis_parameters: VideoStreamRequestAnalysisParameters):
         """Sets the analysis_parameters of this VideoStreamRequest.
 
-
         :param analysis_parameters: The analysis_parameters of this VideoStreamRequest.
         :type analysis_parameters: VideoStreamRequestAnalysisParameters
         """
-
         self._analysis_parameters = analysis_parameters
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'video_url': self._video_url,
+            'analysis_parameters': self._analysis_parameters.to_dict() if self._analysis_parameters else None
+        }

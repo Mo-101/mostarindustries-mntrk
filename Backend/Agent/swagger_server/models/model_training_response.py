@@ -15,16 +15,16 @@ class ModelTrainingResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, status: Object=None, evaluation_metrics: ModelTrainingResponseEvaluationMetrics=None):  # noqa: E501
+    def __init__(self, status: object=None, evaluation_metrics: ModelTrainingResponseEvaluationMetrics=None):  # noqa: E501
         """ModelTrainingResponse - a model defined in Swagger
 
         :param status: The status of this ModelTrainingResponse.  # noqa: E501
-        :type status: Object
+        :type status: object
         :param evaluation_metrics: The evaluation_metrics of this ModelTrainingResponse.  # noqa: E501
         :type evaluation_metrics: ModelTrainingResponseEvaluationMetrics
         """
         self.swagger_types = {
-            'status': Object,
+            'status': object,
             'evaluation_metrics': ModelTrainingResponseEvaluationMetrics
         }
 
@@ -47,24 +47,24 @@ class ModelTrainingResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def status(self) -> Object:
+    def status(self) -> object:
         """Gets the status of this ModelTrainingResponse.
 
         Status of the training process (e.g., \"Training complete\").  # noqa: E501
 
         :return: The status of this ModelTrainingResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._status
 
     @status.setter
-    def status(self, status: Object):
+    def status(self, status: object):
         """Sets the status of this ModelTrainingResponse.
 
         Status of the training process (e.g., \"Training complete\").  # noqa: E501
 
         :param status: The status of this ModelTrainingResponse.
-        :type status: Object
+        :type status: object
         """
 
         self._status = status

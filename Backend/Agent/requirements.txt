@@ -8,3 +8,8 @@ python-dotenv
 flask-cors
 gunicorn
 requests
+pytest  # Added for testing
+flask_testing  # Added for testing
+deepseek-ai==0.0.1 # Install 0.0.1
+transformers>=4.0.0  # Required for DeepSeek models
+torch>=2.0.0  # Required for DeepSeek models

@@ -14,14 +14,14 @@ class DataManagementTransformRequestParameters(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, scaling: Object=None):  # noqa: E501
+    def __init__(self, scaling: object=None):  # noqa: E501
         """DataManagementTransformRequestParameters - a model defined in Swagger
 
         :param scaling: The scaling of this DataManagementTransformRequestParameters.  # noqa: E501
-        :type scaling: Object
+        :type scaling: object
         """
         self.swagger_types = {
-            'scaling': Object
+            'scaling': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class DataManagementTransformRequestParameters(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def scaling(self) -> Object:
+    def scaling(self) -> object:
         """Gets the scaling of this DataManagementTransformRequestParameters.
 
         Scaling method to apply (e.g., min-max, standard).  # noqa: E501
 
         :return: The scaling of this DataManagementTransformRequestParameters.
-        :rtype: Object
+        :rtype: object
         """
         return self._scaling
 
     @scaling.setter
-    def scaling(self, scaling: Object):
+    def scaling(self, scaling: object):
         """Sets the scaling of this DataManagementTransformRequestParameters.
 
         Scaling method to apply (e.g., min-max, standard).  # noqa: E501
 
         :param scaling: The scaling of this DataManagementTransformRequestParameters.
-        :type scaling: Object
+        :type scaling: object
         """
 
         self._scaling = scaling

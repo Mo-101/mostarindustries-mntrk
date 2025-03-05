@@ -14,14 +14,14 @@ class DetectionPatternResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, detections: Object=None):  # noqa: E501
+    def __init__(self, detections: object=None):  # noqa: E501
         """DetectionPatternResponse - a model defined in Swagger
 
         :param detections: The detections of this DetectionPatternResponse.  # noqa: E501
-        :type detections: Object
+        :type detections: object
         """
         self.swagger_types = {
-            'detections': Object
+            'detections': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class DetectionPatternResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def detections(self) -> Object:
+    def detections(self) -> object:
         """Gets the detections of this DetectionPatternResponse.
 
         List of detected objects and their metrics.  # noqa: E501
 
         :return: The detections of this DetectionPatternResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._detections
 
     @detections.setter
-    def detections(self, detections: Object):
+    def detections(self, detections: object):
         """Sets the detections of this DetectionPatternResponse.
 
         List of detected objects and their metrics.  # noqa: E501
 
         :param detections: The detections of this DetectionPatternResponse.
-        :type detections: Object
+        :type detections: object
         """
 
         self._detections = detections

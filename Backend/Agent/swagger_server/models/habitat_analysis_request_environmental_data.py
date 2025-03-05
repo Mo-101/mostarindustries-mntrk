@@ -14,26 +14,26 @@ class HabitatAnalysisRequestEnvironmentalData(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, temperature: Object=None, rainfall: Object=None, vegetation_index: Object=None, soil_moisture: Object=None, elevation: Object=None):  # noqa: E501
+    def __init__(self, temperature: object=None, rainfall: object=None, vegetation_index: object=None, soil_moisture: object=None, elevation: object=None):  # noqa: E501
         """HabitatAnalysisRequestEnvironmentalData - a model defined in Swagger
 
         :param temperature: The temperature of this HabitatAnalysisRequestEnvironmentalData.  # noqa: E501
-        :type temperature: Object
+        :type temperature: object
         :param rainfall: The rainfall of this HabitatAnalysisRequestEnvironmentalData.  # noqa: E501
-        :type rainfall: Object
+        :type rainfall: object
         :param vegetation_index: The vegetation_index of this HabitatAnalysisRequestEnvironmentalData.  # noqa: E501
-        :type vegetation_index: Object
+        :type vegetation_index: object
         :param soil_moisture: The soil_moisture of this HabitatAnalysisRequestEnvironmentalData.  # noqa: E501
-        :type soil_moisture: Object
+        :type soil_moisture: object
         :param elevation: The elevation of this HabitatAnalysisRequestEnvironmentalData.  # noqa: E501
-        :type elevation: Object
+        :type elevation: object
         """
         self.swagger_types = {
-            'temperature': Object,
-            'rainfall': Object,
-            'vegetation_index': Object,
-            'soil_moisture': Object,
-            'elevation': Object
+            'temperature': object,
+            'rainfall': object,
+            'vegetation_index': object,
+            'soil_moisture': object,
+            'elevation': object
         }
 
         self.attribute_map = {
@@ -61,116 +61,116 @@ class HabitatAnalysisRequestEnvironmentalData(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def temperature(self) -> Object:
+    def temperature(self) -> object:
         """Gets the temperature of this HabitatAnalysisRequestEnvironmentalData.
 
         Average temperature in degrees Celsius.  # noqa: E501
 
         :return: The temperature of this HabitatAnalysisRequestEnvironmentalData.
-        :rtype: Object
+        :rtype: object
         """
         return self._temperature
 
     @temperature.setter
-    def temperature(self, temperature: Object):
+    def temperature(self, temperature: object):
         """Sets the temperature of this HabitatAnalysisRequestEnvironmentalData.
 
         Average temperature in degrees Celsius.  # noqa: E501
 
         :param temperature: The temperature of this HabitatAnalysisRequestEnvironmentalData.
-        :type temperature: Object
+        :type temperature: object
         """
 
         self._temperature = temperature
 
     @property
-    def rainfall(self) -> Object:
+    def rainfall(self) -> object:
         """Gets the rainfall of this HabitatAnalysisRequestEnvironmentalData.
 
         Average monthly rainfall in millimeters.  # noqa: E501
 
         :return: The rainfall of this HabitatAnalysisRequestEnvironmentalData.
-        :rtype: Object
+        :rtype: object
         """
         return self._rainfall
 
     @rainfall.setter
-    def rainfall(self, rainfall: Object):
+    def rainfall(self, rainfall: object):
         """Sets the rainfall of this HabitatAnalysisRequestEnvironmentalData.
 
         Average monthly rainfall in millimeters.  # noqa: E501
 
         :param rainfall: The rainfall of this HabitatAnalysisRequestEnvironmentalData.
-        :type rainfall: Object
+        :type rainfall: object
         """
 
         self._rainfall = rainfall
 
     @property
-    def vegetation_index(self) -> Object:
+    def vegetation_index(self) -> object:
         """Gets the vegetation_index of this HabitatAnalysisRequestEnvironmentalData.
 
         Normalized vegetation index score (0 to 1 scale).  # noqa: E501
 
         :return: The vegetation_index of this HabitatAnalysisRequestEnvironmentalData.
-        :rtype: Object
+        :rtype: object
         """
         return self._vegetation_index
 
     @vegetation_index.setter
-    def vegetation_index(self, vegetation_index: Object):
+    def vegetation_index(self, vegetation_index: object):
         """Sets the vegetation_index of this HabitatAnalysisRequestEnvironmentalData.
 
         Normalized vegetation index score (0 to 1 scale).  # noqa: E501
 
         :param vegetation_index: The vegetation_index of this HabitatAnalysisRequestEnvironmentalData.
-        :type vegetation_index: Object
+        :type vegetation_index: object
         """
 
         self._vegetation_index = vegetation_index
 
     @property
-    def soil_moisture(self) -> Object:
+    def soil_moisture(self) -> object:
         """Gets the soil_moisture of this HabitatAnalysisRequestEnvironmentalData.
 
         Soil moisture level as a percentage (0-100%).  # noqa: E501
 
         :return: The soil_moisture of this HabitatAnalysisRequestEnvironmentalData.
-        :rtype: Object
+        :rtype: object
         """
         return self._soil_moisture
 
     @soil_moisture.setter
-    def soil_moisture(self, soil_moisture: Object):
+    def soil_moisture(self, soil_moisture: object):
         """Sets the soil_moisture of this HabitatAnalysisRequestEnvironmentalData.
 
         Soil moisture level as a percentage (0-100%).  # noqa: E501
 
         :param soil_moisture: The soil_moisture of this HabitatAnalysisRequestEnvironmentalData.
-        :type soil_moisture: Object
+        :type soil_moisture: object
         """
 
         self._soil_moisture = soil_moisture
 
     @property
-    def elevation(self) -> Object:
+    def elevation(self) -> object:
         """Gets the elevation of this HabitatAnalysisRequestEnvironmentalData.
 
         Elevation of the region in meters.  # noqa: E501
 
         :return: The elevation of this HabitatAnalysisRequestEnvironmentalData.
-        :rtype: Object
+        :rtype: object
         """
         return self._elevation
 
     @elevation.setter
-    def elevation(self, elevation: Object):
+    def elevation(self, elevation: object):
         """Sets the elevation of this HabitatAnalysisRequestEnvironmentalData.
 
         Elevation of the region in meters.  # noqa: E501
 
         :param elevation: The elevation of this HabitatAnalysisRequestEnvironmentalData.
-        :type elevation: Object
+        :type elevation: object
         """
 
         self._elevation = elevation

@@ -14,17 +14,17 @@ class ModelTrainingRequestParameters(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, learning_rate: Object=None, epochs: Object=None):  # noqa: E501
+    def __init__(self, learning_rate: object=None, epochs: object=None):  # noqa: E501
         """ModelTrainingRequestParameters - a model defined in Swagger
 
         :param learning_rate: The learning_rate of this ModelTrainingRequestParameters.  # noqa: E501
-        :type learning_rate: Object
+        :type learning_rate: object
         :param epochs: The epochs of this ModelTrainingRequestParameters.  # noqa: E501
-        :type epochs: Object
+        :type epochs: object
         """
         self.swagger_types = {
-            'learning_rate': Object,
-            'epochs': Object
+            'learning_rate': object,
+            'epochs': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class ModelTrainingRequestParameters(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def learning_rate(self) -> Object:
+    def learning_rate(self) -> object:
         """Gets the learning_rate of this ModelTrainingRequestParameters.
 
         Learning rate for the optimization algorithm.  # noqa: E501
 
         :return: The learning_rate of this ModelTrainingRequestParameters.
-        :rtype: Object
+        :rtype: object
         """
         return self._learning_rate
 
     @learning_rate.setter
-    def learning_rate(self, learning_rate: Object):
+    def learning_rate(self, learning_rate: object):
         """Sets the learning_rate of this ModelTrainingRequestParameters.
 
         Learning rate for the optimization algorithm.  # noqa: E501
 
         :param learning_rate: The learning_rate of this ModelTrainingRequestParameters.
-        :type learning_rate: Object
+        :type learning_rate: object
         """
 
         self._learning_rate = learning_rate
 
     @property
-    def epochs(self) -> Object:
+    def epochs(self) -> object:
         """Gets the epochs of this ModelTrainingRequestParameters.
 
         Number of training epochs.  # noqa: E501
 
         :return: The epochs of this ModelTrainingRequestParameters.
-        :rtype: Object
+        :rtype: object
         """
         return self._epochs
 
     @epochs.setter
-    def epochs(self, epochs: Object):
+    def epochs(self, epochs: object):
         """Sets the epochs of this ModelTrainingRequestParameters.
 
         Number of training epochs.  # noqa: E501
 
         :param epochs: The epochs of this ModelTrainingRequestParameters.
-        :type epochs: Object
+        :type epochs: object
         """
 
         self._epochs = epochs

@@ -14,17 +14,17 @@ class HabitatPrediction(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, habitat_score: Object=None, risk_factors: Object=None):  # noqa: E501
+    def __init__(self, habitat_score: object=None, risk_factors: object=None):  # noqa: E501
         """HabitatPrediction - a model defined in Swagger
 
         :param habitat_score: The habitat_score of this HabitatPrediction.  # noqa: E501
-        :type habitat_score: Object
+        :type habitat_score: object
         :param risk_factors: The risk_factors of this HabitatPrediction.  # noqa: E501
-        :type risk_factors: Object
+        :type risk_factors: object
         """
         self.swagger_types = {
-            'habitat_score': Object,
-            'risk_factors': Object
+            'habitat_score': object,
+            'risk_factors': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class HabitatPrediction(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def habitat_score(self) -> Object:
+    def habitat_score(self) -> object:
         """Gets the habitat_score of this HabitatPrediction.
 
         Suitability score for the region (0-1).  # noqa: E501
 
         :return: The habitat_score of this HabitatPrediction.
-        :rtype: Object
+        :rtype: object
         """
         return self._habitat_score
 
     @habitat_score.setter
-    def habitat_score(self, habitat_score: Object):
+    def habitat_score(self, habitat_score: object):
         """Sets the habitat_score of this HabitatPrediction.
 
         Suitability score for the region (0-1).  # noqa: E501
 
         :param habitat_score: The habitat_score of this HabitatPrediction.
-        :type habitat_score: Object
+        :type habitat_score: object
         """
 
         self._habitat_score = habitat_score
 
     @property
-    def risk_factors(self) -> Object:
+    def risk_factors(self) -> object:
         """Gets the risk_factors of this HabitatPrediction.
 
         Key ecological risks identified in the habitat.  # noqa: E501
 
         :return: The risk_factors of this HabitatPrediction.
-        :rtype: Object
+        :rtype: object
         """
         return self._risk_factors
 
     @risk_factors.setter
-    def risk_factors(self, risk_factors: Object):
+    def risk_factors(self, risk_factors: object):
         """Sets the risk_factors of this HabitatPrediction.
 
         Key ecological risks identified in the habitat.  # noqa: E501
 
         :param risk_factors: The risk_factors of this HabitatPrediction.
-        :type risk_factors: Object
+        :type risk_factors: object
         """
 
         self._risk_factors = risk_factors

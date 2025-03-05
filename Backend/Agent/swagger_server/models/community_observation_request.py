@@ -69,7 +69,6 @@ class CommunityObservationRequest(Model):
         :param image_file: The image_file of this CommunityObservationRequest.
         :type image_file: Any
         """
-
         self._image_file = image_file
 
     @property
@@ -92,7 +91,6 @@ class CommunityObservationRequest(Model):
         :param video_file: The video_file of this CommunityObservationRequest.
         :type video_file: Any
         """
-
         self._video_file = video_file
 
     @property
@@ -115,5 +113,16 @@ class CommunityObservationRequest(Model):
         :param description: The description of this CommunityObservationRequest.
         :type description: str
         """
-
         self._description = description
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'image_file': str(self._image_file) if self._image_file else None,
+            'video_file': str(self._video_file) if self._video_file else None,
+            'description': self._description
+        }

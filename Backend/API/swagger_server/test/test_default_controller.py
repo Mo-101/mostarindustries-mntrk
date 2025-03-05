@@ -139,9 +139,9 @@ class TestDefaultController(BaseTestCase):
 
         Predict Mastomys movements
         """
-        query_string = [('latitude', Object()),
-                        ('longitude', Object()),
-                        ('_date', Object())]
+        query_string = [('latitude', object()),
+                        ('longitude', object()),
+                        ('_date', object())]
         response = self.client.open(
             '//api/predict-movements',
             method='GET',

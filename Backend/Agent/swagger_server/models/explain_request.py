@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
@@ -14,14 +14,14 @@ class ExplainRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, prediction_id: Object=None):  # noqa: E501
+    def __init__(self, prediction_id: object=None):  # noqa: E501
         """ExplainRequest - a model defined in Swagger
 
         :param prediction_id: The prediction_id of this ExplainRequest.  # noqa: E501
-        :type prediction_id: Object
+        :type prediction_id: object
         """
         self.swagger_types = {
-            'prediction_id': Object
+            'prediction_id': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,33 @@ class ExplainRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def prediction_id(self) -> Object:
+    def prediction_id(self) -> object:
         """Gets the prediction_id of this ExplainRequest.
 
         Unique identifier for the prediction to explain.  # noqa: E501
 
         :return: The prediction_id of this ExplainRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._prediction_id
 
     @prediction_id.setter
-    def prediction_id(self, prediction_id: Object):
+    def prediction_id(self, prediction_id: object):
         """Sets the prediction_id of this ExplainRequest.
 
         Unique identifier for the prediction to explain.  # noqa: E501
 
         :param prediction_id: The prediction_id of this ExplainRequest.
-        :type prediction_id: Object
+        :type prediction_id: object
         """
-
         self._prediction_id = prediction_id
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'prediction_id': self._prediction_id
+        }

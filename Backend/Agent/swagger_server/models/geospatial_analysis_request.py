@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server.models.geospatial_analysis_request_time_range import GeospatialAnalysisRequestTimeRange  # noqa: F401,E501
@@ -15,16 +15,16 @@ class GeospatialAnalysisRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, region: Object=None, time_range: GeospatialAnalysisRequestTimeRange=None):  # noqa: E501
+    def __init__(self, region: object=None, time_range: GeospatialAnalysisRequestTimeRange=None):  # noqa: E501
         """GeospatialAnalysisRequest - a model defined in Swagger
 
         :param region: The region of this GeospatialAnalysisRequest.  # noqa: E501
-        :type region: Object
+        :type region: object
         :param time_range: The time_range of this GeospatialAnalysisRequest.  # noqa: E501
         :type time_range: GeospatialAnalysisRequestTimeRange
         """
         self.swagger_types = {
-            'region': Object,
+            'region': object,
             'time_range': GeospatialAnalysisRequestTimeRange
         }
 
@@ -47,32 +47,30 @@ class GeospatialAnalysisRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def region(self) -> Object:
+    def region(self) -> object:
         """Gets the region of this GeospatialAnalysisRequest.
 
         Target region for geospatial analysis.  # noqa: E501
 
         :return: The region of this GeospatialAnalysisRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._region
 
     @region.setter
-    def region(self, region: Object):
+    def region(self, region: object):
         """Sets the region of this GeospatialAnalysisRequest.
 
         Target region for geospatial analysis.  # noqa: E501
 
         :param region: The region of this GeospatialAnalysisRequest.
-        :type region: Object
+        :type region: object
         """
-
         self._region = region
 
     @property
     def time_range(self) -> GeospatialAnalysisRequestTimeRange:
         """Gets the time_range of this GeospatialAnalysisRequest.
-
 
         :return: The time_range of this GeospatialAnalysisRequest.
         :rtype: GeospatialAnalysisRequestTimeRange
@@ -83,9 +81,18 @@ class GeospatialAnalysisRequest(Model):
     def time_range(self, time_range: GeospatialAnalysisRequestTimeRange):
         """Sets the time_range of this GeospatialAnalysisRequest.
 
-
         :param time_range: The time_range of this GeospatialAnalysisRequest.
         :type time_range: GeospatialAnalysisRequestTimeRange
         """
-
         self._time_range = time_range
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'region': self._region,
+            'time_range': self._time_range.to_dict() if self._time_range else None
+        }

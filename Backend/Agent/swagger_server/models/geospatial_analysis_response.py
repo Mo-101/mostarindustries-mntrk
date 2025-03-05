@@ -14,17 +14,17 @@ class GeospatialAnalysisResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, heatmap_url: Object=None, geojson_data: Object=None):  # noqa: E501
+    def __init__(self, heatmap_url: object=None, geojson_data: object=None):  # noqa: E501
         """GeospatialAnalysisResponse - a model defined in Swagger
 
         :param heatmap_url: The heatmap_url of this GeospatialAnalysisResponse.  # noqa: E501
-        :type heatmap_url: Object
+        :type heatmap_url: object
         :param geojson_data: The geojson_data of this GeospatialAnalysisResponse.  # noqa: E501
-        :type geojson_data: Object
+        :type geojson_data: object
         """
         self.swagger_types = {
-            'heatmap_url': Object,
-            'geojson_data': Object
+            'heatmap_url': object,
+            'geojson_data': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class GeospatialAnalysisResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def heatmap_url(self) -> Object:
+    def heatmap_url(self) -> object:
         """Gets the heatmap_url of this GeospatialAnalysisResponse.
 
         URL to the generated heatmap.  # noqa: E501
 
         :return: The heatmap_url of this GeospatialAnalysisResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._heatmap_url
 
     @heatmap_url.setter
-    def heatmap_url(self, heatmap_url: Object):
+    def heatmap_url(self, heatmap_url: object):
         """Sets the heatmap_url of this GeospatialAnalysisResponse.
 
         URL to the generated heatmap.  # noqa: E501
 
         :param heatmap_url: The heatmap_url of this GeospatialAnalysisResponse.
-        :type heatmap_url: Object
+        :type heatmap_url: object
         """
 
         self._heatmap_url = heatmap_url
 
     @property
-    def geojson_data(self) -> Object:
+    def geojson_data(self) -> object:
         """Gets the geojson_data of this GeospatialAnalysisResponse.
 
         Habitat data in GeoJSON format.  # noqa: E501
 
         :return: The geojson_data of this GeospatialAnalysisResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._geojson_data
 
     @geojson_data.setter
-    def geojson_data(self, geojson_data: Object):
+    def geojson_data(self, geojson_data: object):
         """Sets the geojson_data of this GeospatialAnalysisResponse.
 
         Habitat data in GeoJSON format.  # noqa: E501
 
         :param geojson_data: The geojson_data of this GeospatialAnalysisResponse.
-        :type geojson_data: Object
+        :type geojson_data: object
         """
 
         self._geojson_data = geojson_data

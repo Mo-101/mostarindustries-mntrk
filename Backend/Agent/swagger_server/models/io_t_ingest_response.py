@@ -14,17 +14,17 @@ class IoTIngestResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, status: Object=None, processed_data: Object=None):  # noqa: E501
+    def __init__(self, status: object=None, processed_data: object=None):  # noqa: E501
         """IoTIngestResponse - a model defined in Swagger
 
         :param status: The status of this IoTIngestResponse.  # noqa: E501
-        :type status: Object
+        :type status: object
         :param processed_data: The processed_data of this IoTIngestResponse.  # noqa: E501
-        :type processed_data: Object
+        :type processed_data: object
         """
         self.swagger_types = {
-            'status': Object,
-            'processed_data': Object
+            'status': object,
+            'processed_data': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class IoTIngestResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def status(self) -> Object:
+    def status(self) -> object:
         """Gets the status of this IoTIngestResponse.
 
         Status of the ingestion process.  # noqa: E501
 
         :return: The status of this IoTIngestResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._status
 
     @status.setter
-    def status(self, status: Object):
+    def status(self, status: object):
         """Sets the status of this IoTIngestResponse.
 
         Status of the ingestion process.  # noqa: E501
 
         :param status: The status of this IoTIngestResponse.
-        :type status: Object
+        :type status: object
         """
 
         self._status = status
 
     @property
-    def processed_data(self) -> Object:
+    def processed_data(self) -> object:
         """Gets the processed_data of this IoTIngestResponse.
 
         Preprocessed and validated sensor data.  # noqa: E501
 
         :return: The processed_data of this IoTIngestResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._processed_data
 
     @processed_data.setter
-    def processed_data(self, processed_data: Object):
+    def processed_data(self, processed_data: object):
         """Sets the processed_data of this IoTIngestResponse.
 
         Preprocessed and validated sensor data.  # noqa: E501
 
         :param processed_data: The processed_data of this IoTIngestResponse.
-        :type processed_data: Object
+        :type processed_data: object
         """
 
         self._processed_data = processed_data

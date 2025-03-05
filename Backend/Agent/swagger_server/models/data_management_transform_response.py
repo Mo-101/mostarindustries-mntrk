@@ -14,14 +14,14 @@ class DataManagementTransformResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, transformed_data_url: Object=None):  # noqa: E501
+    def __init__(self, transformed_data_url: object=None):  # noqa: E501
         """DataManagementTransformResponse - a model defined in Swagger
 
         :param transformed_data_url: The transformed_data_url of this DataManagementTransformResponse.  # noqa: E501
-        :type transformed_data_url: Object
+        :type transformed_data_url: object
         """
         self.swagger_types = {
-            'transformed_data_url': Object
+            'transformed_data_url': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class DataManagementTransformResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def transformed_data_url(self) -> Object:
+    def transformed_data_url(self) -> object:
         """Gets the transformed_data_url of this DataManagementTransformResponse.
 
         URL to the transformed dataset.  # noqa: E501
 
         :return: The transformed_data_url of this DataManagementTransformResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._transformed_data_url
 
     @transformed_data_url.setter
-    def transformed_data_url(self, transformed_data_url: Object):
+    def transformed_data_url(self, transformed_data_url: object):
         """Sets the transformed_data_url of this DataManagementTransformResponse.
 
         URL to the transformed dataset.  # noqa: E501
 
         :param transformed_data_url: The transformed_data_url of this DataManagementTransformResponse.
-        :type transformed_data_url: Object
+        :type transformed_data_url: object
         """
 
         self._transformed_data_url = transformed_data_url

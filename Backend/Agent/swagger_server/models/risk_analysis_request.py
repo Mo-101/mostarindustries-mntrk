@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
@@ -14,17 +14,17 @@ class RiskAnalysisRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, region: Object=None, historical_data_url: Object=None):  # noqa: E501
+    def __init__(self, region: object=None, historical_data_url: object=None):  # noqa: E501
         """RiskAnalysisRequest - a model defined in Swagger
 
         :param region: The region of this RiskAnalysisRequest.  # noqa: E501
-        :type region: Object
+        :type region: object
         :param historical_data_url: The historical_data_url of this RiskAnalysisRequest.  # noqa: E501
-        :type historical_data_url: Object
+        :type historical_data_url: object
         """
         self.swagger_types = {
-            'region': Object,
-            'historical_data_url': Object
+            'region': object,
+            'historical_data_url': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,56 @@ class RiskAnalysisRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def region(self) -> Object:
+    def region(self) -> object:
         """Gets the region of this RiskAnalysisRequest.
 
         Target region for risk prediction.  # noqa: E501
 
         :return: The region of this RiskAnalysisRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._region
 
     @region.setter
-    def region(self, region: Object):
+    def region(self, region: object):
         """Sets the region of this RiskAnalysisRequest.
 
         Target region for risk prediction.  # noqa: E501
 
         :param region: The region of this RiskAnalysisRequest.
-        :type region: Object
+        :type region: object
         """
-
         self._region = region
 
     @property
-    def historical_data_url(self) -> Object:
+    def historical_data_url(self) -> object:
         """Gets the historical_data_url of this RiskAnalysisRequest.
 
         URL to historical population and outbreak data.  # noqa: E501
 
         :return: The historical_data_url of this RiskAnalysisRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._historical_data_url
 
     @historical_data_url.setter
-    def historical_data_url(self, historical_data_url: Object):
+    def historical_data_url(self, historical_data_url: object):
         """Sets the historical_data_url of this RiskAnalysisRequest.
 
         URL to historical population and outbreak data.  # noqa: E501
 
         :param historical_data_url: The historical_data_url of this RiskAnalysisRequest.
-        :type historical_data_url: Object
+        :type historical_data_url: object
         """
-
         self._historical_data_url = historical_data_url
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'region': self._region,
+            'historical_data_url': self._historical_data_url
+        }

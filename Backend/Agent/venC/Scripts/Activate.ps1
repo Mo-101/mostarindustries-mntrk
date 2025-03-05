@@ -145,7 +145,7 @@ function Get-PyVenvConfig(
         Write-Verbose "File exists, parse `key = value` lines"
         $pyvenvConfigContent = Get-Content -Path $pyvenvConfigPath
 
-        $pyvenvConfigContent | ForEach-Object {
+        $pyvenvConfigContent | ForEach-object {
             $keyval = $PSItem -split "\s*=\s*", 2
             if ($keyval[0] -and $keyval[1]) {
                 $val = $keyval[1]

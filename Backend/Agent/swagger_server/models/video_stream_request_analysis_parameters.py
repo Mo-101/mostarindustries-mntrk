@@ -14,14 +14,14 @@ class VideoStreamRequestAnalysisParameters(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, confidence_threshold: Object=None):  # noqa: E501
+    def __init__(self, confidence_threshold: object=None):  # noqa: E501
         """VideoStreamRequestAnalysisParameters - a model defined in Swagger
 
         :param confidence_threshold: The confidence_threshold of this VideoStreamRequestAnalysisParameters.  # noqa: E501
-        :type confidence_threshold: Object
+        :type confidence_threshold: object
         """
         self.swagger_types = {
-            'confidence_threshold': Object
+            'confidence_threshold': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class VideoStreamRequestAnalysisParameters(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def confidence_threshold(self) -> Object:
+    def confidence_threshold(self) -> object:
         """Gets the confidence_threshold of this VideoStreamRequestAnalysisParameters.
 
         Minimum confidence score for detections.  # noqa: E501
 
         :return: The confidence_threshold of this VideoStreamRequestAnalysisParameters.
-        :rtype: Object
+        :rtype: object
         """
         return self._confidence_threshold
 
     @confidence_threshold.setter
-    def confidence_threshold(self, confidence_threshold: Object):
+    def confidence_threshold(self, confidence_threshold: object):
         """Sets the confidence_threshold of this VideoStreamRequestAnalysisParameters.
 
         Minimum confidence score for detections.  # noqa: E501
 
         :param confidence_threshold: The confidence_threshold of this VideoStreamRequestAnalysisParameters.
-        :type confidence_threshold: Object
+        :type confidence_threshold: object
         """
 
         self._confidence_threshold = confidence_threshold

@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
@@ -14,14 +14,14 @@ class DataManagementOpenResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, message: Object=None):  # noqa: E501
+    def __init__(self, message: Any=None):  # Updated to use Any
         """DataManagementOpenResponse - a model defined in Swagger
 
         :param message: The message of this DataManagementOpenResponse.  # noqa: E501
-        :type message: Object
+        :type message: Any
         """
         self.swagger_types = {
-            'message': Object
+            'message': Any
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class DataManagementOpenResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def message(self) -> Object:
+    def message(self) -> Any:
         """Gets the message of this DataManagementOpenResponse.
 
         Confirmation of successful dataset loading.  # noqa: E501
 
         :return: The message of this DataManagementOpenResponse.
-        :rtype: Object
+        :rtype: Any
         """
         return self._message
 
     @message.setter
-    def message(self, message: Object):
+    def message(self, message: Any):
         """Sets the message of this DataManagementOpenResponse.
 
         Confirmation of successful dataset loading.  # noqa: E501
 
         :param message: The message of this DataManagementOpenResponse.
-        :type message: Object
+        :type message: Any
         """
 
         self._message = message

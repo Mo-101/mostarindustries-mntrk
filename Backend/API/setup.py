@@ -14,7 +14,9 @@ VERSION = "1.0.0"
 
 REQUIRES = [
     "connexion",
-    "swagger-ui-bundle>=0.0.2"
+    "swagger-ui-bundle>=0.0.2",
+    "openai",  # Added for LLM integration
+    # Add any other necessary libraries here
 ]
 
 setup(

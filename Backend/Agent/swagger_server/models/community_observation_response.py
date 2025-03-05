@@ -2,8 +2,7 @@
 
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
-
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
@@ -14,17 +13,17 @@ class CommunityObservationResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, submission_id: Object=None, review_status: Object=None):  # noqa: E501
+    def __init__(self, submission_id: Any=None, review_status: Any=None):  # Updated to use Any
         """CommunityObservationResponse - a model defined in Swagger
 
         :param submission_id: The submission_id of this CommunityObservationResponse.  # noqa: E501
-        :type submission_id: Object
+        :type submission_id: Any
         :param review_status: The review_status of this CommunityObservationResponse.  # noqa: E501
-        :type review_status: Object
+        :type review_status: Any
         """
         self.swagger_types = {
-            'submission_id': Object,
-            'review_status': Object
+            'submission_id': Any,
+            'review_status': Any
         }
 
         self.attribute_map = {
@@ -46,47 +45,56 @@ class CommunityObservationResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def submission_id(self) -> Object:
+    def submission_id(self) -> Any:
         """Gets the submission_id of this CommunityObservationResponse.
 
         Unique identifier for the submitted observation.  # noqa: E501
 
         :return: The submission_id of this CommunityObservationResponse.
-        :rtype: Object
+        :rtype: Any
         """
         return self._submission_id
 
     @submission_id.setter
-    def submission_id(self, submission_id: Object):
+    def submission_id(self, submission_id: Any):
         """Sets the submission_id of this CommunityObservationResponse.
 
         Unique identifier for the submitted observation.  # noqa: E501
 
         :param submission_id: The submission_id of this CommunityObservationResponse.
-        :type submission_id: Object
+        :type submission_id: Any
         """
-
         self._submission_id = submission_id
 
     @property
-    def review_status(self) -> Object:
+    def review_status(self) -> Any:
         """Gets the review_status of this CommunityObservationResponse.
 
         Status of the observation review process.  # noqa: E501
 
         :return: The review_status of this CommunityObservationResponse.
-        :rtype: Object
+        :rtype: Any
         """
         return self._review_status
 
     @review_status.setter
-    def review_status(self, review_status: Object):
+    def review_status(self, review_status: Any):
         """Sets the review_status of this CommunityObservationResponse.
 
         Status of the observation review process.  # noqa: E501
 
         :param review_status: The review_status of this CommunityObservationResponse.
-        :type review_status: Object
+        :type review_status: Any
         """
-
         self._review_status = review_status
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'submission_id': self._submission_id,
+            'review_status': self._review_status
+        }

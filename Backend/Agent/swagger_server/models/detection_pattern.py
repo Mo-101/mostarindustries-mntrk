@@ -3,7 +3,7 @@
 from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
-from typing import List, Dict  # noqa: F401
+from typing import List, Dict, Any  # Updated to include Any
 
 from swagger_server.models.base_model_ import Model
 from swagger_server import util
@@ -14,14 +14,14 @@ class DetectionPattern(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, image_url: Object=None):  # noqa: E501
+    def __init__(self, image_url: object=None):  # noqa: E501
         """DetectionPattern - a model defined in Swagger
 
         :param image_url: The image_url of this DetectionPattern.  # noqa: E501
-        :type image_url: Object
+        :type image_url: object
         """
         self.swagger_types = {
-            'image_url': Object
+            'image_url': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,33 @@ class DetectionPattern(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def image_url(self) -> Object:
+    def image_url(self) -> object:
         """Gets the image_url of this DetectionPattern.
 
         URL of the image to analyze.  # noqa: E501
 
         :return: The image_url of this DetectionPattern.
-        :rtype: Object
+        :rtype: object
         """
         return self._image_url
 
     @image_url.setter
-    def image_url(self, image_url: Object):
+    def image_url(self, image_url: object):
         """Sets the image_url of this DetectionPattern.
 
         URL of the image to analyze.  # noqa: E501
 
         :param image_url: The image_url of this DetectionPattern.
-        :type image_url: Object
+        :type image_url: object
         """
-
         self._image_url = image_url
+
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts the model instance to a dictionary.
+
+        :return: A dictionary representation of the model.
+        :rtype: Dict[str, Any]
+        """
+        return {
+            'image_url': self._image_url
+        }

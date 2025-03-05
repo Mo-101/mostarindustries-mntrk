@@ -14,17 +14,17 @@ class RiskAnalysisResponse(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, risk_score: Object=None, risk_factors: Object=None):  # noqa: E501
+    def __init__(self, risk_score: object=None, risk_factors: object=None):  # noqa: E501
         """RiskAnalysisResponse - a model defined in Swagger
 
         :param risk_score: The risk_score of this RiskAnalysisResponse.  # noqa: E501
-        :type risk_score: Object
+        :type risk_score: object
         :param risk_factors: The risk_factors of this RiskAnalysisResponse.  # noqa: E501
-        :type risk_factors: Object
+        :type risk_factors: object
         """
         self.swagger_types = {
-            'risk_score': Object,
-            'risk_factors': Object
+            'risk_score': object,
+            'risk_factors': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class RiskAnalysisResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def risk_score(self) -> Object:
+    def risk_score(self) -> object:
         """Gets the risk_score of this RiskAnalysisResponse.
 
         Predicted risk score (0-1 scale).  # noqa: E501
 
         :return: The risk_score of this RiskAnalysisResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._risk_score
 
     @risk_score.setter
-    def risk_score(self, risk_score: Object):
+    def risk_score(self, risk_score: object):
         """Sets the risk_score of this RiskAnalysisResponse.
 
         Predicted risk score (0-1 scale).  # noqa: E501
 
         :param risk_score: The risk_score of this RiskAnalysisResponse.
-        :type risk_score: Object
+        :type risk_score: object
         """
 
         self._risk_score = risk_score
 
     @property
-    def risk_factors(self) -> Object:
+    def risk_factors(self) -> object:
         """Gets the risk_factors of this RiskAnalysisResponse.
 
         Key factors contributing to the predicted risk.  # noqa: E501
 
         :return: The risk_factors of this RiskAnalysisResponse.
-        :rtype: Object
+        :rtype: object
         """
         return self._risk_factors
 
     @risk_factors.setter
-    def risk_factors(self, risk_factors: Object):
+    def risk_factors(self, risk_factors: object):
         """Sets the risk_factors of this RiskAnalysisResponse.
 
         Key factors contributing to the predicted risk.  # noqa: E501
 
         :param risk_factors: The risk_factors of this RiskAnalysisResponse.
-        :type risk_factors: Object
+        :type risk_factors: object
         """
 
         self._risk_factors = risk_factors

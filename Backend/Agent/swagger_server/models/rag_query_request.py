@@ -14,14 +14,14 @@ class RAGQueryRequest(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, query: Object=None):  # noqa: E501
+    def __init__(self, query: object=None):  # noqa: E501
         """RAGQueryRequest - a model defined in Swagger
 
         :param query: The query of this RAGQueryRequest.  # noqa: E501
-        :type query: Object
+        :type query: object
         """
         self.swagger_types = {
-            'query': Object
+            'query': object
         }
 
         self.attribute_map = {
@@ -41,24 +41,24 @@ class RAGQueryRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def query(self) -> Object:
+    def query(self) -> object:
         """Gets the query of this RAGQueryRequest.
 
         The user query to process.  # noqa: E501
 
         :return: The query of this RAGQueryRequest.
-        :rtype: Object
+        :rtype: object
         """
         return self._query
 
     @query.setter
-    def query(self, query: Object):
+    def query(self, query: object):
         """Sets the query of this RAGQueryRequest.
 
         The user query to process.  # noqa: E501
 
         :param query: The query of this RAGQueryRequest.
-        :type query: Object
+        :type query: object
         """
 
         self._query = query

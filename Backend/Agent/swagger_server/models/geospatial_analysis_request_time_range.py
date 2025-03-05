@@ -14,17 +14,17 @@ class GeospatialAnalysisRequestTimeRange(Model):
 
     Do not edit the class manually.
     """
-    def __init__(self, start_date: Object=None, end_date: Object=None):  # noqa: E501
+    def __init__(self, start_date: object=None, end_date: object=None):  # noqa: E501
         """GeospatialAnalysisRequestTimeRange - a model defined in Swagger
 
         :param start_date: The start_date of this GeospatialAnalysisRequestTimeRange.  # noqa: E501
-        :type start_date: Object
+        :type start_date: object
         :param end_date: The end_date of this GeospatialAnalysisRequestTimeRange.  # noqa: E501
-        :type end_date: Object
+        :type end_date: object
         """
         self.swagger_types = {
-            'start_date': Object,
-            'end_date': Object
+            'start_date': object,
+            'end_date': object
         }
 
         self.attribute_map = {
@@ -46,47 +46,47 @@ class GeospatialAnalysisRequestTimeRange(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def start_date(self) -> Object:
+    def start_date(self) -> object:
         """Gets the start_date of this GeospatialAnalysisRequestTimeRange.
 
         Start date for the analysis.  # noqa: E501
 
         :return: The start_date of this GeospatialAnalysisRequestTimeRange.
-        :rtype: Object
+        :rtype: object
         """
         return self._start_date
 
     @start_date.setter
-    def start_date(self, start_date: Object):
+    def start_date(self, start_date: object):
         """Sets the start_date of this GeospatialAnalysisRequestTimeRange.
 
         Start date for the analysis.  # noqa: E501
 
         :param start_date: The start_date of this GeospatialAnalysisRequestTimeRange.
-        :type start_date: Object
+        :type start_date: object
         """
 
         self._start_date = start_date
 
     @property
-    def end_date(self) -> Object:
+    def end_date(self) -> object:
         """Gets the end_date of this GeospatialAnalysisRequestTimeRange.
 
         End date for the analysis.  # noqa: E501
 
         :return: The end_date of this GeospatialAnalysisRequestTimeRange.
-        :rtype: Object
+        :rtype: object
         """
         return self._end_date
 
     @end_date.setter
-    def end_date(self, end_date: Object):
+    def end_date(self, end_date: object):
         """Sets the end_date of this GeospatialAnalysisRequestTimeRange.
 
         End date for the analysis.  # noqa: E501
 
         :param end_date: The end_date of this GeospatialAnalysisRequestTimeRange.
-        :type end_date: Object
+        :type end_date: object
         """
 
         self._end_date = end_date

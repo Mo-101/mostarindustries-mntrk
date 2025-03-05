@@ -1,7 +1,8 @@
 import pprint
+import typing
 
 import six
-import typing
+import datetime
 
 from swagger_server import util
 
@@ -23,10 +24,7 @@ class Model(object):
         return util.deserialize_model(dikt, cls)
 
     def to_dict(self):
-        """Returns the model properties as a dict
-
-        :rtype: dict
-        """
+        """Returns the model properties as a dict"""
         result = {}
 
         for attr, _ in six.iteritems(self.swagger_types):
@@ -50,10 +48,7 @@ class Model(object):
         return result
 
     def to_str(self):
-        """Returns the string representation of the model
-
-        :rtype: str
-        """
+        """Returns the string representation of the model"""
         return pprint.pformat(self.to_dict())
 
     def __repr__(self):

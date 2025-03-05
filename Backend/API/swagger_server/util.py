@@ -21,9 +21,9 @@ def _deserialize(data, klass):
     elif klass == object:
         return _deserialize_object(data)
     elif klass == datetime.date:
-        return deserialize_date(data)
+        return _deserialize_date(data)
     elif klass == datetime.datetime:
-        return deserialize_datetime(data)
+        return _deserialize_datetime(data)
     elif type_util.is_generic(klass):
         if type_util.is_list(klass):
             return _deserialize_list(data, klass.__args__[0])
